@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no, email=no" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <title>福利搜</title>
+  <link rel="shortcut icon" href="./favicon.ico" />
+  <link rel="bookmark" href="./favicon.ico" />
+  <link rel="stylesheet" href="../css/frozenui.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+ </head>
+ <body ontouchstart="">
+  <section class="ui-container">
+   <div class="index-wrap">
+    <div class="header">
+     <a href="../"><h1>福利搜</h1></a>
+    </div>
+   </div>
+  </section>
+  
+  <div class="ui-form ui-border-t">
+<!--   <form action="./browser.php" method="get" id="form"> -->
+    <div class="ui-searchbar-wrap ui-border-b">
+     <div class="ui-searchbar ui-border-radius">
+      <i class="ui-icon-search"></i>
+      <div class="ui-searchbar-text ui-txt-highlight">
+        今天要搜索点什么呢?
+      </div>
+      <div class="ui-searchbar-input">
+       <input type="text" placeholder="请输入关键字，如: 无圣光" id="text" name="text" />
+      </div>
+      <i onclick="text.value=''" class="ui-icon-close"></i>
+     </div>
+     <button class="ui-searchbar-cancel">取消</button>
+    </div>
+    <br>
+    <div class="ui-btn-wrap">
+     <button class="ui-btn-lg ui-btn-primary" id="todo" onclick="loadDoc()">确定</button>
+    </div>
+    <br>
+    <div class="ui-form-item ui-form-item-switch ui-border-b">
+     <p id="btn1"> 使用服务器中转图片</p>
+     <label class="ui-switch"><input type="checkbox" id="zhongzhuan" name="zhongzhuan" /></label>
+    </div>
+    <div class="ui-form-item ui-form-item-switch ui-border-b">
+     <p id="btn2"> 使用略缩图</p>
+     <label class="ui-switch"><input type="checkbox" id="luesuo" name="luesuo" checked="" /></label>
+    </div>
+    <div class="ui-form-item ui-border-b">
+     <label id="btn3">安全搜索</label>
+     <div class="ui-select">
+      <select name="safe" id="safe"><option selected="">off</option><option>medium</option><option>high</option></select>
+     </div>
+    </div>
+<!--   </form> -->
+  </div>
+  <br>
+  <div class="ui-dialog" id="dialog1">
+   <div class="ui-dialog-cnt">
+    <div class="ui-dialog-bd">
+     <p>如果你的网络屏蔽了一些图片来源网站，可以使用服务器中转访问图片源地址。可能造成访问缓慢！or 可以解决一些搜索结果没有图片显示的问题...</p>
+    </div>
+    <div class="ui-dialog-ft">
+     <button type="button" data-role="button">确定</button>
+    </div>
+   </div>
+  </div>
+  <div class="ui-dialog" id="dialog2">
+   <div class="ui-dialog-cnt">
+    <div class="ui-dialog-bd">
+     <p>使用Google搜索引擎处理过的略缩图，而不是访问源图片下载。 可以节省一些流量..</p>
+    </div>
+    <div class="ui-dialog-ft">
+     <button type="button" data-role="button">确定</button>
+    </div>
+   </div>
+  </div>
+  <div class="ui-dialog" id="dialog3">
+   <div class="ui-dialog-cnt">
+    <div class="ui-dialog-bd">
+     <p>安全搜索模式，这个就不用我多做介绍了吧？都懂的~</p>
+    </div>
+    <div class="ui-dialog-ft">
+     <button type="button" data-role="button">确定</button>
+    </div>
+   </div>
+  </div>
+  
+  <div class="ui-loading-block show" id="loading" style="display:none">
+                <div class="ui-loading-cnt">
+                    <i class="ui-loading-bright"></i>
+                    <p>正在加载中...</p>
+                </div>
+            </div>   
+    <br>
+  <section class="ui-container">
+   <div class="index-wrap">
+    <div class="footer">
+     <div class="logo"></div>
+    </div>
+   </div>
+  </section>
+  <script src="../js/zepto.min.js"></script>
+  <script type="text/javascript">
+  function loadDoc() {
+  if ($("#loading").css("display")=="none"){
+  $("#loading").show();
+  } else {
+  $("#loading").hide();  
+  }
+  var zhongzhuan = $('#zhongzhuan').prop('checked');
+  var luesuo = $('#luesuo').prop('checked');
+  var text = $("#text").val();
+  var safe = $("#safe").val();
+  var texturl = encodeURI("rand=" + Math.random()+"&text="+text+"&zhongzhuan="+zhongzhuan+"&luesuo="+luesuo+"&safe="+safe);
+  var fasong = window.btoa(texturl);
+  window.location.replace("./browser.php?encryption=" + fasong);
+  /*
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      //document.getElementById("demo").innerHTML = this.responseText;
+      $("p#view").html(xhttp.responseText);
+      $("#loading").hide(); 
+    }
+  };
+  xhttp.open("GET", "./browser.php?encryption=" + fasong + "&rand=" + Math.random(), true);
+  xhttp.send();
+  xhttp.open("POST", "./browser.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(fasong);
+  */
+  setTimeout(function(){$("#loading").hide();alert("时间超时!")},10000);
+  }
+  </script>
+  <script type="text/javascript">		
+  $(".ui-searchbar").tap(function(){
+  $(".ui-searchbar-wrap").addClass("focus");
+  $(".ui-searchbar-input input").focus();
+  });
+  $(".ui-searchbar-cancel").tap(function(){
+  $(".ui-searchbar-wrap").removeClass("focus");
+  });
+  $("#btn1").click(function(){
+  $("#dialog1").addClass("show");
+  });
+  $("#btn2").click(function(){
+  $("#dialog2").addClass("show");
+  });
+  $("#btn3").click(function(){
+  $("#dialog3").addClass("show");
+  });
+  $(".ui-dialog button").click(function(){
+  $(".ui-dialog").removeClass("show");
+  });  
+  </script>
+ </body>
+</html>

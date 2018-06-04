@@ -83,7 +83,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
     <li>
      <div class="ui-img-icon">
       <span style="background-image:url(./img/tor.png)"><?php echo $tor_status; ?></span>
-     </div><a href="./Orbot/"><h5>tor</h5></a><p>请戴“套”翻墻</p></li>
+     </div><a href="./Orbot/"><h5>Tor</h5></a><p>请戴“套”翻墻</p></li>
    </ul>
   </div>
 		<br>

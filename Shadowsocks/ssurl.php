@@ -16,7 +16,7 @@ function android_share_input($ss) {
     $m_p = explode(':', $m_p);
     $password = $m_p[1];
     $method = $m_p[0];
-    }
+    } else {
     $ss = str_replace("ss://", '', explode('@', $ss));
     $s_p = explode(':', $ss[1]);
     $ss = explode('@', $ss[0]);
@@ -26,7 +26,7 @@ function android_share_input($ss) {
     $m_p = explode(':', $m_p);
     $password = $m_p[1];
     $method = $m_p[0];
-    
+    }
     if ($server and $server_port and $password and $method) {
         return array(
             $name,

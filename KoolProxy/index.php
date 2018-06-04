@@ -68,7 +68,7 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no, email=no">
     <meta name="HandheldFriendly" content="true">
-    <title>QUI Demo</title>
+    <title>KoolProxy</title>
 
     
     <link rel="stylesheet" href="../css/frozenui.css">

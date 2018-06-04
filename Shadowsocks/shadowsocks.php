@@ -161,7 +161,7 @@ if ($plugin == 'off' and empty($obfs and $obfs_host)) {
 if ($udp == 'on' and $gost_server and $gost_server_port) { 
    shell_exec("su -c $binary -c $peizhi > /dev/null 2>&1 &");
 }
-sleep(2);
+sleep(1);
 header('Location: ../');
 
 }//

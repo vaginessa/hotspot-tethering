@@ -20,8 +20,6 @@ $mangle = array(
     "ip route add local 0/0 dev lo table 123",
     // 添加路由策略，让所有经 TPROXY 标记的 0x2333/0x2333 udp 数据包使用路由表 123
     "ip rule add fwmark 0x2333/0x2333 table 123",
-    "iptables -t mangle -A redsocks2_out -o lo -j ACCEPT",
-    "iptables -t mangle -A redsocks2_out -o tun+ -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -j redsocks2_lan",
     "iptables -t mangle -A redsocks2_out -s 192.168/16 -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -m owner --uid-owner 3004 -j ACCEPT",
@@ -36,18 +34,7 @@ $nat = array(
     "iptables -t nat -N out_forward",
     "iptables -t nat -N koolproxy_forward",
     //本机发出同意
-    "iptables -t nat -A out_lan -o lo -j ACCEPT",
-    "iptables -t nat -A out_lan -o tun+ -j ACCEPT",
-    "iptables -t nat -A out_lan -o ap+ -j ACCEPT",
-    "iptables -t nat -A out_lan -o wlan+ -j ACCEPT",
-    "iptables -t nat -A out_lan -d 0/8 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 10/8 -j ACCEPT",
     "iptables -t nat -A out_lan -d 127/8 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 169.254/16 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 172.168/12 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 192.168/16 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 224/4 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 240/4 -j ACCEPT",
     "iptables -t nat -A out_lan -s 192.168/16 -j ACCEPT",
     "iptables -t nat -A out_lan -d 192.168/16 -j ACCEPT",
     "iptables -t nat -A out_lan -m owner --uid-owner 3004 -j ACCEPT",
@@ -59,17 +46,6 @@ $nat = array(
     "iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053",
     "iptables -t nat -A OUTPUT -j out_lan",
     //路由前的流量
-    "iptables -t nat -A pre_forward -d 0/8 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 10/8 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 127/8 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 169.254/16 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 172.168/12 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 192.168/16 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 224/4 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 240/4 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 127/8 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 127/8 -j ACCEPT",
-    "iptables -t nat -A pre_forward -d 192.168/16 -j ACCEPT",
     "iptables -t nat -A pre_forward -j koolproxy_forward",
     "iptables -t nat -A pre_forward -j out_forward",
     "iptables -t nat -A PREROUTING -s 192.168/16 -j pre_forward"
@@ -170,7 +146,10 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
     }
     foreach ($filter as $value) {
         file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
-    }
+    }   
+        if (empty($udp) or empty($tproxy)) {
+        file_put_contents($tmp_file, "iptables -t filter -A user_block -p udp ! --dport 53 -j DROP" . PHP_EOL, FILE_APPEND | LOCK_EX); 
+        }
     chmod($tmp_file, 0700);
     shell_exec("su -c $tmp_file");
 } //

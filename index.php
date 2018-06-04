@@ -135,7 +135,7 @@ function net(of) {
   }
   var date = new Date();
   var year = date.getFullYear();
-  document.getElementById("footer").innerHTML="© "+year+" 爱翻墙的红杏";
+  document.getElementById("footer").innerHTML="© 2018-"+year+" 爱翻墙的红杏";
   //setTimeout('myrefresh()',20000); 
 </script> 
 

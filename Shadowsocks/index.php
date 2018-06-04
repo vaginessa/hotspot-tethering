@@ -104,7 +104,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
              <select name="route" id="route" class="ui-txt-feeds" > 
              <option value="bypass-lan.acl">绕过局域网</option> 
              <option value="bypass-china.acl">绕过中国大陆地址</option> 
-             <option value="bypass-lan-china.acl">绕过局域网及绕过中国大陆地址</option> 
+             <option value="bypass-lan-china.acl">绕过局域网及中国大陆地址</option> 
              <option value="gfwlist.acl">GFW列表</option> 
              <option value="china-list.acl">仅代理中国大陆地址</option> 
              <option value="custom.acl" selected="">自定义规则</option> 

@@ -51,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $obfs = test_input($_GET['obfs']);
    $obfs_host = test_input($_GET['obfs_host']);
    $token = test_input($_GET['token']);
-   
 }
 
 function test_input($data) {
@@ -88,9 +87,6 @@ die();
 
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
 
-//传送参数执行iptables规则
-iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $udp);
-
 function jx_server($server) {
    //服务器是否为域名网址地址？
   if (preg_match('/[a-z]+/i', $server)>0) {
@@ -111,6 +107,13 @@ $jx = array("server"=>"$server", "gost_server"=>"$gost_server");
 
 //如果gost服务器空替换为ss服务器
 if (empty($gost_server)) $gost_server = $server;
+
+if ($server) {
+//传送参数执行iptables规则
+iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp);
+} else {
+   die("没有获取到服务器信息!");
+}
 
 //写出配置
    $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL;

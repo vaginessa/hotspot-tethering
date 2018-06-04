@@ -1,9 +1,7 @@
 <?php
 session_start();
-//error_reporting(0);
 require "busybox.php";
 $ps=busybox_check("ps");
-header("Content-Type: text/html;charset=utf-8");
 $_SESSION['token'] = md5(microtime(true));
 //检查ss进程是否存在
 if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {

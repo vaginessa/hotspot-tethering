@@ -115,7 +115,7 @@ $status_binary = array(
 
 clearstatcache();
 
-function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $udp) {
+function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp) {
     $tmp_file = sys_get_temp_dir()."/iptables_add.sh";
     if (is_file($tmp_file)) unlink("$tmp_file");
     //支持tproxy吗？
@@ -130,6 +130,9 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
         if (is_array($mangle) || is_object($mangle)) {
             foreach ($mangle as $value) {
                 file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
+            }
+            if ($server) {
+             file_put_contents($tmp_file, "iptables -t mangle -I redsocks2_out 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
     }
@@ -146,7 +149,10 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
             file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
         }
         if (empty($udp) or empty($tproxy)) {
-        file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1" . PHP_EOL, FILE_APPEND | LOCK_EX); 
+        file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX); 
+        }
+        if ($server) {
+             file_put_contents($tmp_file, "iptables -t nat -I out_lan 5 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
     foreach ($filter as $value) {
@@ -169,10 +175,12 @@ function iptables_stop($stop_iptables, $status_binary, $file_name) {
     foreach ($stop_iptables as $value) {
         file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-    if (is_file($tmp_file) and $file_name === true)
+    if (!is_executable($tmp_file) or file_exists($tmp_file) and $file_name === true)
     {
     chmod($tmp_file, 0700);
     shell_exec("su -c $tmp_file");
+    } else {
+    die("没有写出删除脚本!");
     }
 }
 

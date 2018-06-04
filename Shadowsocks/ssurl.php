@@ -22,6 +22,11 @@ function android_share_input($ss) {
 }
 function share_input($ss) {
     $ss = str_replace("ss://", '', $ss);
+    if(stripos("$ss",'#') !== false) {
+    $ss = explode('#', $ss);
+    $name = urldecode($ss[1]);
+    $ss = $ss[0];
+    }
     $ss = base64_decode($ss);
     $m_p = explode('@', $ss);
     $s_p = $m_p[1];
@@ -33,6 +38,7 @@ function share_input($ss) {
     $password = $m_p[1];
     if ($server and $server_port and $password and $method) {
         return array(
+            $name,
             $server,
             $server_port,
             $password,
@@ -40,4 +46,5 @@ function share_input($ss) {
         );
     }
 }
+
 ?>

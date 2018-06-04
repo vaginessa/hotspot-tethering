@@ -70,7 +70,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
     <li>
      <div class="ui-img-icon">
       <span style="background-image:url(./img/fulisearch.png)"></span>
-     </div><a href="./search/"><h5>福利搜</h5></a><p>使用Google CSE定制的专用搜索</p></li>
+     </div><a href="./Search/"><h5>福利搜</h5></a><p>使用Google CSE定制的专用搜索</p></li>
      <li>
      <div class="ui-img-icon">
       <span style="background-image:url(./img/Network_shutdown.png)"></span>

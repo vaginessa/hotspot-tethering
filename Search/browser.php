@@ -117,7 +117,7 @@ $start = 1;
 //拼接搜索引擎需要的url
 //因为text可能含有中文和空格，前面所有都解码了现在重新url编码text
 $newurl = $URL.urlencode($text)."&safe=".$safe."&start=".$start."&num=".$NUM."&cx=".$ID."&key=".$APIKEY;
-
+//print_r($newurl);
 
 //获取数据
 $data = curlGet($newurl); 

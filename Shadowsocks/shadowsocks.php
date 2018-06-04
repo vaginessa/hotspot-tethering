@@ -68,9 +68,11 @@ if(strpos("$server",'ss://') !== false) {
    if(stripos("$server",'@') !== false) {
        list ($name, $server, $server_port, $password, $method) = android_share_input($server);
   } else {
-       list ($server, $server_port, $password, $method) = share_input($server);
+       list ($name, $server, $server_port, $password, $method) = share_input($server);
   }
 }
+
+
 
 if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password and $method)
 {

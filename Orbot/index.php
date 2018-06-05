@@ -53,7 +53,7 @@ if (stripos(shell_exec("su -c $ps -A"), " tor".PHP_EOL) !== false) {
 
 $binary_file=sys_get_temp_dir()."/tor";
 
-if (!file_exists($binary_file)) {
+if (!is_executable($binary_file) and file_exists('tor')) {
     copy('tor', $binary_file);
     chmod($binary_file, 0777);
 }

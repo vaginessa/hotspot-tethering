@@ -51,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $obfs = test_input($_GET['obfs']);
    $obfs_host = test_input($_GET['obfs_host']);
    $token = test_input($_GET['token']);
+   $remotePort = test_input($_GET['remotePort']);
+   $remoteHost = test_input($_GET['remoteHost']);
    $ServerName = test_input($_GET['ServerName']);
    $Key = test_input($_GET['Key']);
    $TicketTimeHint = test_input($_GET['TicketTimeHint']);
@@ -119,7 +121,7 @@ if ($server) {
 }
 
 //写出配置
-   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL."ServerName=$ServerName".PHP_EOL."Key=$Key".PHP_EOL."TicketTimeHint=$TicketTimeHint".PHP_EOL."Browser=$Browser";
+   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL."remotePort=$remotePort".PHP_EOL."remoteHost=$remoteHost".PHP_EOL."ServerName=$ServerName".PHP_EOL."Key=$Key".PHP_EOL."TicketTimeHint=$TicketTimeHint".PHP_EOL."Browser=$Browser";
    file_put_contents('ss-local.ini', $data, LOCK_EX);   
    
 //tproxy配置运行
@@ -174,8 +176,10 @@ if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
    shell_exec("su -c $my_obfs");
 } 
 
+if (empty($remotePort)) $remotePort=443;
+if (empty($remoteHost)) $remoteHost=$server;
 if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
-   $my_GoQuiet = "$binary3 -s $server -p $server_port -l 1026 -c $peizhi3 > /dev/null 2>&1 &";
+   $my_GoQuiet = "$binary3 -s $remoteHost -p $remotePort -l 1026 -c $peizhi3 > /dev/null 2>&1 &";
    shell_exec("$my_GoQuiet");
 } 
 

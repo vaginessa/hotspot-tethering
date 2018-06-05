@@ -196,6 +196,14 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
              
              <GoQuiet>
              <div class="ui-form-item ui-border-b"> 
+              <label> <b>remotePort:</b> </label> 
+              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>remoteHost:</b> </label> 
+              <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
               <label> <b>ServerName:</b> </label> 
               <input type="text" placeholder="你想让GFW认为你在访问的域名" id="ServerName" name="ServerName" class="ui-searchbar-text ui-txt-highlight" /> 
              </div>
@@ -364,6 +372,8 @@ if (kg == 1 ) {
   }
   if ("<?php echo $my_ini['obfs']; ?>" != "") $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
   $("#obfs_host").val("<?php echo $my_ini['obfs_host']; ?>");
+  $("#remotePort").val("<?php echo $my_ini['remotePort']; ?>");
+  $("#remoteHost").val("<?php echo $my_ini['remoteHost']; ?>");
   $("#ServerName").val("<?php echo $my_ini['ServerName']; ?>");
   $("#Key").val("<?php echo $my_ini['Key']; ?>");
   $("#TicketTimeHint").val("<?php echo $my_ini['TicketTimeHint']; ?>");

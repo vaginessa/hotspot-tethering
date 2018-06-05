@@ -196,12 +196,12 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
              
              <GoQuiet>
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>remotePort:</b> </label> 
-              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" class="ui-searchbar-text ui-txt-highlight" /> 
-             </div>
-             <div class="ui-form-item ui-border-b"> 
              <label> <b>remoteHost:</b> </label> 
               <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label> <b>remotePort:</b> </label> 
+              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" class="ui-searchbar-text ui-txt-highlight" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label> <b>ServerName:</b> </label> 

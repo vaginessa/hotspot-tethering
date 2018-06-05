@@ -109,10 +109,7 @@ if (empty($text or $safe))
 die("请不要乱修改URL参数。谢谢！<br><a href='./'>返回首页</a></body></html>");
 }
 
-if (empty($start))
-{
-$start = 1;
-}
+if (empty($start)) $start = 1;
 
 //拼接搜索引擎需要的url
 //因为text可能含有中文和空格，前面所有都解码了现在重新url编码text

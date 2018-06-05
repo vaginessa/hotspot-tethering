@@ -22,14 +22,14 @@ if (isset($_GET['token'])) {
 if (!is_file('koolproxy')) die('程序主文件不见了');
 if (!is_dir('rules/')) die('程序配置文件夹不见了');
 $binary_file = sys_get_temp_dir() . "/koolproxy";
-if (!is_file($binary_file)) {
+if (!is_executable($binary_file) and file_exists('koolproxy')) {
     copy('./koolproxy', $binary_file);
     chmod($binary_file, 0700);
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $koolproxy = urlencode($_GET['koolproxy']);
-    $guolv = urlencode($_GET['guolv']);
-    $token = urlencode($_GET['token']);
+    $koolproxy = $_GET['koolproxy'];
+    $guolv = $_GET['guolv'];
+    $token = $_GET['token'];
     if ($guolv == "all") {
         $run_ipt = "80,443,8080";
     } elseif ($guolv == "http") {

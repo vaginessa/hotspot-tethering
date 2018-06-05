@@ -51,6 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $obfs = test_input($_GET['obfs']);
    $obfs_host = test_input($_GET['obfs_host']);
    $token = test_input($_GET['token']);
+   $ServerName = test_input($_GET['ServerName']);
+   $Key = test_input($_GET['Key']);
+   $TicketTimeHint = test_input($_GET['TicketTimeHint']);
+   $Browser = test_input($_GET['Browser']);
 }
 
 function test_input($data) {
@@ -59,7 +63,6 @@ function test_input($data) {
    $data = htmlspecialchars($data);
    return $data;
 }
-
 
 
 //服务器是否ss://链接然后解析
@@ -110,13 +113,13 @@ if (empty($gost_server)) $gost_server = $server;
 
 if ($server) {
 //传送参数执行iptables规则
-iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp);
+   iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp);
 } else {
    die("没有获取到服务器信息!");
 }
 
 //写出配置
-   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL;
+   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL."ServerName=$ServerName".PHP_EOL."Key=$Key".PHP_EOL."TicketTimeHint=$TicketTimeHint".PHP_EOL."Browser=$Browser";
    file_put_contents('ss-local.ini', $data, LOCK_EX);   
    
 //tproxy配置运行
@@ -127,7 +130,7 @@ iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, 
 //overture配置运行
    $binary = sys_get_temp_dir()."/overture";
    $peizhi = dirname(__FILE__)."/overture.json";
-   $obj = json_decode(file_get_contents('overture.json'));
+   $obj = json_decode(file_get_contents($peizhi));
    $obj->HostsFile=dirname(__FILE__)."/hosts";
    $obj = json_encode($obj);
    file_put_contents('overture.json', $obj, LOCK_EX);
@@ -143,22 +146,38 @@ iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, 
    if ($udp == 'on') shell_exec("$pkill gost".PHP_EOL."$binary -L socks5://127.0.0.1:1028 -F socks5://127.0.0.1:1025 -F socks5://$my_gost > /dev/null 2>&1 &");
 
 
-//shadowsocks+obfs配置
+//shadowsocks+插件配置
    $binary = sys_get_temp_dir()."/ss-local";
    $peizhi = dirname(__FILE__)."/$route";
    $pid = dirname(__FILE__)."/ss-local.pid";
    $binary2 = sys_get_temp_dir()."/obfs-local";
    $pid2 = dirname(__FILE__)."/obfs-local.pid";
-if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
-   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   $binary3 = sys_get_temp_dir()."/GoQuiet";
+   $peizhi3 = dirname(__FILE__)."/GoQuiet.json";
+   $obj = json_decode(file_get_contents("$peizhi3"));
+   $obj->ServerName=$ServerName;
+   $obj->Key=$Key;
+   $obj->TicketTimeHint=$TicketTimeHint;
+   $obj->Browser=$Browser;
+   $obj = json_encode($obj,JSON_NUMERIC_CHECK);
+   file_put_contents($peizhi3, $obj, LOCK_EX);
+   
+if ($plugin == 'off' or empty($plugin)) {
+   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
    shell_exec("su -c $my_shadowsocks");
+} else { 
+$my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   shell_exec("su -c $my_shadowsocks");
+}
+if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
    $my_obfs = "$binary2 -s $server -p $server_port -b 127.0.0.1 -l 1026 --obfs $obfs --obfs-host $obfs_host -f $pid2 -a 3004";
    shell_exec("su -c $my_obfs");
 } 
-if ($plugin == 'off' and empty($obfs and $obfs_host)) {
-   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
-   shell_exec("su -c $my_shadowsocks");
-}
+
+if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
+   $my_GoQuiet = "$binary3 -s $server -p $server_port -l 1026 -c $peizhi3 > /dev/null 2>&1 &";
+   shell_exec("$my_GoQuiet");
+} 
 
 //redsocks2配置运行
    $binary = sys_get_temp_dir()."/redsocks2";

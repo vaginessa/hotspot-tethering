@@ -110,7 +110,8 @@ $status_binary = array(
     "overture",
     "gost",
     "redsocks2",
-    "tproxy"
+    "tproxy",
+    "GoQuiet"
 );
 
 clearstatcache();

@@ -106,6 +106,10 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
   </section>
 <script src="./js/zepto.min.js"></script>
 <script src="./js/index.js"></script>
+<!--
+<script src="./js/jquery-3.3.1.min.js"></script>
+<script src="./js/jquery.backstretch.min.js"></script>
+-->
 <script type="text/javascript">		
 function net(of) {
     var xhttp = new XMLHttpRequest();
@@ -137,6 +141,7 @@ function net(of) {
   var year = date.getFullYear();
   document.getElementById("footer").innerHTML="© 2018-"+year+" 爱翻墙的红杏";
   //setTimeout('myrefresh()',20000); 
+  //$.backstretch("background/IMG_20180429_112557.jpg");
 </script> 
 
 </body>

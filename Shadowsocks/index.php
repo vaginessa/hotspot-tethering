@@ -36,7 +36,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
       
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
         <p><b>服务开关</b></p> 
-          <p class="ui-txt-warning ui-reddot" id="ts">&nbsp;&nbsp;服务没有开启!</p> 
+        <p class="ui-txt-warning ui-reddot" id="ts">&nbsp;&nbsp;服务没有开启!</p>
         <label class="ui-switch"><input type="checkbox" id="shadowsocks" name="shadowsocks" /></label> 
        </div> 
        
@@ -157,6 +157,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
            </div> 
           </div> 
           
+  <!--- 插件类 -->
           <div class="demo-item"> 
            <p class="demo-desc">插件</p> 
            <div class="demo-block"> 
@@ -167,12 +168,16 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
                <div class="ui-select"> 
                 <select name="plugin" id="plugin" class="ui-txt-feeds"> 
                 <option value="off" selected="">禁用</option> 
-                <option value="obfs-local">obfs混淆插件</option> 
+                <option value="obfs-local">obfs混淆插件</option>
+                <option value="GoQuiet">GoQuiet混淆插件</option> 
                 </select> 
                </div> 
               </div> 
              </div> 
+             
            <plugin style="display:none">
+           
+             <obfs-local>
              <div class="ui-form-item ui-border-b"> 
               <label><b>混淆方式</b></label> 
               <div class="ui-select-group"> 
@@ -183,15 +188,47 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
                </div> 
               </div> 
              </div> 
-             
              <div class="ui-form-item ui-border-b"> 
               <label> <b>混淆参数:</b> </label> 
               <input type="text" placeholder="wap.10010.com" id="obfs_host" name="obfs_host" class="ui-searchbar-text ui-txt-highlight" /> 
              </div> 
+             </obfs-local>
+             
+             <GoQuiet>
+             <div class="ui-form-item ui-border-b"> 
+              <label> <b>ServerName:</b> </label> 
+              <input type="text" placeholder="你想让GFW认为你在访问的域名" id="ServerName" name="ServerName" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label> <b>Key:</b> </label> 
+              <input type="text" placeholder="密钥" id="Key" name="Key" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label> <b>TicketTimeHint:</b> </label> 
+              <input type="text" placeholder="3600 (session ticket过期的时间)" id="TicketTimeHint" name="TicketTimeHint" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label><b>Browser</b></label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="Browser" id="Browser" class="ui-txt-feeds" > 
+                <option value="firefox" >firefox</option> 
+                <option value="chrome" selected="">chrome</option> </select> 
+               </div> 
+              </div> 
+             </div> 
+            </GoQuiet>
+             
+             
+             
+             </plugin>
+             
             </div> 
            </div> 
           </div> 
-         </plugin>
+          
+  <!-- 插件类结尾 -->
+  
         <!--
         <div class="ui-form-item ui-form-item-link ui-border-b"> 
          <label> 列表标题 </label> 
@@ -219,7 +256,29 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
             </div>
             
             
+            
   <script src="../js/zepto.min.js"></script> 
+  
+  <script type="text/javascript">		
+  function setplugin(){
+  if ($("#plugin").val() == "off") { 
+  $("plugin").hide();
+  } else {
+  $("plugin").show();
+  }
+  if ($("#plugin").val() == "obfs-local") { 
+  $("obfs-local").show();
+  } else {
+  $("obfs-local").hide();
+  }
+  if ($("#plugin").val() == "GoQuiet") { 
+  $("GoQuiet").show();
+  } else {
+  $("GoQuiet").hide();
+  }
+  }
+  </script>		
+  
   <script type="text/javascript">		
   //if ($('#udp').prop('checked')) $("#gost").show();
   $("#udp").change(function(){
@@ -230,10 +289,10 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
   }
   });
   $("#plugin").change(function(){
-  if ($("#plugin").val() == "off") $("plugin").hide();
-  if ($("#plugin").val() == "obfs-local") $("plugin").show();
+  setplugin();
   });
   </script>
+  
   <script type="text/javascript">
   $("#password").focus(function(){
     $(this).attr('type','text');
@@ -248,31 +307,29 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
     $(this).attr('type','password');
   });
   </script>
+  
   <script type="text/javascript">
-  $("#server_toast").click(function(){
+  $("#server_toast").tap(function(){
   $("#server_toast").hide();
-  if ($("#server").css("display")=="none"){
   $("#server").show();
-  } else {
-  $("#server").hide();
-  }
   });
   $("#server").blur(function(){
     $("#server").hide();
     $("#server_toast").show();
   });
   </script>
+  
   <script type="text/javascript">
   $("#todo").click(function(){
-  if ($("#loading").css("display")=="none"){
   $("#loading").show();
-  } else {
-  $("#loading").hide();  
-  }
   });
   </script>
+  
+  
+  <!-- 读取配置显示 -->
+  
  <script type="text/javascript">		
-  var jbkg = "<?php echo $status; ?>";
+   var jbkg = "<?php echo $status; ?>";
 if (jbkg!=null && jbkg!="") { 
    $('#shadowsocks').attr('checked', jbkg); 
    var div = document.getElementById('ts'); 
@@ -291,23 +348,30 @@ if (kg == 1 ) {
  if (udpkg!=null && udpkg!="") { 
   $('#udp').attr('checked', udp);
   $("#gost").show();
-     } else {
-  $("#gost").hide();
      }
   $("#gost_server").val("<?php echo $my_ini['gost_server']; ?>");
   $("#gost_server_port").val("<?php echo $my_ini['gost_server_port']; ?>");
   $("#gost_username").val("<?php echo $my_ini['gost_username']; ?>");
   $("#gost_password").val("<?php echo $my_ini['gost_password']; ?>");
-  var plugin = "<?php echo $my_ini['plugin']; ?>"
- if (plugin==null || plugin=="") {
+  var plugin = "<?php echo $my_ini['plugin']; ?>";
+ if (plugin!=null && plugin!="") {
+  $("#plugin").val(plugin);
+  $("plugin").show();
+  setplugin();
+  } else {
   $("#plugin").val("off");
   $("plugin").hide();
-  } else {
-  $("#plugin").val(plugin);
   }
-  $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
+  if ("<?php echo $my_ini['obfs']; ?>" != "") $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
   $("#obfs_host").val("<?php echo $my_ini['obfs_host']; ?>");
+  $("#ServerName").val("<?php echo $my_ini['ServerName']; ?>");
+  $("#Key").val("<?php echo $my_ini['Key']; ?>");
+  $("#TicketTimeHint").val("<?php echo $my_ini['TicketTimeHint']; ?>");
+  if ("<?php echo $my_ini['Browser']; ?>" != "") $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
 }
   </script>  
- </body>
+
+<!-- 读取配置显示结尾 -->
+
+</body>
 </html>

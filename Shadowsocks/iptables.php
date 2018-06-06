@@ -111,7 +111,8 @@ $status_binary = array(
     "gost",
     "redsocks2",
     "tproxy",
-    "GoQuiet"
+    "GoQuiet",
+    "kcptun"
 );
 
 clearstatcache();

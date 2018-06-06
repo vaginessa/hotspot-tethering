@@ -26,13 +26,13 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
  </head>
  <body ontouchstart="">
 
-  <section id="form"> 
+  <section> 
    <a href="../"><h1 class="title">Shadowsocks</h1></a> 
    <div class="demo-item"> 
     <p class="demo-desc">服务器设置</p> 
     <div class="demo-block"> 
      <div class="ui-form ui-border-t"> 
-      <form action="shadowsocks.php" method="GET"> 
+      <form action="shadowsocks.php" method="GET" id="usrform"> 
       
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
         <p><b>服务开关</b></p> 
@@ -169,7 +169,8 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
                 <select name="plugin" id="plugin" class="ui-txt-feeds"> 
                 <option value="off" selected="">禁用</option> 
                 <option value="obfs-local">obfs混淆插件</option>
-                <option value="GoQuiet">GoQuiet混淆插件</option> 
+                <option value="GoQuiet">GoQuiet混淆插件</option>
+                <option value="kcptun">kcptun</option> 
                 </select> 
                </div> 
               </div> 
@@ -209,7 +210,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label> <b>Key:</b> </label> 
-              <input type="text" placeholder="密钥" id="Key" name="Key" class="ui-searchbar-text ui-txt-highlight" /> 
+              <input type="password" placeholder="密钥" id="Key" name="Key" class="ui-searchbar-text ui-txt-highlight" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label> <b>TicketTimeHint:</b> </label> 
@@ -226,6 +227,93 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
               </div> 
              </div> 
             </GoQuiet>
+            
+            <kcptun>
+            <div class="ui-form-item ui-border-b"> 
+             <label> <b>remoteaddr:</b> </label> 
+              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>key:</b> </label> 
+              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label><b>crypt</b></label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="kcpcrypt" id="kcpcrypt" class="ui-txt-feeds" > 
+                <option value="aes" selected="">aes</option> 
+                <option value="aes-128">aes-128</option>
+                <option value="aes-192">aes-192</option>
+                <option value="salsa20">salsa20</option>
+                <option value="blowfish">blowfish</option>
+                <option value="twofish">twofish</option>
+                <option value="cast5">cast5</option>
+                <option value="3des">3des</option>
+                <option value="tea">tea</option>
+                <option value="xtea">xtea</option>
+                <option value="xor">xor</option>
+                <option value="sm4">sm4</option>
+                <option value="none">none</option>
+                </select> 
+               </div> 
+              </div> 
+             </div> 
+             <div class="ui-form-item ui-border-b"> 
+              <label><b>mode</b></label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="kcpmode" id="kcpmode" class="ui-txt-feeds" > 
+                <option value="fast3">fast3</option> 
+                <option value="fast2">fast2</option>
+                <option value="fast" selected="">fast</option>
+                <option value="normal">normal</option>
+                <option value="manual">manual</option>
+                </select> 
+               </div> 
+              </div> 
+             </div> 
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>conn:</b> </label> 
+              <input type="text" placeholder="default: 1" id="kcpconn" name="kcpconn" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>autoexpire:</b> </label> 
+              <input type="text" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>scavengettl:</b> </label> 
+              <input type="text" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>mtu:</b> </label> 
+              <input type="text" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>sndwnd:</b> </label> 
+              <input type="text" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>rcvwnd:</b> </label> 
+              <input type="text" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>datashard:</b> </label> 
+              <input type="text" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>parityshard:</b> </label> 
+              <input type="text" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+             <label> <b>dscp:</b> </label> 
+              <input type="text" placeholder="default: 0" id="kcpdscp" name="kcpdscp" class="ui-searchbar-text ui-txt-highlight" /> 
+             </div>
+             <!--
+            <textarea rows="4" style="width:99%" cols="50" name="kcptunpeizhi" form="usrform" placeholder="请在此处输入配置...
+以 ; 号 分割开"></textarea>
+               -->
+            </kcptun>
              
              
              
@@ -284,6 +372,11 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
   } else {
   $("GoQuiet").hide();
   }
+  if ($("#plugin").val() == "kcptun") { 
+  $("kcptun").show();
+  } else {
+  $("kcptun").hide();
+  }
   }
   </script>		
   
@@ -312,6 +405,18 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
     $(this).attr('type','text');
   });
   $("#gost_password").blur(function(){
+    $(this).attr('type','password');
+  });
+  $("#Key").focus(function(){
+    $(this).attr('type','text');
+  });
+  $("#Key").blur(function(){
+    $(this).attr('type','password');
+  });
+  $("#kcpkey").focus(function(){
+    $(this).attr('type','text');
+  });
+  $("#kcpkey").blur(function(){
     $(this).attr('type','password');
   });
   </script>
@@ -344,16 +449,16 @@ if (jbkg!=null && jbkg!="") {
    div.className = 'demo-desc'; 
    document.getElementById("ts").innerHTML="&nbsp;&nbsp;&nbsp服务已开启!";
    }
-  var kg = "<?php echo $my_ini['shadowsocks']; ?>";
-if (kg == 1 ) {
+  </script>		
+  <script type="text/javascript">		
   $("#name").val("<?php echo $my_ini['name']; ?>");
   $("#server").val("<?php echo $my_ini['server']; ?>");
   $("#server_port").val("<?php echo $my_ini['server_port']; ?>");
   $("#password").val("<?php echo $my_ini['password']; ?>");
-  $("#method").val("<?php echo $my_ini['method']; ?>");
-  $("#route").val("<?php echo $my_ini['route']; ?>");
+if ("<?php echo $my_ini['method']; ?>" != "") $("#method").val("<?php echo $my_ini['method']; ?>");
+if ("<?php echo $my_ini['route']; ?>" != "") $("#route").val("<?php echo $my_ini['route']; ?>");
   var udpkg = "<?php echo $my_ini['udp']; ?>";
- if (udpkg!=null && udpkg!="") { 
+if (udpkg!=null && udpkg!="") { 
   $('#udp').attr('checked', udp);
   $("#gost").show();
      }
@@ -362,7 +467,7 @@ if (kg == 1 ) {
   $("#gost_username").val("<?php echo $my_ini['gost_username']; ?>");
   $("#gost_password").val("<?php echo $my_ini['gost_password']; ?>");
   var plugin = "<?php echo $my_ini['plugin']; ?>";
- if (plugin!=null && plugin!="") {
+if (plugin!=null && plugin!="") {
   $("#plugin").val(plugin);
   $("plugin").show();
   setplugin();
@@ -370,18 +475,37 @@ if (kg == 1 ) {
   $("#plugin").val("off");
   $("plugin").hide();
   }
-  if ("<?php echo $my_ini['obfs']; ?>" != "") $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
+if ("<?php echo $my_ini['obfs']; ?>" != "") $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
   $("#obfs_host").val("<?php echo $my_ini['obfs_host']; ?>");
   $("#remotePort").val("<?php echo $my_ini['remotePort']; ?>");
   $("#remoteHost").val("<?php echo $my_ini['remoteHost']; ?>");
   $("#ServerName").val("<?php echo $my_ini['ServerName']; ?>");
   $("#Key").val("<?php echo $my_ini['Key']; ?>");
   $("#TicketTimeHint").val("<?php echo $my_ini['TicketTimeHint']; ?>");
-  if ("<?php echo $my_ini['Browser']; ?>" != "") $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
-}
+if ("<?php echo $my_ini['Browser']; ?>" != "") $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
+  $("#kcpremoteaddr").val("<?php echo $my_ini['kcpremoteaddr']; ?>");
+  $("#kcpkey").val("<?php echo $my_ini['kcpkey']; ?>");
+  var crypt="<?php echo $my_ini['kcpcrypt']; ?>";
+if (crypt != null && crypt != "") { 
+  $("#kcpcrypt").val("<?php echo $my_ini['kcpcrypt']; ?>");
+  } else {
+  $("#kcpcrypt").val('none');
+  }
+if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my_ini['kcpmode']; ?>");
+  $("#kcpconn").val("<?php echo $my_ini['kcpconn']; ?>");
+  $("#kcpscavengettl").val("<?php echo $my_ini['kcpscavengettl']; ?>");
+  $("#kcpautoexpire").val("<?php echo $my_ini['kcpautoexpire']; ?>");
+  $("#kcpsndwnd").val("<?php echo $my_ini['kcpsndwnd']; ?>");
+  $("#kcprcvwnd").val("<?php echo $my_ini['kcprcvwnd']; ?>");
+  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
+  $("#kcpdatashard").val("<?php echo $my_ini['kcpdatashard']; ?>");
+  $("#kcpparityshard").val("<?php echo $my_ini['kcpparityshard']; ?>");
+  $("#kcpdscp").val("<?php echo $my_ini['kcpdscp']; ?>");
+  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
   </script>  
 
 <!-- 读取配置显示结尾 -->
 
 </body>
 </html>
+

@@ -57,6 +57,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $Key = test_input($_GET['Key']);
    $TicketTimeHint = test_input($_GET['TicketTimeHint']);
    $Browser = test_input($_GET['Browser']);
+   $kcpremoteaddr = test_input($_GET['kcpremoteaddr']);
+   $kcpkey = test_input($_GET['kcpkey']);
+   $kcpcrypt = test_input($_GET['kcpcrypt']);
+   $kcpmode = test_input($_GET['kcpmode']);
+   $kcpconn = test_input($_GET['kcpconn']);
+   $kcpautoexpire = test_input($_GET['kcpautoexpire']);
+   $kcpscavengettl = test_input($_GET['kcpscavengettl']);
+   $kcpmtu = test_input($_GET['kcpmtu']);
+   $kcpsndwnd = test_input($_GET['kcpsndwnd']);
+   $kcprcvwnd = test_input($_GET['kcprcvwnd']);
+   $kcpdatashard = test_input($_GET['kcpdatashard']);
+   $kcpparityshard = test_input($_GET['kcpparityshard']);
+   $kcpdscp = test_input($_GET['kcpdscp']);
 }
 
 function test_input($data) {
@@ -65,7 +78,6 @@ function test_input($data) {
    $data = htmlspecialchars($data);
    return $data;
 }
-
 
 //服务器是否ss://链接然后解析
 if(strpos("$server",'ss://') !== false) {
@@ -78,8 +90,7 @@ if(strpos("$server",'ss://') !== false) {
 
 
 
-if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password and $method)
-{
+if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password and $method) {
 //如果开关按钮关闭
 iptables_stop($stop_iptables, $status_binary, true);
 sleep(1);
@@ -121,7 +132,7 @@ if ($server) {
 }
 
 //写出配置
-   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL."remotePort=$remotePort".PHP_EOL."remoteHost=$remoteHost".PHP_EOL."ServerName=$ServerName".PHP_EOL."Key=$Key".PHP_EOL."TicketTimeHint=$TicketTimeHint".PHP_EOL."Browser=$Browser";
+   $data = "shadowsocks=$shadowsocks".PHP_EOL."name=$name".PHP_EOL."server=$server".PHP_EOL."server_port=$server_port".PHP_EOL."password=$password".PHP_EOL."method=$method".PHP_EOL."route=$route".PHP_EOL."udp=$udp".PHP_EOL."gost_server=$gost_server".PHP_EOL."gost_server_port=$gost_server_port".PHP_EOL."gost_username=$gost_username".PHP_EOL."gost_password=$gost_password".PHP_EOL."plugin=$plugin".PHP_EOL."obfs=$obfs".PHP_EOL."obfs_host=$obfs_host".PHP_EOL."remotePort=$remotePort".PHP_EOL."remoteHost=$remoteHost".PHP_EOL."ServerName=$ServerName".PHP_EOL."Key=$Key".PHP_EOL."TicketTimeHint=$TicketTimeHint".PHP_EOL."Browser=$Browser".PHP_EOL."kcpremoteaddr=$kcpremoteaddr".PHP_EOL."kcpkey=$kcpkey".PHP_EOL."kcpcrypt=$kcpcrypt".PHP_EOL."kcpmode=$kcpmode".PHP_EOL."kcpconn=$kcpconn".PHP_EOL."kcpautoexpire=$kcpautoexpire".PHP_EOL."kcpscavengettl=$kcpscavengettl".PHP_EOL."kcpmtu=$kcpmtu".PHP_EOL."kcpsndwnd=$kcpsndwnd".PHP_EOL."kcprcvwnd=$kcprcvwnd".PHP_EOL."kcpdatashard=$kcpdatashard".PHP_EOL."kcpparityshard=$kcpparityshard".PHP_EOL."kcpdscp=$kcpdscp";
    file_put_contents('ss-local.ini', $data, LOCK_EX);   
    
 //tproxy配置运行
@@ -151,37 +162,62 @@ if ($server) {
 //shadowsocks+插件配置
    $binary = sys_get_temp_dir()."/ss-local";
    $peizhi = dirname(__FILE__)."/$route";
-   $pid = dirname(__FILE__)."/ss-local.pid";
-   $binary2 = sys_get_temp_dir()."/obfs-local";
-   $pid2 = dirname(__FILE__)."/obfs-local.pid";
-   $binary3 = sys_get_temp_dir()."/GoQuiet";
-   $peizhi3 = dirname(__FILE__)."/GoQuiet.json";
-   $obj = json_decode(file_get_contents("$peizhi3"));
+   $pid = dirname(__FILE__)."/ss-local.pid";   
+if ($plugin == 'off' or empty($plugin)) {
+   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
+} else { 
+   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
+}
+
+//obfs混淆插件
+    $binary2 = sys_get_temp_dir()."/obfs-local";
+    $pid2 = dirname(__FILE__)."/obfs-local.pid";
+if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
+   $my_obfs = "$binary2 -s $server -p $server_port -b 127.0.0.1 -l 1026 --obfs $obfs --obfs-host $obfs_host -f $pid2 -a 3004";
+   shell_exec("su -c $my_obfs > /dev/null 2>&1 &");
+} 
+
+//kcptun插件
+   $binary3 = sys_get_temp_dir()."/kcptun";
+if ($plugin == 'kcptun' and $kcpremoteaddr) {
+   if (empty($kcpremoteaddr)) $kcpremoteaddr="$server:29900";
+   if (empty($kcpkey)) $kcpkey="it's a secrect";
+   if (empty($kcpcrypt)) $kcpcrypt="aes";
+   if (empty($kcpmode)) $kcpmode="fast";
+   if (empty($kcpconn)) $kcpconn=1;
+   if (empty($kcpautoexpire)) $kcpautoexpire=0;
+   if (empty($kcpscavengettl)) $kcpscavengettl=600;
+   if (empty($kcpmtu)) $kcpmtu=1350;
+   if (empty($kcpsndwnd)) $kcpsndwnd=128;
+   if (empty($kcprcvwnd)) $kcprcvwnd=512;
+   if (empty($kcpdatashard)) $kcpdatashard=10;
+   if (empty($kcpparityshard)) $autoexpire=3;
+   if (empty($kcpdscp)) $kcpdscp=0;
+   $my_kcptun = "$binary3 -l 127.0.0.1:1026 -r $kcpremoteaddr --key $kcpkey --crypt $kcpcrypt -mode $kcpmode -conn $kcpconn -autoexpire $kcpautoexpire -scavengettl $kcpscavengettl -mtu $kcpmtu -sndwnd $kcpsndwnd -rcvwnd $kcprcvwnd -datashard $kcpdatashard -parityshard $kcpparityshard -dscp $kcpdscp";
+   shell_exec("$my_kcptun > /dev/null 2>&1 &");
+} 
+
+
+//GoQuiet插件
+   $binary4 = sys_get_temp_dir()."/GoQuiet";
+   $peizhi4 = dirname(__FILE__)."/GoQuiet.json";
+   $obj = json_decode(file_get_contents("$peizhi4"));
    $obj->ServerName=$ServerName;
    $obj->Key=$Key;
    $obj->TicketTimeHint=$TicketTimeHint;
    $obj->Browser=$Browser;
    $obj = json_encode($obj,JSON_NUMERIC_CHECK);
-   file_put_contents($peizhi3, $obj, LOCK_EX);
-   
-if ($plugin == 'off' or empty($plugin)) {
-   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
-   shell_exec("su -c $my_shadowsocks");
-} else { 
-$my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
-   shell_exec("su -c $my_shadowsocks");
-}
-if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
-   $my_obfs = "$binary2 -s $server -p $server_port -b 127.0.0.1 -l 1026 --obfs $obfs --obfs-host $obfs_host -f $pid2 -a 3004";
-   shell_exec("su -c $my_obfs");
-} 
-
+   file_put_contents($peizhi4, $obj, LOCK_EX);
 if (empty($remotePort)) $remotePort=443;
 if (empty($remoteHost)) $remoteHost=$server;
 if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
-   $my_GoQuiet = "$binary3 -s $remoteHost -p $remotePort -l 1026 -c $peizhi3 > /dev/null 2>&1 &";
-   shell_exec("$my_GoQuiet");
+   $my_GoQuiet = "$binary4 -s $remoteHost -p $remotePort -l 1026 -c $peizhi4";
+   shell_exec("$my_GoQuiet > /dev/null 2>&1 &");
 } 
+
+sleep(1);
 
 //redsocks2配置运行
    $binary = sys_get_temp_dir()."/redsocks2";

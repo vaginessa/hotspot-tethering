@@ -168,8 +168,8 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
                <div class="ui-select"> 
                 <select name="plugin" id="plugin" class="ui-txt-feeds"> 
                 <option value="off" selected="">禁用</option> 
-                <option value="obfs-local">obfs混淆插件</option>
-                <option value="GoQuiet">GoQuiet混淆插件</option>
+                <option value="obfs-local">Simple obfuscation</option>
+                <option value="GoQuiet">GoQuiet</option>
                 <option value="kcptun">kcptun</option> 
                 </select> 
                </div> 
@@ -180,7 +180,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
            
              <obfs-local>
              <div class="ui-form-item ui-border-b"> 
-              <label><b>混淆方式</b></label> 
+              <label><b>Obfuscation wrapper</b></label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="obfs" id="obfs" class="ui-txt-feeds" > 
@@ -190,7 +190,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>混淆参数:</b> </label> 
+              <label> <b>Obfuscation hostname:</b> </label> 
               <input type="text" placeholder="wap.10010.com" id="obfs_host" name="obfs_host" class="ui-searchbar-text ui-txt-highlight" /> 
              </div> 
              </obfs-local>
@@ -427,8 +427,8 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
   $("#server").show();
   });
   $("#server").blur(function(){
-    $("#server").hide();
-    $("#server_toast").show();
+  $("#server").hide();
+  $("#server_toast").show();
   });
   </script>
   

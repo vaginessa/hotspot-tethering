@@ -175,8 +175,8 @@ if ($plugin == 'off' or empty($plugin)) {
     $binary2 = sys_get_temp_dir()."/obfs-local";
     $pid2 = dirname(__FILE__)."/obfs-local.pid";
 if ($plugin == 'obfs-local' and $obfs and $obfs_host) {
-   $my_obfs = "$binary2 -s $server -p $server_port -b 127.0.0.1 -l 1026 --obfs $obfs --obfs-host $obfs_host -f $pid2 -a 3004";
-   shell_exec("su -c $my_obfs > /dev/null 2>&1 &");
+   $my_obfs = "$binary2 -s $server -p $server_port -b 127.0.0.1 -l 1026 --obfs $obfs --obfs-host $obfs_host -f $pid2";
+   shell_exec("$my_obfs > /dev/null 2>&1 &");
 } 
 
 //kcptun插件

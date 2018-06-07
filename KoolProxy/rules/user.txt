@@ -48,6 +48,7 @@
 
 ! yaohuo.me##.adsbygoogle,.google,[src="/adlink-20.html"]
 |http://music.163.com/upload/
+|http://static.ads-twitter.com
 www.quanben.io##amp-ad
 |music.163.com/eapi/v1/android/version
 |music.163.com/api/clientlog/

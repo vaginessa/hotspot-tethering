@@ -40,7 +40,7 @@ foreach ($aria2_conf as $key => $value) {
       if ($key == "bt-tracker") $value=$newstr;
     file_put_contents($conf_file, "$key=$value".PHP_EOL, FILE_APPEND | LOCK_EX);
     echo 'trackers已经升级完成！2s 后跳转';
-    die(header('Refresh:2,Url=../'));
+    header('Refresh:2,Url=../');
     }
   }
 fclose($tmp_file);

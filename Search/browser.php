@@ -19,37 +19,6 @@
  <body ontouchstart="">
 <?php
 require_once 'config.php';
-require_once 'waf.php';
-$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL;
-$host = $_SERVER['HTTP_HOST'];
-/*
-echo '提交过来的地址：'.$referer;
-echo '<br>';
-echo '本站域名：'.$host;
-echo '<br>';
-echo substr($referer,7,strlen($host));
-*/
-if(substr($referer,7,strlen($host)) != $host){
- echo '非法操作';
-}
-/*else{
- echo '正常操作';
-}
-*/
-
-/*
-// 代理协议  CURLPROXY_HTTP (默认值，代理为 HTTP、HTTPS 都设置此值)、 CURLPROXY_SOCKS4、 CURLPROXY_SOCKS5、 CURLPROXY_SOCKS4A、CURLPROXY_SOCKS5_HOSTNAME
-curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-
-// 代理地址
-curl_setopt($ch, CURLOPT_PROXY, $strProxyServer);
-
-// 代理端口号，也可以写在代理地址里面
-curl_setopt($ch, CURLOPT_PROXYPORT, $strProxyPort);
-
-// 代理的用户名和密码
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$strProxyUser:$strProxyPassWord");
-*/
 
 function getUrlKeyValue($url)
 {
@@ -139,10 +108,6 @@ echo <<<EOF
 EOF;
 exit();
 }
-/*
-echo ($searchTerms." - ".$title."<br>找到约 ".$totalResults." 条结果 (用时: ".$searchTime." 秒)  安全搜索: ".$safe."<br>当前页: ".$startIndex." (每页获取 ".$count." 条搜索结果)  下一页: ".$startIndexs);
-echo"<br><br>";
-*/
 
 if ($err)
 {
@@ -182,21 +147,6 @@ echo "<script type='text/javascript'>document.title = '".$searchTerms."_".$title
     }
     echo "<li><div class='ui-list-img-horizontal'><span style='background-image:url(".$zhongzhuan2.")'></span></div><div class='ui-list-info'><h4 class='ui-nowrap'><a href='".$v->link."' target='_blank'>".$v->htmlTitle."</a></h4><p class='ui-nowrap'>".$v->htmlFormattedUrl."<br>".$v->htmlSnippet."</div></li>";
     
-    /*
-       echo "<img src='image.php?imgurl=".$v->pagemap->cse_thumbnail[0]->src."' alt='图片抓取失败'>";
-       echo "<a href='".$v->link."'>".$v->htmlTitle."</a><br>";
-       echo $v->htmlFormattedUrl."<br>";
-       echo $v->htmlSnippet."<hr>";
-       */
-       
-       /*
-       echo $v->htmlTitle."<br>";
-       echo $v->htmlFormattedUrl."<br>";
-       echo $v->htmlSnippet."<br>";
-       echo $v->link."<br>";
-       echo $v->pagemap->cse_thumbnail[0]->src."<br>";
-       echo $v->pagemap->cse_image[0]->src."<br>";
-       */
   }
     if ($zhongzhuan)
     {

@@ -31,6 +31,7 @@ $mangle = array(
 $nat = array(
     //nat表
     "iptables -t nat -N pre_forward",
+    "iptables -t nat -N user_portal",
     "iptables -t nat -N out_lan",
     "iptables -t nat -N out_forward",
     "iptables -t nat -N koolproxy_forward",
@@ -48,6 +49,7 @@ $nat = array(
     "iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053",
     "iptables -t nat -A OUTPUT -j out_lan",
     //路由前的流量
+    "iptables -t nat -A pre_forward -j user_portal",
     "iptables -t nat -A pre_forward -j koolproxy_forward",
     "iptables -t nat -A pre_forward -j out_forward",
     "iptables -t nat -A PREROUTING -s 192.168/16 -j pre_forward"
@@ -76,6 +78,8 @@ $stop_iptables = array(
     "iptables -t nat -D OUTPUT -j out_lan",
     "iptables -t nat -F pre_forward",
     "iptables -t nat -X pre_forward",
+    "iptables -t nat -F user_portal",
+    "iptables -t nat -X user_portal",
     "iptables -t nat -F out_lan",
     "iptables -t nat -X out_lan",
     "iptables -t nat -F koolproxy_forward",
@@ -89,6 +93,8 @@ $stop_iptables = array(
 $status_iptables = array(
     //echo -e "nat表pre_forward链:"
     "iptables -vxn -t nat -L pre_forward --line-number",
+    //echo -e "nat表user_portal链:"
+    "iptables -vxn -t nat -L user_portal --line-number",
     //echo -e "nat表out_lan链:"
     "iptables -vxn -t nat -L out_lan --line-number",
     //echo -e "nat表koolproxy_forward链:"

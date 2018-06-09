@@ -22,17 +22,11 @@
 <div class="ui-form-item ui-form-item-switch ui-border-b">服务开关<label class="ui-switch"><input type="checkbox" id="tor" name="tor"></label></div>
 
 <?php
-require "../Shadowsocks/busybox.php";
-
 session_start();
-function set_token() {
-  $_SESSION['token'] = md5(microtime(true));
-}
-function valid_token() {
-  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
-  set_token();
-  return $return;
-}
+require "../Tool/busybox.php";
+require "../Tool/token.php";
+require "../Tool/input.php";
+
 if(!isset($_SESSION['token']) || $_SESSION['token']=='') {
   set_token();
 }
@@ -56,27 +50,6 @@ $binary_file=sys_get_temp_dir()."/tor";
 if (!is_executable($binary_file) and file_exists('tor')) {
     copy('tor', $binary_file);
     chmod($binary_file, 0777);
-}
-
-
-function getUrlKeyValue($url)
-{
-    $result = array();
-    $mr = preg_match_all('/(\?|&)(.+?)=([^&?]*)/i', $url, $matchs);
-    if ($mr !== false) {
-        for ($i = 0; $i < $mr; $i++) {
-            $result[$matchs[2][$i]] = $matchs[3][$i];
-        }
-    }
-    return $result;
-}
-
-function test_input($data) {
-   $data = trim($data);
-   $data = stripslashes($data);
-   $data = htmlspecialchars($data);
-   $data = urldecode($data);
-   return $data;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {

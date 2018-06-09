@@ -1,5 +1,5 @@
 <?php
-require "busybox.php";
+require "../Tool/busybox.php";
 
 $mangle = array(
     //mangle表
@@ -22,6 +22,7 @@ $mangle = array(
     "ip rule add fwmark 0x2333/0x2333 table 123",
     "iptables -t mangle -A redsocks2_out -j redsocks2_lan",
     "iptables -t mangle -A redsocks2_out -o lo -j ACCEPT",
+    "iptables -t mangle -A redsocks2_out -o tun+ -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -s 192.168/16 -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -m owner --uid-owner 3004 -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -p udp -j MARK --set-mark 0x2333/0x2333",
@@ -37,6 +38,7 @@ $nat = array(
     "iptables -t nat -N koolproxy_forward",
     //本机发出同意
     "iptables -t nat -A out_lan -o lo -j ACCEPT",
+    "iptables -t nat -A out_lan -o tun+ -j ACCEPT",
     "iptables -t nat -A out_lan -d 127/8 -j ACCEPT",
     "iptables -t nat -A out_lan -s 192.168/16 -j ACCEPT",
     "iptables -t nat -A out_lan -d 192.168/16 -j ACCEPT",
@@ -140,7 +142,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
                 file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
             }
             if ($server) {
-             file_put_contents($tmp_file, "iptables -t mangle -I redsocks2_out 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+             file_put_contents($tmp_file, "iptables -t mangle -I redsocks2_out 3 -d $server/24 -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
     }
@@ -160,7 +162,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
         file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX); 
         }
         if ($server) {
-             file_put_contents($tmp_file, "iptables -t nat -I out_lan 5 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+             file_put_contents($tmp_file, "iptables -t nat -I out_lan 5 -d $server/24 -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
     foreach ($filter as $value) {

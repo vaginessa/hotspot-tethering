@@ -19,48 +19,8 @@
  <body ontouchstart="">
 <?php
 require_once 'config.php';
-
-function getUrlKeyValue($url)
-{
-    $result = array();
-    $mr = preg_match_all('/(\?|&)(.+?)=([^&?]*)/i', $url, $matchs);
-    if ($mr !== false) {
-        for ($i = 0; $i < $mr; $i++) {
-            $result[$matchs[2][$i]] = $matchs[3][$i];
-        }
-    }
-    return $result;
-}
-
-function test_input($data) {
-   $data = trim($data);
-   $data = stripslashes($data);
-   $data = htmlspecialchars($data);
-   return $data;
-}
-
-function curlGet($surl)  
-{  
-    $ssl = substr($surl, 0, 8) == "https://" ? TRUE : FALSE;  
-    $ch = curl_init();  
-    $opt = array(  
-            CURLOPT_URL     => $surl,  
-            CURLOPT_USERAGENT    => $_SERVER ['HTTP_USER_AGENT'],  
-            CURLOPT_COOKIE  => '',
-            CURLOPT_HEADER  => false,  
-            CURLOPT_RETURNTRANSFER  => true,  
-            CURLOPT_TIMEOUT => 30,  
-            );  
-    if ($ssl)  
-    {  
-        $opt[CURLOPT_SSL_VERIFYHOST] = 1;  
-        $opt[CURLOPT_SSL_VERIFYPEER] = FALSE;  
-    }  
-    curl_setopt_array($ch, $opt);  
-    $data = curl_exec($ch);  
-    curl_close($ch);
-    return $data;
-}
+require "../Tool/curl.php";
+require "../Tool/input.php";
 
 $decodeurl = getUrlKeyValue(urldecode(base64_decode($_GET['encryption'])));
 
@@ -86,7 +46,7 @@ $newurl = $URL.urlencode($text)."&safe=".$safe."&start=".$start."&num=".$NUM."&c
 //print_r($newurl);
 
 //获取数据
-$data = curlGet($newurl); 
+$data = GET($newurl); 
 
 if ($data)
 {

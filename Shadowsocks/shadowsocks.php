@@ -1,9 +1,10 @@
 <?
-date_default_timezone_set('Asia/Shanghai');
-header("Content-Type: text/html;charset=utf-8");
 session_start(); 
+require "../Tool/token.php";
+require "../Tool/ssurl.php";
+require "../Tool/input.php";
 require "iptables.php";
-require "ssurl.php";
+
 
 //命令查找
 $pkill = busybox_check("pkill");
@@ -16,18 +17,6 @@ foreach ($status_binary as $value) {
         chmod($binary_file, 0700);
     }
 }
-
-
-
-function set_token() { 
-     $_SESSION['token'] = md5(microtime(true)); 
- } 
- 
-function valid_token() { 
-     $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false; 
-     set_token(); 
-     return $return; 
- } 
 
 if (!valid_token()) { 
     header('Location: ../');
@@ -72,13 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $kcpdscp = test_input($_GET['kcpdscp']);
 }
 
-function test_input($data) {
-   $data = trim($data);
-   $data = stripslashes($data);
-   $data = htmlspecialchars($data);
-   return $data;
-}
-
 //服务器是否ss://链接然后解析
 if(strpos("$server",'ss://') !== false) {
    if(stripos("$server",'@') !== false) {
@@ -94,11 +76,7 @@ if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password a
 //如果开关按钮关闭
 iptables_stop($stop_iptables, $status_binary, true);
 sleep(1);
-header('Location: ../');
-//header('Refresh:2,Url=./');
-//echo 'shadowsocks已经关闭！2s 后跳转';
-//由于只是普通页面展示，提示的样式容易定制
-die();
+die(header('Location: ../'));
 }
 
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
@@ -128,7 +106,7 @@ if ($server) {
 //传送参数执行iptables规则
    iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp);
 } else {
-   die("没有获取到服务器信息!");
+   die('没有获取到服务器信息!');
 }
 
 //写出配置

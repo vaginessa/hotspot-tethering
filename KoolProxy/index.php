@@ -1,27 +1,19 @@
 <?php
 session_start();
 clearstatcache();
-require "../Shadowsocks/busybox.php";
-$ps=busybox_check("ps");
-$pkill=busybox_check("pkill");
-function set_token() {
-    $_SESSION['token'] = md5(microtime(true));
-}
-function valid_token() {
-    $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
-    set_token();
-    return $return;
-}
-//如果token为空则生成一个token
+require '../Tool/busybox.php';
+require '../Tool/token.php';
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
     set_token();
 }
 if (isset($_GET['token'])) {
     if (!valid_token()) die("请勿重复提交表单");
 }
+$ps=busybox_check("ps");
+$pkill=busybox_check("pkill");
 if (!is_file('koolproxy')) die('程序主文件不见了');
 if (!is_dir('rules/')) die('程序配置文件夹不见了');
-$binary_file = sys_get_temp_dir() . "/koolproxy";
+$binary_file = sys_get_temp_dir()."/koolproxy";
 if (!is_executable($binary_file) and file_exists('koolproxy')) {
     copy('./koolproxy', $binary_file);
     chmod($binary_file, 0700);

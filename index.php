@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/html;charset=utf-8");
-require "Shadowsocks/busybox.php";
+require "./Tool/busybox.php";
 $ps=busybox_check("ps");
 $run_list=shell_exec("su -c $ps -A");
 if (stripos("$run_list", 'aria2c') !== false) {
@@ -115,7 +115,7 @@ function net(of) {
             alert(at);
         }
     };
-    xhttp.open("POST", "Connections.php", true);
+    xhttp.open("POST", "./Tool/Connections.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(encodeURI("sjwl=" + of));
 }
@@ -135,7 +135,7 @@ function net(of) {
   }
   var date = new Date();
   var year = date.getFullYear();
-  document.getElementById("footer").innerHTML="© 2018-"+year+" 爱翻墙的红杏";
+  document.getElementById("footer").innerHTML="Copyright © 2018-"+year+" 爱翻墙的红杏 All Rights Reserved";
   //setTimeout('myrefresh()',20000); 
 </script> 
 

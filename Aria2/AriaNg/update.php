@@ -3,8 +3,8 @@
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui" name="viewport">
 <?php
 //https://m.jb51.net/article/26604.htm
-require "../../Tool/curl.php";
-require "../../Tool/busybox.php";
+require "../../Tools/curl.php";
+require "../../Tools/busybox.php";
 $pkill=busybox_check("pkill");
 $data = GET("https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt");
 if (empty($data)) die("下载文件失败");

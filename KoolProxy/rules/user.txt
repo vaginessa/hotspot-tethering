@@ -46,7 +46,7 @@
 !  未来将逐步添加相关语法，兼容adblock puls的更多语法，敬请期待。
 !  ******************************************************************************************
 
-! yaohuo.me##.adsbygoogle,.google,[src="/adlink-20.html"]
+|yaohw.com##.adsbygoogle,#aswift_0,ins
 |http://music.163.com/upload/
 |http://static.ads-twitter.com
 www.quanben.io##amp-ad
@@ -61,3 +61,8 @@ www.quanben.io##amp-ad
 |http://yaohuo.me$r@http://yaohuo.me/*@http://yaohw.com@
 |https://yaohuo.me$r@https://yaohuo.me/*@https://yaohw.com@
 |https://sj.uukanshu.com##.adsbygoogle
+|https://s.ip-cdn.com/img/a_hb.jpg
+|https://s.ip-cdn.com/img/ali_hb.jpg
+|https://adservice.google.com
+@@connectivitycheck.gstatic.com
+@@www.google.com/gen_204

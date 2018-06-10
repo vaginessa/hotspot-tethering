@@ -1,5 +1,6 @@
 <?php
-if (!isset($_POST["sjwl"])) die("拒绝访问!");
+session_start();
+if (empty($_SESSION['from'])) die("拒绝访问!");
 function Data_network_connection($of) { 
 if ($of == "on") { 
 shell_exec("su -c svc data enable"); 

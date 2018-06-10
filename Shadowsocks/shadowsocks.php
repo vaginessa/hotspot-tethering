@@ -1,8 +1,8 @@
 <?
 session_start(); 
-require "../Tool/token.php";
-require "../Tool/ssurl.php";
-require "../Tool/input.php";
+require "../Tools/token.php";
+require "../Tools/ssurl.php";
+require "../Tools/input.php";
 require "iptables.php";
 
 

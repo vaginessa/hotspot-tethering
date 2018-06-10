@@ -1,6 +1,7 @@
 <?php
-header("Content-Type: text/html;charset=utf-8");
-require "./Tool/busybox.php";
+session_start();
+$_SESSION['from'] = 'home';
+require "./Tools/busybox.php";
 $ps=busybox_check("ps");
 $run_list=shell_exec("su -c $ps -A");
 if (stripos("$run_list", 'aria2c') !== false) {
@@ -115,7 +116,7 @@ function net(of) {
             alert(at);
         }
     };
-    xhttp.open("POST", "./Tool/Connections.php", true);
+    xhttp.open("POST", "./Tools/Connections.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(encodeURI("sjwl=" + of));
 }

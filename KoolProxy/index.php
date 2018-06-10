@@ -1,14 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="HandheldFriendly" content="true">
+    <title>KoolProxy</title>
+
+    
+    <link rel="stylesheet" href="../css/frozenui.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+
+    
+</head>
+
+<body ontouchstart onload="checkCookie()">
+
+
 <?php
 session_start();
+if (empty($_SESSION['from'])) die("拒绝访问!");
 clearstatcache();
-require '../Tool/busybox.php';
-require '../Tool/token.php';
+require '../Tools/busybox.php';
+require '../Tools/token.php';
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
     set_token();
 }
 if (isset($_GET['token'])) {
     if (!valid_token()) die("请勿重复提交表单");
 }
+
 $ps=busybox_check("ps");
 $pkill=busybox_check("pkill");
 if (!is_file('koolproxy')) die('程序主文件不见了');
@@ -36,17 +59,28 @@ if (isset($usergz)) {
 file_put_contents('./rules/user.txt', $usergz, LOCK_EX);
 }
 
+
+function zx_input($yxfile,$yx) {
+  if (file_exists($yxfile) or is_executable($yxfile)) unlink($yxfile);
+        file_put_contents($yxfile, $yx, LOCK_EX);
+        chmod($yxfile, 0700);
+        shell_exec("su -c sh $yxfile");
+}
+
+$yxfile=sys_get_temp_dir()."/koolproxy.sh";
+
+$jsyx="$pkill koolproxy".PHP_EOL."iptables -t nat -F koolproxy_forward";
+
 if (isset($guolv)) {
     if ($koolproxy == 'on') {
         if ($guolv == "video") $e="-e";
-        shell_exec("su -c ".$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d");
-        shell_exec("su -c iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029");
+        $yx=$jsyx.PHP_EOL.$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
+        zx_input($yxfile,$yx);
         sleep(1);
         header('Location: ../');
     }
     if (empty($koolproxy) and $guolv and $token) {
-        shell_exec("su -c $pkill koolproxy");
-        shell_exec("su -c iptables -t nat -F koolproxy_forward");
+        zx_input($yxfile,$jsyx);
         sleep(1);
         header('Location: ../');
     }
@@ -58,25 +92,7 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no, email=no">
-    <meta name="HandheldFriendly" content="true">
-    <title>KoolProxy</title>
-
-    
-    <link rel="stylesheet" href="../css/frozenui.css">
-    <link rel="stylesheet" href="../css/style.css">
-    
-
-    
-</head>
-
-<body ontouchstart onload="checkCookie()">
     <section class="ui-container">
         
 <section id="tab">

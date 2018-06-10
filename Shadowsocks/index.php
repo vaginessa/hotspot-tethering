@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../Tool/busybox.php";
+require "../Tools/busybox.php";
 $ps=busybox_check("ps");
 $_SESSION['token'] = md5(microtime(true));
 //检查ss进程是否存在

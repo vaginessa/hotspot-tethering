@@ -23,9 +23,9 @@
 
 <?php
 session_start();
-require "../Tool/busybox.php";
-require "../Tool/token.php";
-require "../Tool/input.php";
+require "../Tools/busybox.php";
+require "../Tools/token.php";
+require "../Tools/input.php";
 
 if(!isset($_SESSION['token']) || $_SESSION['token']=='') {
   set_token();

@@ -2,7 +2,7 @@
 //magnet:?xt=urn:btih:
 //不要谢我！:)
 clearstatcache();
-require "../Tool/busybox.php";
+require "../Tools/busybox.php";
 $ps=busybox_check("ps");
 
 if(!is_file('./aria2c')) {

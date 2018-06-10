@@ -33,8 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $start = test_input($decodeurl['start']);   
 }
 
-if (empty($text or $safe))
-{
+if (empty($text) or empty($safe)) {
 die("请不要乱修改URL参数。谢谢！<br><a href='./'>返回首页</a></body></html>");
 }
 

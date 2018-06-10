@@ -1,7 +1,6 @@
 <?php
-//$ip = $_SERVER['SERVER_ADDR'];
-//$port = $_SERVER['SERVER_PORT'];
+session_start();
+$_SESSION['from'] = 'login';
 header("HTTP/1.1 302 Found");
 header("Location: ./Welcom/");
-exit();
 ?>

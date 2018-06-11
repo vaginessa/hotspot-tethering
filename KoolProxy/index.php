@@ -20,11 +20,11 @@
 
 
 <?php
+require '../tools/Certified.php';
 session_start();
-if (empty($_SESSION['from'])) die("拒绝访问!");
 clearstatcache();
-require '../Tools/busybox.php';
-require '../Tools/token.php';
+require '../tools/busybox.php';
+require '../tools/token.php';
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
     set_token();
 }
@@ -77,12 +77,12 @@ if (isset($guolv)) {
         $yx=$jsyx.PHP_EOL.$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
         zx_input($yxfile,$yx);
         sleep(1);
-        header('Location: ../');
+        header('Location: ./');
     }
     if (empty($koolproxy) and $guolv and $token) {
         zx_input($yxfile,$jsyx);
         sleep(1);
-        header('Location: ../');
+        header('Location: ./');
     }
 }
 if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
@@ -96,7 +96,7 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
     <section class="ui-container">
         
 <section id="tab">
-    <a href="../"><h1 class="title">koolproxy</h1></a>
+    <a href="../Admin"><h1 class="title">koolproxy</h1></a>
     <div class="demo-item">
         <p class="demo-desc"><?php echo "版本 ".shell_exec(sys_get_temp_dir()."/koolproxy -v"); ?></p>
         <div class="demo-block">
@@ -196,7 +196,7 @@ function update() {
     };
     xhttp.open("POST", "update.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(encodeURI("rand=" + Math.random()));
+    xhttp.send("rand=" + Math.random());
 }
 </script>
 

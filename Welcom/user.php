@@ -1,4 +1,5 @@
 <?php
+require '../tools/Certified.php';
 //错误屏蔽
 error_reporting(0);
 //修正时间
@@ -8,17 +9,34 @@ $date=date("Y-m-d H:i:s");
 //时间戳
 $time=time();
 
+$user_file="user.json";
 //获取用户文件
-$json_string=file_get_contents("user.json");
+$json_string=file_get_contents($user_file);
 //json解码
 $data=json_decode($json_string, true);
 //生成用户名
 $user_count=count($data)."_$time";
 
 //创建json文件
-if (!is_array($data) or !is_object($data)) {
-    file_put_contents("user.json", '[]', LOCK_EX);
+/*
+if (!is_array($data)) {
+    //file_put_contents($user_file, '[]', LOCK_EX);
 }
+*/
+
+//用户状态改变函数
+function user_change($data, $status, $user_mac) {
+    foreach ($data as $key => $value) {
+        foreach ($value as $user => $info) {
+            $macaddress = $info['mac_address'];
+            if ($macaddress == "$user_mac") {
+                $data[$key][$user]['status']="$status";
+            }
+        }
+    }
+    return array_filter($data);
+}
+
 
 //用户添加函数
 function user_add($data, $user_count, $date, $user_ip, $user_mac) {
@@ -26,28 +44,29 @@ function user_add($data, $user_count, $date, $user_ip, $user_mac) {
         "user_$user_count" => array(
             'ip_address' => "$user_ip",
             'mac_address' => "$user_mac",
+            'status' => "OK",
             'up_time' => "$date"
         )
     );
     array_push($data, $add_user);
-    return $data;
+    return array_filter($data);
 }
 
 
 //删除用户函数
 function user_del($data, $user_count, $user_ip, $user_mac) {
-    for ($i = 0; $i < count($data); $i++) {
-        foreach ($data[$i] as $user => $info) {
+    foreach ($data as $key => $value) {
+        foreach ($value as $user => $info) {
             $ipaddress = $info['ip_address'];
             $macaddress = $info['mac_address'];
             if ($user == "$user_count") {
-                unset($data[$i][$user]);
+                unset($data[$key][$user]);
             }
             if ($ipaddress == "$user_ip") {
-                unset($data[$i][$user]);
+                unset($data[$key][$user]);
             }
             if ($macaddress == "$user_mac") {
-                unset($data[$i][$user]);
+                unset($data[$key][$user]);
             }
         }
     }
@@ -65,6 +84,23 @@ function get_mac($user_ip) {
         if ($ip == "$user_ip" and $mac) {
             return $mac;
         }
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $yhdz = $_POST['yhdz'];
+    $yhmac = $_POST['yhmac'];
+    $number = $_POST['number'];
+}
+if ($yhdz and $yhmac and $number) {
+    if ($yhdz == "activation") {
+        file_put_contents($user_file, json_encode(user_change($data, "OK", $yhmac)) , LOCK_EX);
+    }
+    if ($yhdz == "block") {
+        file_put_contents($user_file, json_encode(user_change($data, "Block", $yhmac)) , LOCK_EX);
+    }
+    if ($yhdz == "deleted") {
+        file_put_contents($user_file, json_encode(user_del($data, '', '', $yhmac)) , LOCK_EX);
     }
 }
 ?>

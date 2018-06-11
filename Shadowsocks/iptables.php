@@ -1,5 +1,6 @@
 <?php
-require "../Tools/busybox.php";
+require '../tools/Certified.php';
+require "../tools/busybox.php";
 
 $mangle = array(
     //mangle表

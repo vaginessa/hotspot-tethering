@@ -1,8 +1,9 @@
 <?php
+require '../tools/Certified.php';
 //magnet:?xt=urn:btih:
 //不要谢我！:)
 clearstatcache();
-require "../Tools/busybox.php";
+require "../tools/busybox.php";
 $ps=busybox_check("ps");
 
 if(!is_file('./aria2c')) {
@@ -33,7 +34,7 @@ if(!is_file('./dht.dat')) {
 touch('./dht.dat');
 }
 
-$binary = sys_get_temp_dir()."/aria2c";
+$binary=sys_get_temp_dir()."/aria2c";
 
 if(!is_executable($binary) and file_exists('aria2c')) {
 copy('aria2c', $binary);

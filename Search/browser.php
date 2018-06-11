@@ -19,8 +19,8 @@
  <body ontouchstart="">
 <?php
 require_once 'config.php';
-require '../Tools/curl.php';
-require '../Tools/input.php';
+require '../tools/curl.php';
+require '../tools/input.php';
 
 $decodeurl = getUrlKeyValue(urldecode(base64_decode($_GET['encryption'])));
 

@@ -1,116 +1,116 @@
+<?php
+require '../tools/Certified.php';
+session_start();
+/*
+if ($_SESSION['from'] == 'login') {
+header("HTTP/1.1 302 Found");
+header("Location: ./Welcom/");
+die('你无权访问本页面');
+}
+*/
+?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<?php
-session_start();
-if ($_SESSION['from'] != 'login') {
-    die("你无权访问本页面");
-} else {
-    unset($_SESSION['from']);
-}
-require "../Tools/token.php";
-if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
-    set_token();
-}
-if (isset($_GET['token'])) {
-    if (!valid_token()) {
-        die("请勿重复提交表单!");
-    }
-}
-require "./user.php";
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $user_ip = $_SERVER['REMOTE_ADDR'];
-    $user_mac = get_mac($user_ip);
-}
-if (empty($user_ip) or empty($user_mac)) {
-    die('获取用户信息失败！');
-}
-
-file_put_contents('user.json', json_encode(user_del($data,'','',$user_mac)), LOCK_EX);
-file_put_contents('user.json', json_encode(user_add($data, $user_count, $date, $user_ip, $user_mac)), LOCK_EX);
-$command_file=sys_get_temp_dir()."/user.sh";
-$command_run="iptables -t nat -D user_portal -p tcp -m tcp -d $user_ip -m mac --mac-source $user_mac -j ACCEPT".PHP_EOL."iptables -t nat -I user_portal -p tcp -m tcp -d $user_ip -m mac --mac-source $user_mac -j ACCEPT";
-file_put_contents($user_shell, $command_run, LOCK_EX);
-if (!is_executable($command_file) and file_exists($command_file)) {
-    chmod($command_file, 0700);
-}
-shell_exec("su -c $command_file");
-?>
-
-<title>上网欢迎页（事例）</title>
-<style>
-    /*此DEMO适合0基础用户使用，只需替换图片及文字即可*/
-html,body{
-    background-color:#ededed;/*定义背景颜色*/
-    height:100%;padding:0;margin:0;
-    font-family: "Microsoft Yahei",Helvetica,Arial,sans-serif;
-}
-p{padding: 0;margin: 0;}
-a {text-decoration: none;}
-img{display:block;border:none;width: 100%;}
-
-/* logo */
-.logo{
-    width:150px;/*定义LOGO宽度*/
-    padding:10px;
-}
-/* container */
-.container{max-width:720px;margin: auto;}
-.main img {width: 100%;}
-.btn-bar{
-    margin-top:40px;/*设置按钮与主图间隔距离*/
-    text-align: center;/*设置按钮排版对齐方式 可选参数 left、center、right*/
-    padding:0 10px;
-}
-/*定义按钮样式*/
-.btn{
-    background-color: #2eb3e8;/*定义按钮颜色*/
-    color:#ffffff;/*定义按钮文字颜色*/
-	font-size: 18px;/*定义按钮文字大小*/
-	padding:10px 20px;
-    border:none;
-    display: block;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-}
-    .text-area {
-        font-size: 18px;
-        color: #666;
-        line-height: 1.5em;
-        padding: 10px;
-        text-align: center;
-    }
-    .title {
-        font-size: 24px;
-        padding-bottom:25px;
-        color: #333;
-        text-align: center;
-    }
-</style>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="HandheldFriendly" content="true">
+    <title>欢迎页设置</title>
+    <link rel="stylesheet" href="../css/frozenui.css">
+    <link rel="stylesheet" href="../css/style.css">    
 </head>
-<body>
 
-<div class="container">
-    <div class="logo">
-        <img src="logo.png" alt="HiWiFi"><!--src="LOGO文件"-->
-    </div>
-    <div class="main">
-        <img src="main.png" alt="HiWiFi"/><!--主图片宽度建议不超过720px-->
-    </div>
-    <div class="text-area">
-        <p class="title">欢迎光临XXX店</p>
-        <p>营业时间：9:00--21:00</p>
-        <p>电话：<a href="tel:+86123456789">+86 123456789</a></p>
-    </div>
-    <div class="btn-bar">
-		<a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?token=".$_SESSION["token"];?>" class="btn" >
-			点击上网
-		</a>
-    </div>
-</div>
+<body ontouchstart>
+
+<section class="ui-container"><section id="actionsheet"><a href="../Admin"><h1 class="title">欢迎页设置</h1></a><div class="demo-item">		<p class="demo-desc">菜单</p>		<div class="demo-block">			<div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('kq')">开启热点欢迎页</button>					<button onclick="iptables('cz')">设置写入用户表规则</button>     <button onclick="help_about();">帮助关于</button>     <button class="ui-actionsheet-del" onclick="iptables('gb')">关闭热点欢迎页</button>					<div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">设置选择菜单</button></div></section>
+<?php
+    $user_file="user.json";
+    $data=json_decode(file_get_contents($user_file), true);
+?>
+<section class="ui-container"><section id="table"><div class="demo-item"><p class="demo-desc">用户表: <?php echo "共 <b style=\"color:#ee82ee\">".count($data)."</b> 位用户" ?></p><div class="demo-block"><table class="ui-table ui-border"><thead><tr><th>用户名</th><th>MAC地址</th><th>状态</th></tr></thead><tbody>
+<?php
+    foreach ($data as $key => $value) {
+        foreach ($value as $user => $info) {
+            $ipaddress = $info['ip_address'];
+            $macaddress = $info['mac_address'];
+            $status = $info['status'];
+            $uptime = $info['up_time'];
+echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $uptime')\">$user</a></td><td>$macaddress<br><span onclick=\"activation('$macaddress')\" style=\"color:green\">激活</span>&nbsp&nbsp&nbsp<a href=\"javascript:block('$macaddress')\" class=\"ui-txt-highlight\">拉黑</a>&nbsp&nbsp&nbsp<a href=\"javascript:deleted('$macaddress')\" class=\"ui-txt-warning\">删除</a></td><td><a href=\"javascript:status('$status')\" class=\"ui-txt-feeds\">$status</a></td></tr>";
+        }
+    }
+?>
+</tbody></table></div></div></section></section>
+
+    
+<script src="../js/zepto.min.js"></script>    
+<script type="text/javascript">
+(function (doc, win) {
+     $("#btn1").click(function(){
+    		$('.ui-actionsheet').addClass('show');
+    	});
+    	$("#cancel").click(function(){
+    		$(".ui-actionsheet").removeClass("show");
+    	});
+})(document, window);
+function iptables(command) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var at = xhttp.responseText;
+            //alert(at);
+            $(".ui-actionsheet").removeClass("show");
+        }
+    };
+    xhttp.open("POST", "portal.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  if (confirm("确认执行此操作？")==true) { 
+    xhttp.send("command="+command+"&number="+Math.random());
+  }
+}
+</script>
+<script type="text/javascript">
+function toast(tos) { 
+alert(tos); 
+}
+function help_about() { 
+alert("iptables流量定向\nhttp端口: 8080 https端口: 4433\n请设置好ksweb的监听端口"); 
+}
+function status(status) { 
+if(status=='OK') alert("状态: 正常"); 
+if(status=='Block') alert("状态: 被墙");
+}
+function activation(user) { 
+if (confirm("激活MAC地址: "+user)==true)
+  {
+  command("activation",user);
+  }
+}
+function block(user) { 
+if (confirm("拉黑MAC地址: "+user)==true)
+  {
+  command("block",user);
+  }
+}
+function deleted(user) { 
+if (confirm("删除MAC地址: "+user)==true)
+  {
+  command("deleted",user);
+  }
+}
+</script> 
+<script type="text/javascript">
+function command(o,f) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.href="";
+        }
+    };
+    xhttp.open("POST", "user.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("yhdz="+o+"&yhmac="+f+"&number="+Math.random());
+}
+</script>
 
 </body>
 </html>

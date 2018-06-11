@@ -1,6 +1,7 @@
 <?php
+require '../tools/Certified.php';
 session_start();
-require "../Tools/busybox.php";
+require "../tools/busybox.php";
 $ps=busybox_check("ps");
 $_SESSION['token'] = md5(microtime(true));
 //检查ss进程是否存在
@@ -27,7 +28,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
  <body ontouchstart="">
 
   <section> 
-   <a href="../"><h1 class="title">Shadowsocks</h1></a> 
+   <a href="../Admin"><h1 class="title">Shadowsocks</h1></a> 
    <div class="demo-item"> 
     <p class="demo-desc">服务器设置</p> 
     <div class="demo-block"> 

@@ -1,8 +1,9 @@
 <?
+require '../tools/Certified.php';
 session_start(); 
-require "../Tools/token.php";
-require "../Tools/ssurl.php";
-require "../Tools/input.php";
+require "../tools/token.php";
+require "../tools/ssurl.php";
+require "../tools/input.php";
 require "iptables.php";
 
 
@@ -19,7 +20,7 @@ foreach ($status_binary as $value) {
 }
 
 if (!valid_token()) { 
-    header('Location: ../');
+    header('Location: ./');
     die("请勿重复提交表单");
  }
 
@@ -76,7 +77,7 @@ if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password a
 //如果开关按钮关闭
 iptables_stop($stop_iptables, $status_binary, true);
 sleep(1);
-die(header('Location: ../'));
+die(header('Location: ./'));
 }
 
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
@@ -204,7 +205,7 @@ if ($udp == 'on' and $gost_server and $gost_server_port) {
    shell_exec("su -c $binary -c $peizhi > /dev/null 2>&1 &");
 }
 sleep(1);
-header('Location: ../');
+header('Location: ./');
 
 }//
 

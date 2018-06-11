@@ -1,7 +1,7 @@
 <?php
+require '../tools/Certified.php';
 session_start();
-if (empty($_SESSION['from'])) die("拒绝访问!");
-require '../Tools/curl.php';
+require '../tools/curl.php';
 date_default_timezone_set("Asia/Shanghai");
 $date = date("Y-m-d H:i:s");
 if (!isset($_POST["rand"])) die("拒绝访问！$date");

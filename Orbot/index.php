@@ -12,7 +12,7 @@
  <body ontouchstart="" onload="checkCookie()">
 
   <section id="form"> 
-   <a href="../"><h1 class="title">Tor配置</h1></a> 
+   <a href="../Admin"><h1 class="title">Tor配置</h1></a> 
    <div class="demo-item"> 
     <p class="demo-desc">torrc文件配置</p> 
     <div class="demo-block"> 
@@ -22,10 +22,11 @@
 <div class="ui-form-item ui-form-item-switch ui-border-b">服务开关<label class="ui-switch"><input type="checkbox" id="tor" name="tor"></label></div>
 
 <?php
+require '../tools/Certified.php';
 session_start();
-require "../Tools/busybox.php";
-require "../Tools/token.php";
-require "../Tools/input.php";
+require "../tools/busybox.php";
+require "../tools/token.php";
+require "../tools/input.php";
 
 if(!isset($_SESSION['token']) || $_SESSION['token']=='') {
   set_token();
@@ -81,7 +82,7 @@ if (isset($token) and $tor == 'on') {
         $yx="iptables -t nat -F out_forward".PHP_EOL."iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports $tcpport".PHP_EOL."iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports $udpport".PHP_EOL;
         zx_input($yxfile,$yx);
         sleep(1);
-        header('Location: ../');
+        header('Location: ./');
 }
 
 if (empty($tor) and $_GET['token']) {
@@ -91,7 +92,7 @@ if (empty($tor) and $_GET['token']) {
         zx_input($yxfile,$yx);
         echo "<div class='ui-loading-wrap'><p>等待关闭完成...</p><i class='ui-loading'></i></div>";
         sleep(1);
-        exit(header('Refresh:2,Url=../'));
+        exit(header('Refresh:2,Url=./'));
         }
     }
 
@@ -167,7 +168,7 @@ function checkCookie() {
         setCookie('tor_msg', 'yes', 365)
     } else {
         //alert("取消");
-        window.location.href = '../'
+        window.location.href = '../Admin'
     }
 }
 </script>

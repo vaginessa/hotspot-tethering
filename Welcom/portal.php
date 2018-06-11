@@ -40,19 +40,19 @@ if ($command and $number) {
 $command_run="$command_gb".PHP_EOL."$command_kq";
     iptables_writ($command_file, $command_run);
     echo "已经执行开启,你可能需要加载用户表规则。";
-    //shell_exec("su -c $command_file");
+    shell_exec("su -c $command_file");
     }
     if ($command == "gb") {
     iptables_writ($command_file, $command_gb);
     echo "已经执行了关闭。";
-    //shell_exec("su -c $command_file");
+    shell_exec("su -c $command_file");
     }
     if ($command == "cz") {
 $command_run="$command_gb".PHP_EOL."$command_kq".PHP_EOL;
     file_put_contents($command_file, $command_run, LOCK_EX);
     iptables_sz_writ($data, $command_file);
     echo "已经加载用户表规则。";
-    //shell_exec("su -c $command_file");
+    shell_exec("su -c $command_file");
     }
 }
 ?>

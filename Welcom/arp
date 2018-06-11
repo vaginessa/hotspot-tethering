@@ -1,6 +1,0 @@
-IP address       HW type     Flags       HW address            Mask     Device
-192.168.1.254    0x1         0x2         00:30:0A:BD:6B:25     *        eth0
-10.1.8.11        0x1         0x2         00:03:FF:64:51:A6     *        eth1
-10.1.10.26       0x1         0x6         00:90:CC:D1:46:0F     *        eth1
-10.1.8.254       0x1         0x2         00:B0:64:6F:B9:A0     *        eth1
-202.22.30.10    0x1         0xc         00:00:00:00:00:00     *        eth0

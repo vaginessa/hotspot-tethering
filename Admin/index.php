@@ -35,16 +35,36 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
   <link rel="bookmark" href="../favicon.ico" />
   <link rel="stylesheet" href="../css/frozenui.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <style type="text/css">
+    #content {
+    position: relative;
+    }
+    #content img {
+    position: absolute;
+    top: 18px;
+    right: 28px;
+    width: 25px;
+    height: 25px;
+    }
+    #logout {
+    position: absolute;
+    margin: auto;
+    top: 45px;
+    right: 20px;
+    font-size:12px; 
+    color: #ee82ee;   
+    }
+    </style>    
  </head>
  <body ontouchstart="">
- <header class="ui-header ui-header-stable ui-border-b">
- <h1><b><?php echo U; ?></b></h1>
- <button onclick="logout()" class="ui-btn">退出登录</button>
- </header>
+ <div id="content">
+    <img src="../img/Network_shutdown2.png" alt="退出登录" onclick="logout()">
+  </div>
+  <div id="logout">退出登录</div>
   <section class="ui-container">
    <div class="index-wrap">
     <div class="header">
-     <a href="http://frozenui.github.io" target="_blank"><h1>热点远程管理</h1></a>
+     <a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1>热点远程管理</h1></a>
      <h2>体验更自然 触达更高效</h2>
     </div>
    </div>

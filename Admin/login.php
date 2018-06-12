@@ -43,12 +43,13 @@ die;
 		</div>
 
 <div class="copy-right">
-	<p>&copy; 2015 Ethos Login Form. All Rights Reserved</p>
-
+	<a href="mailto:yiguihai@gmail.com" id="footer" style="color: #eee; font-size: 16px;"></a>
 </div>
+<!--
 <div style="text-align:center;">
 <p>更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
 </div>
+-->
 <script type="text/javascript">
 function login() {
     var a = document.getElementById("username").value;
@@ -64,5 +65,10 @@ function login() {
     xhttp.send("username="+a+"&password="+b+"&sj="+Math.random());
 }
 </script>
+<script type="text/javascript">
+  var date = new Date();
+  var year = date.getFullYear();
+  document.getElementById("footer").innerHTML="Copyright © 2018-"+year+" 爱翻墙的红杏 All Rights Reserved";
+</script> 
 </body>
 </html>

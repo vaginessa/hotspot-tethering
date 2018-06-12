@@ -1,5 +1,7 @@
 # hotspot-tethering
-##安卓热点管理
+## 安卓热点管理 
+  
+后台管理地址为 http://localhost:8080/Admin/
 ### 推荐环境配置
 - [ ] ksweb安卓版
 - [x] Root权限
@@ -32,3 +34,6 @@ iptables流量定向
 http  | 80 8080 | 8080 |
 https  | 443 | 4433 | 
 所有  | 192.168.0.0/16 | 127.0.0.1 |
+
+/play letitgo
+:underage:

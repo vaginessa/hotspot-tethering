@@ -18,11 +18,9 @@ $data=json_decode($json_string, true);
 $user_count=count($data)."_$time";
 
 //创建json文件
-/*
 if (!is_array($data)) {
-    //file_put_contents($user_file, '[]', LOCK_EX);
+    file_put_contents($user_file, '[]', LOCK_EX);
 }
-*/
 
 //用户状态改变函数
 function user_change($data, $status, $user_mac) {

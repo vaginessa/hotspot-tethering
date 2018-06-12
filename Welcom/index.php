@@ -1,13 +1,10 @@
 <?php
-require '../tools/Certified.php';
 session_start();
-/*
 if ($_SESSION['from'] == 'login') {
-header("HTTP/1.1 302 Found");
-header("Location: ./Welcom/");
+header("Location: ./login.php");
 die('你无权访问本页面');
 }
-*/
+require '../tools/Certified.php';
 ?>
 <!DOCTYPE html>
 <html>

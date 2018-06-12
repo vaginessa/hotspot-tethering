@@ -1,5 +1,4 @@
 <?php
-require '../tools/Certified.php';
 //错误屏蔽
 error_reporting(0);
 //修正时间

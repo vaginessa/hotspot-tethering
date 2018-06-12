@@ -1,7 +1,11 @@
 # hotspot-tethering
 ## 安卓热点管理 
-  
-后台管理地址为 http://localhost:8080/Admin/
+     
+后台管理地址为 http://localhost:8080/Admin/  
+用户名和密码都是 __admin__ 放在 **/Admin/admin.php**  
+~~手机 -> 路由器中继 -> 热点机~~  
+暂时没找到方法  
+     
 ### 推荐环境配置
 - [ ] ksweb安卓版
 - [x] Root权限
@@ -33,8 +37,9 @@ iptables流量定向
 --------- | --------| --------- |
 http  | 80 8080 | 8080 |
 https  | 443 | 4433 | 
-所有  | 192.168.0.0/16 | 127.0.0.1 |  
+所有  | 192.168.0.0/16 | 127.0.0.1 |    
 
+# 预览图
 ![alt text](1.png)  
 ![alt text](2.png)  
 ![alt text](3.png)  

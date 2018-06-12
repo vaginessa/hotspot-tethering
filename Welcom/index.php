@@ -1,10 +1,11 @@
 <?php
 session_start();
-if ($_SESSION['from'] == 'login') {
+if (isset($_COOKIE["user_name"]) && isset($_COOKIE["pass_word"])) { 
+require '../tools/Certified.php';
+} else {
 header("Location: ./login.php");
 die('你无权访问本页面');
 }
-require '../tools/Certified.php';
 ?>
 <!DOCTYPE html>
 <html>

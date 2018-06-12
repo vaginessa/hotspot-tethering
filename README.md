@@ -7,15 +7,16 @@
 - [ ] php7.0+
 - [x] 配置好https
 
-以lighttpd为例:
-为了节省时间我已经配置制作了一个https证书，`lighttpd.pem`
+以lighttpd为例:  
+为了节省时间我已经用Termux制作好了一个https证书(`lighttpd.pem`)
 只需要在lighttpd.conf写入如下配置，即可
 ```
 $SERVER["socket"] == ":4433" { 
 ssl.engine = "enable" 
-ssl.pemfile = "/storage/emulated/0/lighttpd.pem" 
+ssl.pemfile = "/sdcard/lighttpd.pem" 
 }
 ```
+其中 ssl.pemfile 是你的证书存放绝对路径，例子中是放到sd卡目录下  
 然后测试 https://localhost:4433 是否可以访问? aria2使用https访问有点问题需要自己修改配置支持
 ```
 server.error-handler-404 = "/" 
@@ -30,4 +31,4 @@ iptables流量定向
 --------- | --------| --------- |
 http  | 80 8080 | 8080 |
 https  | 443 | 4433 | 
-其它  | * | 127.0.0.1 |
+所有  | 192.168.0.0/16 | 127.0.0.1 |

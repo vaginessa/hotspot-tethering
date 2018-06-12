@@ -1,7 +1,33 @@
 # hotspot-tethering
-安卓热点管理
-ksweb php7.0+
-https://drive.google.com/file/d/1CCin6u-Bk29ph6V2pomWztpAhXSBRhBj/view?usp=drivesdk
+##安卓热点管理
+### 推荐环境配置
+- [ ] ksweb安卓版
+- [x] Root权限
+- [x] 支持TPTOXY
+- [ ] php7.0+
+- [x] 配置好https
 
-![alt text](https://raw.githubusercontent.com/yiguihai/hotspot-tethering/master/1.png)
-![alt text](https://raw.githubusercontent.com/yiguihai/hotspot-tethering/master/2.png)
+以lighttpd为例:
+为了节省时间我已经配置制作了一个https证书，`lighttpd.pem`
+只需要在lighttpd.conf写入如下配置，即可
+```
+$SERVER["socket"] == ":4433" { 
+ssl.engine = "enable" 
+ssl.pemfile = "/storage/emulated/0/lighttpd.pem" 
+}
+```
+然后测试 https://localhost:4433 是否可以访问? aria2使用https访问有点问题需要自己修改配置支持
+```
+server.error-handler-404 = "/" 
+```
+再添加一个404的出错页面，这样用户访问任何域名都会跳转到我们的认证页面。
+iptables默认定向
+http到8080端口 https到4433端口 
+
+流量定向
+--------
+
+流量类型  | 源端口 | 目标端口 |
+--------- | --------| --------- |
+http  | 80 8080 | 8080 |
+https  | 443 | 4433 | 

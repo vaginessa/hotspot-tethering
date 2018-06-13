@@ -12,12 +12,9 @@
     <link rel="stylesheet" href="../css/frozenui.css">
     <link rel="stylesheet" href="../css/style.css">
     
-
-    
 </head>
 
 <body ontouchstart onload="checkCookie()">
-
 
 <?php
 require '../tools/Certified.php';

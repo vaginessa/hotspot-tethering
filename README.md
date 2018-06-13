@@ -7,11 +7,11 @@
 暂时没找到方法  
      
 ### 推荐环境配置
-- [ ] ksweb安卓版
-- [x] Root权限
-- [x] 支持TPTOXY
-- [ ] php7.0+
-- [x] 配置好https
+- ksweb安卓版
+- Root权限
+- 支持TPTOXY
+- php7.0+
+- 配置好https
 
 以lighttpd为例:  
 为了节省时间我已经用Termux制作好了一个https证书(`lighttpd.pem`)

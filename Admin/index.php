@@ -36,31 +36,25 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
   <link rel="stylesheet" href="../css/frozenui.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <style type="text/css">
-    #content {
-    position: relative;
+    .admin{
+    font-style:italic; 
+    background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-background-size: 200% 100%; 
+    -webkit-animation: masked-animation 4s linear infinite;
+}
+@keyframes masked-animation {
+    0% {
+        background-position: 0  0;
     }
-    #content img {
-    position: absolute;
-    top: 18px;
-    right: 28px;
-    width: 25px;
-    height: 25px;
+    100% {
+        background-position: -100%  0;
     }
-    #logout {
-    position: absolute;
-    margin: auto;
-    top: 45px;
-    right: 20px;
-    font-size:12px; 
-    color: #ee82ee;   
-    }
-    </style>    
+}
+  </style>    
  </head>
  <body ontouchstart="">
- <div id="content">
-    <img src="../img/Network_shutdown2.png" alt="退出登录" onclick="logout()">
-  </div>
-  <div id="logout">退出登录</div>
   <section class="ui-container">
    <div class="index-wrap">
     <div class="header">
@@ -101,7 +95,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
     <li>
      <div class="ui-img-icon">
       <span style="background-image:url(../img/fulisearch.png)"></span>
-     </div><a href="../Search/"><h5>福利搜</h5></a><p>使用Google CSE定制的专用搜索</p></li>
+     </div><a href="../Search/"><h5>福利搜</h5></a><p>使用Google CSE定制的专用搜索(早期作品)</p></li>
      <li>
      <div class="ui-img-icon">
       <span style="background-image:url(../img/Network_shutdown.png)"></span>
@@ -121,6 +115,13 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
      </div><a href="../Welcom/"><h5>欢迎页</h5></a><p>热点欢迎页设置</p></li>
    </ul>
   </div>
+    <div class="ui-grid-icon">
+   <ul>
+    <li>
+     <div class="ui-img-icon" onclick="logout()">
+      <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
+     </div><h5 class="admin"><?php echo U; ?></h5><p>注销登录</p></li>
+ </div>
 		<br>
 		<div class="ui-actionsheet" id="actionsheet1">
 				<div class="ui-actionsheet-cnt am-actionsheet-down">

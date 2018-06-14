@@ -135,7 +135,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 			</div>
 		</div>
 		<br>
-	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;">
+	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("Refresh")'>
 　<span id="ll" style="color: white"></span>
 </div>
 	<table class="ui-table ui-border-tb">
@@ -192,8 +192,8 @@ function logout() {
   document.getElementById("footer").innerHTML="Copyright © 2018-"+year+" 爱翻墙的红杏 All Rights Reserved";
 </script> 
 <script type="text/javascript">
-setInterval(
-function(){ 
+function Refresh(refresh){ 
+if (refresh == 'Refresh') alert("已帮你刷新了网卡和IP地址!");
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -210,10 +210,10 @@ xmlhttp.onreadystatechange=function()
     document.getElementById("ll").innerHTML=xmlhttp.responseText;
     }
   }
-xmlhttp.open("GET","traffic.php?t="+Math.random(),true);
+xmlhttp.open("GET","traffic.php?Refresh="+refresh+"&t="+Math.random(),true);
 xmlhttp.send();
 }
-, 1000); //1秒查一次
+setInterval(function () { Refresh() }, 1000); //1秒查一次
 </script> 
 </body>
 </html>

@@ -31,6 +31,9 @@ function network_interface_card() {
         }
     }
 }
+if ($_GET['Refresh']=='Refresh') {
+session_destroy();
+}
 if (!isset($_SESSION['interface_name'])) {
     list($interface_name, $ip_address) = network_interface_card();
     $_SESSION['interface_name'] = $interface_name;
@@ -39,6 +42,5 @@ if (!isset($_SESSION['interface_name'])) {
 list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = network_traffic($_SESSION['interface_name']);
 echo "网卡: <b>" . $_SESSION['interface_name'] . "</b> 内网: <b>" . $_SESSION['ip_address'] . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
 flush();
-//session_destroy();
 die;
 ?>

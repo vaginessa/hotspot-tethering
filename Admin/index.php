@@ -209,7 +209,7 @@ xmlhttp.onreadystatechange=function()
     document.getElementById("ll").innerHTML=xmlhttp.responseText;
     }
   }
-xmlhttp.open("GET","ll.php?t="+Math.random(),true);
+xmlhttp.open("GET","traffic.php?t="+Math.random(),true);
 xmlhttp.send();
 }
 , 1000); //1秒查一次

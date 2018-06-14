@@ -159,7 +159,7 @@ function net(of) {
     };
     xhttp.open("POST", "../tools/Connections.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(encodeURI("sjwl=" + of));
+    xhttp.send("sjwl=" + of);
 }
   $("#ktwl").click(function(){
   $(".ui-actionsheet").removeClass("show");

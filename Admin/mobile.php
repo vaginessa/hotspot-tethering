@@ -16,12 +16,13 @@
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">型号</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.model')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">正式名称</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.name')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">Android版本</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.build.version.release')."</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">Android安全补丁程序级别</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.build.version.security_patch')."</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SDK版本</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.build.version.sdk')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">品牌</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.brand')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">主板平台</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.board.platform')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">CPU版本</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.cpu.abi')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">CPU品牌</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.cpu.abi2')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">生产厂家</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.manufacturer')."</div></div></li>";
-    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SDK版本</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.build.version.sdk')."</div></div></li>";
     $uptime_file=explode(' ', shell_exec("su -c cat /proc/uptime"));
      echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">已开机时间</h4><div class=\"ui-txt-info\">".round($uptime_file[0]/60/60, 2)." 小时</div></div></li>";
     $signal=shell_exec("su -c dumpsys telephony.registry");

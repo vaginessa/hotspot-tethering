@@ -7,6 +7,7 @@ if ($_COOKIE["user_name"] != U || $_COOKIE["pass_word"] != P) {
 header("Location: ./login.php");
 die("需要登录认证才能访问!");
 }
+$_SESSION['from']='admin';
 require "../tools/busybox.php";
 $ps=busybox_check("ps");
 $run_list=shell_exec("su -c $ps -A");

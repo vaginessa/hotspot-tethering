@@ -18,6 +18,7 @@
  </head>
  <body ontouchstart="">
 <?php
+$stime=microtime(true); 
 require_once 'config.php';
 require '../tools/curl.php';
 require '../tools/input.php';
@@ -126,7 +127,9 @@ echo "<script type='text/javascript'>document.title = '".$searchTerms."_".$title
                 </button>
                 </div>";
 }
-
+$etime=microtime(true);//获取程序执行结束的时间
+$total=$etime-$stime;  //计算差值
+echo "<br />当前页面执行时间为：{$total} 秒";
 ?>
 
 </body>

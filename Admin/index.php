@@ -68,56 +68,56 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
    <ul>
     <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/fileadmin.png)"></span>
-     </div><a href="../Fileadmin/"><h5>爱特文件管理器</h5></a><p>致力于提供简单、快捷的网站文件管理方案</p></li>
+      <span style="background-image:url(../img/fileadmin.png)" onclick='window.location.href="../Fileadmin/"'></span>
+     </div><h5>爱特文件管理器</h5><p>致力于提供简单、快捷的网站文件管理方案</p></li>
     <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/tileicon.png)"><?php echo $aria2_status; ?></span>
-     </div><a href="../Aria2/"><h5>AriaNg</h5></a><p>一个让 aria2 更容易使用的现代 Web 前端</p></li>
+      <span style="background-image:url(../img/tileicon.png)" onclick='window.location.href="../Aria2/"'><?php echo $aria2_status; ?></span>
+     </div><h5>AriaNg</h5><p>一个让 aria2 更容易使用的现代 Web 前端</p></li>
    </ul>
   </div>
   <div class="ui-grid-icon ">
    <ul>
     <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/Shadowsocks.png)"><?php echo $ss_status; ?></span>
-     </div><h5><a href="../Shadowsocks/"><h5>Shadowsocks</h5></a><p>一種基於Socks5代理方式的加密傳輸協定</p></li>
+      <span style="background-image:url(../img/Shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
+     </div><h5>Shadowsocks</h5><p>一種基於Socks5代理方式的加密傳輸協定</p></li>
      <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/koolproxy.png)"><?php echo $kool_status; ?></span>
-     </div><h5><a href="../KoolProxy/"><h5>KoolProxy</h5></a><p>用于去除网页静广告和视频广告，并且支持https！</p></li>
+      <span style="background-image:url(../img/koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
+     </div><h5>KoolProxy</h5><p>用于去除网页静广告和视频广告，并且支持https！</p></li>
    </ul>
   </div>
   <div class="ui-grid-icon ">
    <ul>
     <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/fulisearch.png)"></span>
-     </div><a href="../Search/"><h5>福利搜</h5></a><p>使用Google CSE定制的专用搜索(早期作品)</p></li>
+      <span style="background-image:url(../img/fulisearch.png)" onclick='window.location.href="../Search/"'></span>
+     </div><h5>福利搜</h5><p>使用Google CSE定制的专用搜索(早期作品)</p></li>
      <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/Network_shutdown.png)"></span>
-     </div><h5 class="ui-txt-warning" id="network">关闭网络</h5><p>手机数据连接关闭和开启</p></li>
+      <span style="background-image:url(../img/Network_shutdown.png)" id="network"></span>
+     </div><h5 class="ui-txt-warning">关闭网络</h5><p>手机数据连接关闭和开启</p></li>
    </ul>
   </div>
   <div class="ui-grid-icon">
    <ul>
     <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/tor.png)"><?php echo $tor_status; ?></span>
-     </div><a href="../Orbot/"><h5>Tor</h5></a><p>请戴“套”翻墻</p></li>
+      <span style="background-image:url(../img/tor.png)" onclick='window.location.href="../Orbot/"'><?php echo $tor_status; ?></span>
+     </div><h5>Tor</h5><p>请戴“套”翻墻</p></li>
      <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/welcom.png)"></span>
-     </div><a href="../Welcom/"><h5>欢迎页</h5></a><p>热点欢迎页设置</p></li>
+      <span style="background-image:url(../img/welcom.png)" onclick='window.location.href="../Welcom/"'></span>
+     </div><h5>欢迎页</h5><p>热点欢迎页设置</p></li>
    </ul>
   </div>
     <div class="ui-grid-icon">
    <ul>
    <li>
      <div class="ui-img-icon">
-      <span style="background-image:url(../img/mobile.png)"></span>
-     </div><a href="./mobile.php"><h5>关于手机</h5></a><p>电量等状态信息</p></li>
+      <span style="background-image:url(../img/mobile.png)" onclick='window.location.href="./mobile.php"'></span>
+     </div><h5>关于手机</h5><p>电量等状态信息</p></li>
     <li>
      <div class="ui-img-icon" onclick='Refresh("login.php","logout=logout","logout")'>
       <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
@@ -134,7 +134,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 			</div>
 		</div>
 		<br>
-	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
+	<div style="background-color:#dec48f;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
 　<span id="traffic" style="color: white"></span>
 </div>
   <section class="ui-container">

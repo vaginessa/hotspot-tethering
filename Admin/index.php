@@ -1,8 +1,7 @@
 <?php
 session_start();
-if (file_exists('./admin.php')) { 
+if (!file_exists('./admin.php')) die('管理员密码配置文件丢失');
 require './admin.php';
-}
 if ($_COOKIE["user_name"] != U || $_COOKIE["pass_word"] != P) { 
 header("Location: ./login.php");
 die("需要登录认证才能访问!");
@@ -98,7 +97,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
      <li>
      <div class="ui-img-icon">
       <span style="background-image:url(../img/Network_shutdown.png)"></span>
-     </div><h5 class="ui-txt-warning" id="btn1">关闭网络</h5><p>手机数据连接关闭和开启</p></li>
+     </div><h5 class="ui-txt-warning" id="network">关闭网络</h5><p>手机数据连接关闭和开启</p></li>
    </ul>
   </div>
   <div class="ui-grid-icon">
@@ -120,23 +119,23 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
       <span style="background-image:url(../img/mobile.png)"></span>
      </div><a href="./mobile.php"><h5>关于手机</h5></a><p>电量等状态信息</p></li>
     <li>
-     <div class="ui-img-icon" onclick="logout()">
+     <div class="ui-img-icon" onclick='Refresh("login.php","logout=logout","logout")'>
       <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
      </div><h5 class="admin"><?php echo U; ?></h5><p>注销登录</p></li>
  </div>
 		<div class="ui-actionsheet" id="actionsheet1">
 				<div class="ui-actionsheet-cnt am-actionsheet-down">
 					<h4>这将会关闭或者开启手机热点的数据网络连接</h4>
-					<button id="ktwl">开启数据网络</button>
-					<button id="gbwl" class="ui-actionsheet-del">关闭数据连接</button>
+					<button onclick='Refresh("../tools/Connections.php","sjwl=on","data")'>开启数据网络</button>
+					<button onclick='Refresh("../tools/Connections.php","sjwl=off","data")' class="ui-actionsheet-del">关闭数据连接</button>
 					<div class="ui-actionsheet-split-line"></div>
 					<button id="cancel">取消</button>
 				</div>
 			</div>
 		</div>
 		<br>
-	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("Refresh")'>
-　<span id="ll" style="color: white"></span>
+	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
+　<span id="traffic" style="color: white"></span>
 </div>
   <section class="ui-container">
    <div class="index-wrap">
@@ -146,54 +145,37 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
    </div>
   </section>
 <script src="../js/zepto.min.js"></script>
-<script src="../js/index.js"></script>
-<script type="text/javascript">		
-function net(of) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var at = xhttp.responseText;
-            alert(at);
-        }
-    };
-    xhttp.open("POST", "../tools/Connections.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("sjwl=" + of);
-}
-  $("#ktwl").click(function(){
-  $(".ui-actionsheet").removeClass("show");
-  net("on");
-  });
-  $("#gbwl").click(function(){
-  $(".ui-actionsheet").removeClass("show");
-  net("off");
-  });
-  </script>
-  
-  <script type="text/javascript">
-function logout() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            window.location.href="";
-        }
-    };
-    xhttp.open("POST", "./login.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("logout="+Math.random());
-}
-  </script>
 
-  <script type="text/javascript">
+ <script type="text/javascript">
   var date = new Date();
   var year = date.getFullYear();
   document.getElementById("footer").innerHTML="Copyright © 2018-"+year+" 爱翻墙的红杏 All Rights Reserved";
-</script> 
+ </script> 
+ <script type="text/javascript">
+  function Refresh(a,b,c) {
+     var xhttp = new XMLHttpRequest();
+     xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             if(c=='data')alert(xhttp.responseText);
+             if(c=='refresh')alert("已帮你刷新了网卡和IP地址!");
+             if(c=='logout')window.location.href="";
+         }
+     };
+     xhttp.open("POST", a, true);
+     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+     xhttp.send(b+"&number="+Math.random());
+   }
+ </script>
+ <script type="text/javascript">
+ $("#network").click(function(){
+    		$('.ui-actionsheet').addClass('show');
+  });
+  $("#cancel").click(function(){
+    		$(".ui-actionsheet").removeClass("show");
+ 	});
+ </script>
 <script type="text/javascript">
-function Refresh(refresh){ 
-if (refresh == 'Refresh') { 
-alert("已帮你刷新了网卡和IP地址!");
-}
+setInterval(function () { 
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -207,13 +189,12 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-    document.getElementById("ll").innerHTML=xmlhttp.responseText;
+    document.getElementById("traffic").innerHTML=xmlhttp.responseText;
     }
   }
-xmlhttp.open("GET","traffic.php?Refresh="+refresh+"&t="+Math.random(),true);
+xmlhttp.open("GET","traffic.php?t=" + Math.random(),true);
 xmlhttp.send();
-}
-setInterval(function () { Refresh() }, 1000); //1秒查一次
-</script> 
+}, 1000); //1秒查一次
+</script>
 </body>
 </html>

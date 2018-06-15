@@ -1,7 +1,8 @@
 <?php
-if ($_POST['logout']) {
+if ($_POST['logout']=='logout') {
 setcookie("user_name", "", time()-2592000,'/');
 setcookie("pass_word", "", time()-2592000,'/');
+die;
 }
 if ($_POST['username'] && $_POST['password']) {
 setcookie("user_name", $_POST['username'], time()+2592000,'/');
@@ -62,7 +63,7 @@ function login() {
     };
     xhttp.open("POST", "", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("username="+a+"&password="+b+"&sj="+Math.random());
+    xhttp.send("username="+a+"&password="+b+"&number="+Math.random());
 }
 </script>
 <script type="text/javascript">

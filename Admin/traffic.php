@@ -33,7 +33,7 @@ function network_interface_card() {
     }
 }
 //刷新信息
-if ($_GET['Refresh']=='Refresh') {
+if ($_POST['Refresh']=='refresh') {
 session_destroy();
 }
 

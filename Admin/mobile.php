@@ -25,13 +25,13 @@
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">生产厂家</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.manufacturer')."</div></div></li>";
     $uptime_file=explode(' ', shell_exec("su -c cat /proc/uptime"));
      echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">已开机时间</h4><div class=\"ui-txt-info\">".round($uptime_file[0]/60/60, 2)." 小时</div></div></li>";
-    $signal=shell_exec("su -c dumpsys telephony.registry");
+    $signal=shell_exec('su -c dumpsys telephony.registry');
     $signal_text=strpos($signal, 'SignalStrength: ');
     $nub=explode(' ', substr($signal,$signal_text,100));
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SIM信号强度</h4><div class=\"ui-txt-info\">".$nub[9]."</div></div></li>";
     echo "</div></div>";
     echo "<div class=\"demo-item\"><p class=\"demo-desc\">电池信息</p><div class=\"demo-block\"><ul class=\"ui-list ui-list-single ui-list-link ui-border-tb\">";
-    $battery_file=shell_exec("su -c cat /sys/class/power_supply/battery/uevent");
+    $battery_file=shell_exec('su -c cat /sys/class/power_supply/battery/uevent');
     $battery_arr = parse_ini_string($battery_file);
     foreach ($battery_arr as $key => $value) {
         if($key=="POWER_SUPPLY_CAPACITY") {

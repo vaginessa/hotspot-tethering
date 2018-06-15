@@ -2,13 +2,21 @@
 session_start();
 function Data_network_connection($of) { 
 if ($of == "on") { 
-shell_exec("su -c svc data enable"); 
-die("已经执行开启!");
+exec('su -c svc data enable', $output, $return_var);
+  if ($return_var == 0) {
+    die('已经打开数据连接!');
+  } else {
+    print_r($output);
+  }
 }
 if ($of == "off") { 
-shell_exec("su -c svc data disable"); 
-die("已经执行关闭!");
-}
+ exec('su -c svc data disable', $output, $return_var);
+   if ($return_var == 0) {
+     die('已经关闭数据连接!');
+   } else {
+     print_r($output);
+   }
+ }
 }
 Data_network_connection($_POST["sjwl"]);
 ?>

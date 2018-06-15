@@ -1,3 +1,0 @@
-2018-06-09 13:27:38.361966 [ERROR] [DHTSetup.cc:109] Exception caught while loading DHT routing table from /storage/emulated/0/htdocs/Aria2/dht.dat
-Exception: [DHTRoutingTableDeserializer.cc:73] errorCode=1 Failed to load DHT routing table.
-2018-06-10 09:39:37.912916 [ERROR] [download_helper.cc:454] Unrecognized URI or unsupported protocol: /storage/emulated/0/htdocs/Aria2/Download/45d31ec0bbc3c2d9d7c521ee446ad9b4322672cb.torrent

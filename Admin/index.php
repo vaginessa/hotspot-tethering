@@ -138,8 +138,6 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 	<div style="background-color:#854b40;width:100%;height:100%;text-align:center;line-height:25px;" onclick='Refresh("Refresh")'>
 　<span id="ll" style="color: white"></span>
 </div>
-	<table class="ui-table ui-border-tb">
-	</table>
   <section class="ui-container">
    <div class="index-wrap">
     <div class="footer">
@@ -193,7 +191,9 @@ function logout() {
 </script> 
 <script type="text/javascript">
 function Refresh(refresh){ 
-if (refresh == 'Refresh') alert("已帮你刷新了网卡和IP地址!");
+if (refresh == 'Refresh') { 
+alert("已帮你刷新了网卡和IP地址!");
+}
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari

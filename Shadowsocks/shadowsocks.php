@@ -1,9 +1,10 @@
 <?
+session_start();
 require '../tools/Certified.php';
-require "../tools/token.php";
-require "../tools/ssurl.php";
-require "../tools/input.php";
-require "iptables.php";
+require '../tools/token.php';
+require '../tools/ssurl.php';
+require '../tools/input.php';
+require 'iptables.php';
 
 
 //命令查找
@@ -22,6 +23,7 @@ if (!valid_token()) {
     header('Location: ./');
     die("请勿重复提交表单");
  }
+session_write_close();
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
    $shadowsocks = test_input($_GET['shadowsocks']);

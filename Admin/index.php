@@ -117,11 +117,10 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 </div>
 </div>
 </div>
-<br>
-<div style=background-color:#dec48f;width:100%;height:100%;text-align:center;line-height:25px onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
+<div style=margin-top:20px;background-color:#dec48f;width:100%;height:100%;text-align:center;line-height:25px onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
  <span id=traffic style=color:white></span>
 </div>
-<section class=ui-container>
+<section style="position: absolute;bottom: 0;width: 100%;" class=ui-container>
 <div class=index-wrap>
 <div class=footer>
 <a href=mailto:yiguihai@gmail.com id=footer></a>

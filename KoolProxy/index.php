@@ -25,6 +25,7 @@ require '../tools/token.php';
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
     set_token();
 }
+session_write_close();
 if (isset($_GET['token'])) {
     if (!valid_token()) die("请勿重复提交表单");
 }

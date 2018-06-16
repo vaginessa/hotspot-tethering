@@ -1,6 +1,5 @@
 <?php
 require '../tools/Certified.php';
-session_start();
 require '../tools/curl.php';
 date_default_timezone_set("Asia/Shanghai");
 $date = date("Y-m-d H:i:s");

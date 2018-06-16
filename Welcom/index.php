@@ -10,6 +10,7 @@ require '../tools/Certified.php';
 header("Location: ./login.php");
 die('你无权访问本页面');
 }
+session_write_close();
 ?>
 <!DOCTYPE html>
 <html>

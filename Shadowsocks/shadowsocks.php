@@ -1,6 +1,5 @@
 <?
 require '../tools/Certified.php';
-session_start(); 
 require "../tools/token.php";
 require "../tools/ssurl.php";
 require "../tools/input.php";

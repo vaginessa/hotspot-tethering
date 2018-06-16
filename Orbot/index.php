@@ -23,14 +23,15 @@
 
 <?php
 require '../tools/Certified.php';
-session_start();
 require "../tools/busybox.php";
 require "../tools/token.php";
 require "../tools/input.php";
 
+session_start();
 if(!isset($_SESSION['token']) || $_SESSION['token']=='') {
   set_token();
 }
+session_write_close();
 if(isset($_GET['token'])){
   if(!valid_token()){
     die("<div class='ui-tooltips ui-tooltips-warn'><div class='ui-tooltips-cnt ui-tooltips-cnt-link ui-border-b'><i></i>请勿重复提交表单!</div></div>");

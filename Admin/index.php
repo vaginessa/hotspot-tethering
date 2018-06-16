@@ -1,12 +1,13 @@
 <?php
-session_start();
 if (!file_exists('./admin.php')) die('管理员密码配置文件遗失');
 require './admin.php';
 if ($_COOKIE["user_name"] != hash('sha512',U) || $_COOKIE["pass_word"] != hash('sha512',P)) { 
 header("Location: ./login.php");
 die("需要登录认证才能访问!");
 }
+session_start();
 $_SESSION['from']='admin';
+session_write_close();
 require "../tools/busybox.php";
 $ps=busybox_check("ps");
 $run_list=shell_exec("su -c $ps -A");

@@ -1,9 +1,10 @@
 <?php
 require '../tools/Certified.php';
-session_start();
 require "../tools/busybox.php";
 $ps=busybox_check("ps");
+session_start();
 $_SESSION['token'] = md5(microtime(true));
+session_write_close();
 //检查ss进程是否存在
 if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
   $status = true;

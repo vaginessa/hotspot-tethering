@@ -1,5 +1,4 @@
 <?php
-session_start();
 function Data_network_connection($of) { 
 if ($of == "on") { 
 exec('su -c svc data enable', $output, $return_var);

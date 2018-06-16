@@ -41,9 +41,9 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 <body ontouchstart>
 <section class=ui-container>
 <div class=index-wrap>
-<div class=header>
-<a href=https://github.com/yiguihai/hotspot-tethering target=_blank><h1><?php system("getprop ro.product.model"); ?></h1></a>
-<h2><?php system("getprop ro.build.version.release"); ?>&nbsp( <?php system("getprop ro.build.version.sdk");?> )</h2>
+<div style=background-color:#0F7884 class=header>
+<a href=https://github.com/yiguihai/hotspot-tethering target=_blank><h1 style=color:white><?php system("getprop ro.product.model"); ?></h1></a>
+<h2 style=color:#eeeeee><?php system("getprop ro.build.version.release"); ?>&nbsp( <?php system("getprop ro.build.version.sdk");?> )</h2>
 </div>
 </div>
 </section>

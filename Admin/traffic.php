@@ -38,7 +38,7 @@ session_destroy();
 }
 
 //次数记录
-if (!isset($_SESSION['number']) or $_SESSION['number'] >= 10000) {
+if (!isset($_SESSION['number']) or $_SESSION['number'] >= 10) {
 $_SESSION['number']=0;
 } else {
 $_SESSION['number']=$_SESSION['number']+1;

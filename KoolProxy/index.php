@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no, email=no">
-    <meta name="HandheldFriendly" content="true">
-    <title>KoolProxy</title>
-
-    
+    <title>KoolProxy</title>    
     <link rel="stylesheet" href="../css/frozenui.css">
-    <link rel="stylesheet" href="../css/style.css">
-    
+    <link rel="stylesheet" href="../css/style.css">    
 </head>
-
 <body ontouchstart onload="checkCookie()">
 
 <?php
@@ -91,20 +83,17 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
 ?>
 
 
-    <section class="ui-container">
+<section class="ui-container">
         
-<section id="tab">
-    <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 class="title">koolproxy</h1></a>
+ <section id="tab">
     <div class="demo-item">
         <p class="demo-desc"><?php echo "版本 ".shell_exec(sys_get_temp_dir()."/koolproxy -v"); ?></p>
         <div class="demo-block">
-            <!--
-             -->
             <div class="ui-tab">
-                <ul class="ui-tab-nav ui-border-b">
-                    <li class="current"><span>首页</span></li>
-                    <li><span>自定义规则</span></li>
-                    <li><span>帮助</span></li>
+                <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
+                  <li class="current"><span>首页设置</span></li>
+                  <li><span>自定规则</span></li>
+                  <li><span>帮助关于</span></li>
                 </ul>
                 <ul class="ui-tab-content" style="width:300%">
                     <li>
@@ -118,37 +107,25 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
                     </li>
                 </ul>
             </div>
-            <!--  -->
         </div>
     </div>
 </section>
-
-
-<br>
  <div class="ui-loading-block show" id="loading" style="display:none">
                 <div class="ui-loading-cnt">
                     <i class="ui-loading-bright"></i>
                     <p>请耐心等待...</p>
                 </div>
             </div>   
-<br>
-
-    </section>
-
-    
-    <script src="../js/zepto.min.js"></script>
-    
-</body>
-</html>
-    
+</section>    
+<script src="../js/zepto.min.js"></script>    
 <script type="text/javascript">
-
 function setCookie(cname,cvalue,exdays){
 	var d = new Date();
 	d.setTime(d.getTime()+(exdays*24*60*60*1000));
 	var expires = "expires="+d.toGMTString();
 	document.cookie = cname+"="+cvalue+"; "+expires;
 }
+
 function getCookie(cname){
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
@@ -158,6 +135,7 @@ function getCookie(cname){
 	}
 	return "";
 }
+
 function checkCookie(){
 	var guolv=getCookie("guolv");
 	if (guolv!=""){
@@ -182,7 +160,9 @@ setCookie("guolv",guolv,30);
         })
     });
 })(window, undefined)
+
 $('#koolproxy').attr('checked', <?php echo $status; ?>);
+
 function update() {
     if ($("#loading").css("display") == "none") $("#loading").show();
     var xhttp = new XMLHttpRequest();

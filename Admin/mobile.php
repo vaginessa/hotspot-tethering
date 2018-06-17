@@ -35,7 +35,7 @@
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">CPU品牌</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.cpu.abi2')."</div></div></li>";
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">生产厂家</h4><div class=\"ui-txt-info\">".shell_exec('getprop ro.product.manufacturer')."</div></div></li>";
     $uptime_file=explode(' ', shell_exec("su -c cat /proc/uptime"));
-     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">已开机时间</h4><div class=\"ui-txt-info\">".round($uptime_file[0]/60/60, 2)." 小时</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">已开机时间</h4><div class=\"ui-txt-info\">".round($uptime_file[0]/60/60, 2)." 小时</div></div></li>";
     $signal=shell_exec('su -c dumpsys telephony.registry');
     $signal_text=strpos($signal, 'SignalStrength: ');
     $nub=explode(' ', substr($signal,$signal_text,100));
@@ -60,7 +60,7 @@
         if($key=="POWER_SUPPLY_TEMP") {
           $value="(电池温度 ".($value/10)." °C)";
         }
-        echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key."</h4><div class=\"ui-txt-info\">".$value."</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key."</h4><div class=\"ui-txt-info\">".$value."</div></div></li>";
     }
     echo "</ul>"; ?>
                     </li>
@@ -72,7 +72,7 @@
     foreach (explode('kB', $key[1]) as $value) {
     $value=trim($value);
         if ($value > 0) { 
-        echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key[0]."</h4><div class=\"ui-txt-info\">".round($value/1024,2)." MB</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key[0]."</h4><div class=\"ui-txt-info\">".round($value/1024,2)." MB</div></div></li>";
         }
     }
 }

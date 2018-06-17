@@ -12,7 +12,7 @@
  <body ontouchstart="" onload="checkCookie()">
 
   <section id="form"> 
-   <a href="../Admin"><h1 class="title">Tor配置</h1></a> 
+   <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 class="title">Tor配置</h1></a> 
    <div class="demo-item"> 
     <p class="demo-desc">torrc文件配置</p> 
     <div class="demo-block"> 

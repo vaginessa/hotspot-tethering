@@ -94,14 +94,14 @@ if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
     <section class="ui-container">
         
 <section id="tab">
-    <a href="../Admin"><h1 class="title">koolproxy</h1></a>
+    <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 class="title">koolproxy</h1></a>
     <div class="demo-item">
         <p class="demo-desc"><?php echo "版本 ".shell_exec(sys_get_temp_dir()."/koolproxy -v"); ?></p>
         <div class="demo-block">
             <!--
              -->
-            <div class="ui-tab ">
-                <ul class="ui-tab-nav ui-border-b ">
+            <div class="ui-tab">
+                <ul class="ui-tab-nav ui-border-b">
                     <li class="current"><span>首页</span></li>
                     <li><span>自定义规则</span></li>
                     <li><span>帮助</span></li>

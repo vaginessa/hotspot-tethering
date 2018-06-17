@@ -29,7 +29,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
  <body ontouchstart="">
 
   <section> 
-   <a href="../Admin"><h1 class="title">Shadowsocks</h1></a> 
+   <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 class="title">Shadowsocks</h1></a> 
    <div class="demo-item"> 
     <p class="demo-desc">服务器设置</p> 
     <div class="demo-block"> 

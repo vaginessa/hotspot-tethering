@@ -66,14 +66,12 @@ if (isset($guolv)) {
         if ($guolv == "video") $e="-e";
         $yx=$jsyx.PHP_EOL.$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
         zx_input($yxfile,$yx);
-        sleep(1);
-        header('Location: ../Admin/');
     }
     if (empty($koolproxy) and $guolv and $token) {
         zx_input($yxfile,$jsyx);
-        sleep(1);
-        header('Location: ../Admin/');
     }
+    sleep(1);
+    header('Location: ../Admin/');
 }
 if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
     $status = true;

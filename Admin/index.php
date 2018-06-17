@@ -163,7 +163,8 @@ xhttp.send(b+"&number="+Math.random());
 $("#network").click(function(){
 $('.ui-actionsheet').addClass('show');
 });
-$("#cancel").click(function(){$(".ui-actionsheet").removeClass("show");
+$("#actionsheet1").click(function(){
+$(".ui-actionsheet").removeClass("show");
 });
 </script>
 <script type="text/javascript">

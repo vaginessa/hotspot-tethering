@@ -131,6 +131,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 </div>
 </div>
 </div>
+<br>
 <div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white"></span>
 </div>

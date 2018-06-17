@@ -117,16 +117,18 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 </div>
 </div>
 </div>
-<div style=margin-top:20px;background-color:#dec48f;width:100%;height:100%;text-align:center;line-height:25px onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
+<div style="position: absolute;bottom: 0;width: 100%;">
+<div style=margin-top:25px;background-color:#dec48f;width:100%;height:100%;text-align:center;line-height:25px onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
  <span id=traffic style=color:white></span>
 </div>
-<section style="position: absolute;bottom: 0;width: 100%;" class=ui-container>
+<section class=ui-container>
 <div class=index-wrap>
 <div class=footer>
 <a href=mailto:yiguihai@gmail.com id=footer></a>
 </div>
 </div>
 </section>
+</div>
 <script src=../js/zepto.min.js></script>
 <script type="text/javascript">var date=new Date();var year=date.getFullYear();document.getElementById("footer").innerHTML="Copyright © 2018-"+year+" 爱翻墙的红杏 All Rights Reserved";</script><script type="text/javascript">function Refresh(a,b,c){var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(this.readyState==4&&this.status==200){if(c=='data')alert(xhttp.responseText);if(c=='refresh')alert("已帮你刷新了网卡和IP地址!");if(c=='logout')window.location.href="";}};xhttp.open("POST",a,true);xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");xhttp.send(b+"&number="+Math.random());}</script><script type="text/javascript">$("#network").click(function(){$('.ui-actionsheet').addClass('show');});$("#cancel").click(function(){$(".ui-actionsheet").removeClass("show");});</script><script type="text/javascript">setInterval(function(){var xmlhttp;if(window.XMLHttpRequest)
 {xmlhttp=new XMLHttpRequest();}

@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
- <head> 
-  <meta charset="utf-8" /> 
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" /> 
-  <meta name="format-detection" content="telephone=no, email=no" /> 
-  <meta name="HandheldFriendly" content="true" /> 
+<head> 
   <title>Tor配置</title> 
   <link rel="stylesheet" href="../css/frozenui.css" /> 
   <link rel="stylesheet" href="../css/style.css" /> 
@@ -115,24 +111,18 @@ echo '<div class="ui-form-item ui-border-b"<label>'.$key.'</label><input type="t
 }
 
 ?>
-
-       
-       <input type="hidden" name="token" value="<?php echo $_SESSION["token"]?>">
-       <div class="ui-btn-wrap"><button class="ui-btn-lg ui-btn-primary">提交</button></div>
-       
-       
-       
-       </form> 
-     </div> 
+<input type="hidden" name="token" value="<?php echo $_SESSION["token"]?>">
+<div class="ui-btn-wrap"><button class="ui-btn-lg ui-btn-primary">提交</button></div>
+      </form> 
     </div> 
    </div> 
-  </section>
-  
-  <div class="ui-btn-wrap color-black" onclick="check_tor()">
+ </div> 
+</section>  
+<div class="ui-btn-wrap color-black" onclick="check_tor()">
                 <button class="ui-btn-highlight ui-btn-lg">
                     Tor网络检测
                 </button>
-  
+</div>
 <script src="../js/zepto.min.js"></script>
 <script type="text/javascript">
 $('#tor').attr('checked', <?php echo $status; ?>);

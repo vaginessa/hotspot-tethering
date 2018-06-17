@@ -151,6 +151,8 @@ if ($plugin == 'off' or empty($plugin)) {
    shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
 }
 
+sleep(1);
+
 //obfs混淆插件
     $binary2 = sys_get_temp_dir()."/obfs-local";
     $pid2 = dirname(__FILE__)."/obfs-local.pid";
@@ -206,6 +208,7 @@ if ($udp == 'on' and $gost_server and $gost_server_port) {
 }
 
 sleep(1);
+
 header('Location: ../Admin/');
 
 }//

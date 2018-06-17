@@ -78,7 +78,7 @@ if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password a
 //如果开关按钮关闭
 iptables_stop($stop_iptables, $status_binary, true);
 sleep(1);
-die(header('Location: ./'));
+die(header('Location: ../Admin/'));
 }
 
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
@@ -197,7 +197,6 @@ if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Brows
    shell_exec("$my_GoQuiet > /dev/null 2>&1 &");
 } 
 
-sleep(1);
 
 //redsocks2配置运行
    $binary = sys_get_temp_dir()."/redsocks2";
@@ -205,8 +204,9 @@ sleep(1);
 if ($udp == 'on' and $gost_server and $gost_server_port) { 
    shell_exec("su -c $binary -c $peizhi > /dev/null 2>&1 &");
 }
+
 sleep(1);
-header('Location: ./');
+header('Location: ../Admin/');
 
 }//
 

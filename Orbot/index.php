@@ -75,11 +75,10 @@ if (isset($token) and $tor == 'on') {
         if ($key == "DNSPort") $udpport=test_input($value);
         }
         shell_exec('export HOME='.sys_get_temp_dir().PHP_EOL.$binary_file.' -f '.dirname(__FILE__).'/torrc > /dev/null 2>&1 &');
-        sleep(1);
         $yx="iptables -t nat -F out_forward".PHP_EOL."iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports $tcpport".PHP_EOL."iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports $udpport".PHP_EOL;
         zx_input($yxfile,$yx);
         sleep(1);
-        header('Location: ./');
+        header('Location: ../Admin/');
 }
 
 if (empty($tor) and $_GET['token']) {
@@ -88,8 +87,7 @@ if (empty($tor) and $_GET['token']) {
         $yx="iptables -t nat -F out_forward".PHP_EOL."iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024".PHP_EOL."iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053".PHP_EOL;
         zx_input($yxfile,$yx);
         echo "<div class='ui-loading-wrap'><p>等待关闭完成...</p><i class='ui-loading'></i></div>";
-        sleep(1);
-        exit(header('Refresh:2,Url=./'));
+        exit(header('Refresh:2,Url=../Admin/'));
         }
     }
 
@@ -159,7 +157,7 @@ function checkCookie() {
         setCookie('tor_msg', 'yes', 365)
     } else {
         //alert("取消");
-        window.location.href = '../Admin'
+        window.location.href = '../Admin/'
     }
 }
 </script>

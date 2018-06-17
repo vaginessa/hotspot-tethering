@@ -31,6 +31,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 <link rel="shortcut icon" href="../favicon.ico" />
 <link rel="stylesheet" href="../css/frozenui.css" />
 <link rel="stylesheet" href="../css/style.css" />
+</head>
 <style type="text/css">
 .admin {
 	font-style: italic;
@@ -51,7 +52,6 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 	}
 }
 </style>
-</head>
 <body ontouchstart="">
 <section class="ui-container">
 <div class="index-wrap">

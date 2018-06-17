@@ -85,20 +85,8 @@
     var record = 0;
     var origin_l;
     $('.ui-tab-nav').eq(0).find('li').on('click',function() {
-                  //记录原始点的位置:
-                //   if(!record){
-                //       origin_l = $('.ui-tab-nav li.current i').offset().left;
-                //       record++;
-                //   }
                   $(this).parent().find('li').removeClass('current');
                   $(this).addClass('current');
-                //   var l = $(this).find('span').offset().left;
-                //   var w = $(this).find('span').offset().width;
-                //   $('.ui-tab-nav li.current i').css({
-                //       'transform':'translate3d('+(l-origin_l)+'px,0,0)',
-                //       'width':w,
-                //       'transition':'transform 0.5s linear'
-                //   });
                   $('.ui-tab-content').eq(0).css({
                     'transform':'translate3d(-'+($(this).index()*$('.ui-tab-content li').offset().width)+'px,0,0)',
                     'transition':'transform 0.5s linear'

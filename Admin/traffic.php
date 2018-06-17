@@ -1,8 +1,6 @@
 <?php
 $stime=microtime(true); 
 session_start();
-//ignore_user_abort(true);
-//set_time_limit(0);
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 function network_traffic($interface) {

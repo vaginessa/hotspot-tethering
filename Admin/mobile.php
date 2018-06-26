@@ -36,6 +36,8 @@
     $signal_text=strpos($signal, 'SignalStrength: ');
     $nub=explode(' ', substr($signal,$signal_text,100));
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SIM信号强度</h4><div class=\"ui-txt-info\">".$nub[9]."</div></div></li>";
+    $loadavg_now=explode(' ',shell_exec('su -c cat /proc/loadavg'));
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">系统负载</h4><div class=\"ui-txt-info\">".$loadavg_now[0]."</div></div></li>";
     echo "</ul>"; ?>
                     </li>
                     <li>

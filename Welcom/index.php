@@ -15,9 +15,8 @@ session_write_close();
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="format-detection" content="telephone=no, email=no">
-    <meta name="HandheldFriendly" content="true">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
     <title>欢迎页设置</title>
     <link rel="stylesheet" href="../css/frozenui.css">
     <link rel="stylesheet" href="../css/style.css">    

@@ -27,6 +27,8 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
 <title>热点后台管理</title>
 <link rel="shortcut icon" href="../favicon.ico" />
 <link rel="stylesheet" href="../css/frozenui.css" />

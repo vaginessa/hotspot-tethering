@@ -65,6 +65,7 @@ shell_exec("su -c $command_file");
 $command_run="iptables -t nat -I user_portal -p tcp -s $user_ip -m mac --mac-source $user_mac -j RETURN";
 shell_exec("su -c $command_run");
 unset($_SESSION['from']);
+header("Location: http://wap.baidu.com");
 }
 ?>
 

@@ -141,13 +141,17 @@ if ($server) {
 
 //shadowsocks+插件配置
    $binary = sys_get_temp_dir()."/ss-local";
-   $peizhi = dirname(__FILE__)."/$route";
+if ($route == 'all') {
+   unset($peizhi);
+   } else {
+   $peizhi = "--acl ".dirname(__FILE__)."/$route";
+   }
    $pid = dirname(__FILE__)."/ss-local.pid";   
 if ($plugin == 'off' or empty($plugin)) {
-   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
    shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
 } else { 
-   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 --acl $peizhi -f $pid -a 3004";
+   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
    shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
 }
 

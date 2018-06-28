@@ -28,7 +28,7 @@ ssl.engine = "enable"
 ssl.pemfile = "/sdcard/lighttpd.pem" 
 }
 ```
-其中 ssl.pemfile 是你的证书存放绝对路径，例子中是放到sd卡目录下  
+其中 lighttpd.pem 是你的证书存放绝对路径，例子中是放到sd卡目录下  
 然后测试 https://localhost:4433 是否可以访问? aria2使用https访问有点问题需要自己修改配置支持
 ```
 server.error-handler-404 = "/" 
@@ -41,6 +41,7 @@ openssl req -x509 -out localhost.crt -keyout localhost.key -days 365 \
   -subj '/CN=localhost' -extensions EXT -config <( \
    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
+快速制作证书
 
 iptables流量定向  
 --------  

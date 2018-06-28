@@ -143,7 +143,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
                 file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
             }
             if ($server) {
-             file_put_contents($tmp_file, "iptables -t mangle -I redsocks2_out 3 -d $server/24 -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+             file_put_contents($tmp_file, "iptables -t mangle -I redsocks2_out 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
     }
@@ -163,7 +163,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
         file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX); 
         }
         if ($server) {
-             file_put_contents($tmp_file, "iptables -t nat -I out_lan 5 -d $server/24 -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+             file_put_contents($tmp_file, "iptables -t nat -I out_lan 5 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
     foreach ($filter as $value) {

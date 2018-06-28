@@ -132,11 +132,11 @@ if ($server) {
 //gost配置运行
    $binary = sys_get_temp_dir()."/gost";
    if ($gost_username and $gost_password) {
-   $my_gost = "socks5://$gost_username:$gost_password@$gost_server:$gost_server_port";
+   $my_gost = "$gost_username:$gost_password@$gost_server:$gost_server_port";
    } else { 
-   $my_gost = "socks5://$gost_server:$gost_server_port";
+   $my_gost = "$gost_server:$gost_server_port";
    }
-   if ($udp == 'on') shell_exec("$pkill gost".PHP_EOL."$binary -L socks5://127.0.0.1:1028 -F socks5://127.0.0.1:1025 -F socks5://$my_gost > /dev/null 2>&1 &");
+   if ($udp == 'on') shell_exec("$pkill gost".PHP_EOL."$binary -L=socks://127.0.0.1:1028 -F=socks://127.0.0.1:1025 -F=socks://$my_gost > /dev/null 2>&1 &");
 
 
 //shadowsocks+插件配置

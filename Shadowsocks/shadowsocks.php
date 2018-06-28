@@ -102,7 +102,9 @@ $jx = array("server"=>"$server", "gost_server"=>"$gost_server");
 }
 
 //如果gost服务器空替换为ss服务器
-if (empty($gost_server)) $gost_server = $server;
+if (empty($gost_server)) { 
+   $gost_server = $server;
+}
 
 if ($server) {
 //传送参数执行iptables规则
@@ -131,31 +133,14 @@ if ($server) {
    
 //gost配置运行
    $binary = sys_get_temp_dir()."/gost";
-   if ($gost_username and $gost_password) {
+if ($gost_username and $gost_password) {
    $my_gost = "$gost_username:$gost_password@$gost_server:$gost_server_port";
    } else { 
    $my_gost = "$gost_server:$gost_server_port";
-   }
-   if ($udp == 'on') shell_exec("$pkill gost".PHP_EOL."$binary -L=socks://127.0.0.1:1028 -F=socks://127.0.0.1:1025 -F=socks://$my_gost > /dev/null 2>&1 &");
-
-
-//shadowsocks+插件配置
-   $binary = sys_get_temp_dir()."/ss-local";
-if ($route == 'all') {
-   unset($peizhi);
-   } else {
-   $peizhi = "--acl ".dirname(__FILE__)."/$route";
-   }
-   $pid = dirname(__FILE__)."/ss-local.pid";   
-if ($plugin == 'off' or empty($plugin)) {
-   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
-   shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
-} else { 
-   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
-   shell_exec("su -c $my_shadowsocks > /dev/null 2>&1 &");
 }
-
-sleep(1);
+if ($udp == 'on') { 
+   shell_exec("$pkill gost".PHP_EOL."$binary -L=socks://127.0.0.1:1028 -F=socks://127.0.0.1:1025 -F=socks://$my_gost > /dev/null 2>&1 &");
+}
 
 //obfs混淆插件
     $binary2 = sys_get_temp_dir()."/obfs-local";
@@ -203,15 +188,28 @@ if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Brows
    shell_exec("$my_GoQuiet > /dev/null 2>&1 &");
 } 
 
+//shadowsocks+插件配置
+   $binary = sys_get_temp_dir()."/ss-local";
+if ($route == 'all') {
+   unset($peizhi);
+   } else {
+   $peizhi = "--acl ".dirname(__FILE__)."/$route";
+}
+   $pid = dirname(__FILE__)."/ss-local.pid";   
+if ($plugin == 'off' or empty($plugin)) {
+   $my_shadowsocks = "$binary -s $server -p $server_port -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
+   shell_exec("su -c $my_shadowsocks");
+} else { 
+   $my_shadowsocks = "$binary -s 127.0.0.1 -p 1026 -k $password -m $method -b 127.0.0.1 -l 1025 $peizhi -f $pid -a 3004";
+   shell_exec("su -c $my_shadowsocks");
+}
 
 //redsocks2配置运行
    $binary = sys_get_temp_dir()."/redsocks2";
    $peizhi = dirname(__FILE__)."/redsocks2.json";
 if ($udp == 'on' and $gost_server and $gost_server_port) { 
-   shell_exec("su -c $binary -c $peizhi > /dev/null 2>&1 &");
+   shell_exec("su -c $binary -c $peizhi");
 }
-
-sleep(1);
 
 header('Location: ../Admin/');
 

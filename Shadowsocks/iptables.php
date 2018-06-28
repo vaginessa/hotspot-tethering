@@ -170,7 +170,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
         file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
         chmod($tmp_file, 0700);
-        shell_exec("su -c $tmp_file");
+        shell_exec("su -c $tmp_file > /dev/null 2>&1 &");
 } //
 
 
@@ -189,7 +189,7 @@ function iptables_stop($stop_iptables, $status_binary, $file_name) {
     if (!is_executable($tmp_file) or file_exists($tmp_file) and $file_name === true)
     {
     chmod($tmp_file, 0700);
-    shell_exec("su -c $tmp_file");
+    shell_exec("su -c $tmp_file > /dev/null 2>&1 &");
     } else {
     die("没有写出删除脚本!");
     }

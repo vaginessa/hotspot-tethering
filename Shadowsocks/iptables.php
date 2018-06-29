@@ -22,7 +22,6 @@ $mangle = array(
     // 添加路由策略，让所有经 TPROXY 标记的 0x2333/0x2333 udp 数据包使用路由表 123
     "ip rule add fwmark 0x2333/0x2333 table 123",
     "iptables -t mangle -A redsocks2_out -j redsocks2_lan",
-    "iptables -t mangle -A redsocks2_out -m owner --uid-owner 3004 -j ACCEPT",
     "iptables -t mangle -A redsocks2_out -p udp -j MARK --set-mark 0x2333/0x2333",
     "iptables -t mangle -A PREROUTING -j redsocks2_pre",
     "iptables -t mangle -A OUTPUT -j redsocks2_out"
@@ -37,8 +36,7 @@ $nat = array(
     //本机发出同意
     "iptables -t nat -A out_lan -d 10/8 -j ACCEPT",
     "iptables -t nat -A out_lan -d 127/8 -j ACCEPT",
-    "iptables -t nat -A out_lan -d 192.168/16 -j ACCEPT",
-    "iptables -t nat -A out_lan -m owner --uid-owner 3004 -j ACCEPT",
+    "iptables -t nat -A out_lan -p tcp -d 192.168/16 -j ACCEPT",
     //"iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner $(id -u) -j koolproxy_forward",
     "iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner 0 -j koolproxy_forward",
     "iptables -t nat -A out_lan -j out_forward",
@@ -123,12 +121,18 @@ clearstatcache();
 
 function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp) {
     $tmp_file = sys_get_temp_dir()."/iptables_add.sh";
-    if (is_file($tmp_file)) unlink("$tmp_file");
+    if (is_file($tmp_file)) { 
+    unlink("$tmp_file");
     //支持tproxy吗？
-    if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets') , 'TPROXY')) $tproxy = true;
+    }
+    if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets') , 'TPROXY')) { 
+    $tproxy = true;
     //开启转发了吗？
-    if (stripos(shell_exec('su -c cat /proc/sys/net/ipv4/ip_forward') , '0')) shell_exec('su -c echo 1 > /proc/sys/net/ipv4/ip_forward');
+    }
+    if (stripos(shell_exec('su -c cat /proc/sys/net/ipv4/ip_forward') , '0')) { 
+    shell_exec('su -c echo 1 > /proc/sys/net/ipv4/ip_forward');
     //sysctl -w net.ipv4.ip_forward=1
+    }
     //直接在脚本前面追加清除规则和关闭模块
     iptables_stop($stop_iptables, $status_binary, false);    
     //支持tproxy与开启udp
@@ -158,7 +162,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
         file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX); 
         }
         if ($server) {
-             file_put_contents($tmp_file, "iptables -t nat -I out_lan 4 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+             file_put_contents($tmp_file, "iptables -t nat -I out_lan 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
     foreach ($filter as $value) {

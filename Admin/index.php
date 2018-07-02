@@ -170,6 +170,7 @@ $("#actionsheet1").click(function(){
 $(".ui-actionsheet").removeClass("show");
 });
 </script>
+<!--
 <script type="text/javascript">
 setInterval(function() { 
 xmlhttp=new XMLHttpRequest();
@@ -181,6 +182,17 @@ document.getElementById("traffic").innerHTML=xmlhttp.responseText;
 xmlhttp.open("GET","traffic.php?t="+Math.random(),true);
 xmlhttp.send();
 },1000);
+</script>
+-->
+<script type="text/javascript">
+if(typeof(EventSource) !== "undefined") {
+    var source = new EventSource("traffic.php");
+    source.onmessage = function(event) {
+        document.getElementById("traffic").innerHTML = event.data;
+    };
+} else {
+    document.getElementById("traffic").innerHTML = "Sorry, your browser does not support server-sent events...";
+}
 </script>
 </body>
 </html>

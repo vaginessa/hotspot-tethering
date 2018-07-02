@@ -4,6 +4,8 @@
   <title>Tor配置</title> 
   <link rel="stylesheet" href="../css/frozenui.css" /> 
   <link rel="stylesheet" href="../css/style.css" /> 
+  <meta charset="utf-8" /> 
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" /> 
  </head>
  <body ontouchstart="" onload="checkCookie()">
 

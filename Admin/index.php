@@ -63,9 +63,9 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 </div>
 </div>
 </section>
-<div style="background-color: white;border-style: dotted;width: 98%;padding: 1px;border-radius:25px;">
+<div style="display:none;background-color: white;border-style: dotted;width: 98%;padding: 1px;border-radius:25px;">
 <img style="display: inline-block;vertical-align: middle;height:18px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPASURBVGhD7dlJyI1RHMfx1zwTmWcZV6xQFrJSIrZiISVTyk4sFClKKcqQkpmUWYaFWFBiRRLJsGBhSEnIPHx/D+ft/5zO89znue89b93e91ef4nHOuf733nOe85zb0JoWkA7YjNe4hX6ou7TBUfwx1qHusgW2CDmEusoK+EXIMZTJBPT998fmz1z8RFML2Q31+QbNs+5otkzFZ/gFOEUL0SLhvxkvMQvRMwZvYV/cV+YTuQu//y+shxaSKNGy+gT+C/vKFDIQav8b/jjH0Q41TVfchv9iIWUKcZmOx/DHOoCafTJ6V87Df5Es1RSi9MIF+ONpEahJ3MpSVLWFKHr3D8OOp6/dTDQpa2EHLSKrkKG4CE3wJbqQEX0DzsGO+Qp9UFUWIjQJK8kqZD9su7PohlB64ils+21IZRpu4lkF32EHKiqrEG1d/LZ3oLkRyhRoKXZtv2AEGvMcdrBayypkJB7Cb38NujmGcgS2bepTsf8QQ95k1xbkJPw+GxDKKNi7/xu0RxI7QAx5hShamXbC9vmBcQjlCmzbOUhiL8ZQqRClI27A9tOyG8oC2HbbkcRejKFIIcpwfIXrp8kcmvjaGtnx9RSaxF6MoWghykHYvvMRil2gVHAyT2zHGMoUouca27fxa+NFN1Lbrj9SF2IoU8gQ2L66o4fif3J6qkxdiKFMIV1g+2oBCGUHbDvd1FMXYihTiD+RLyGUfbDtJiJ1IYYyhcyA7bsXoZyBbTcYqQsxlClkK2zfZQjlHlwb7b86I9UxhqKF9IC2HK6f/oOpTeH/aFtjtykPkMRdiKVoIbtg+2nzGIoeqmw7zZck9mIMRQpZDL+f5kso/vZ/EZLYizFUKmQldCBn+5xAKHrA+gjXTudpupbkPewgtZZViDaK/o1NdMTUG6Fsgm2rA/PGLIXdrNVaViH+TU30LK5Dv1C0xH6Ca6vHbp1ypqJ3R+9CnrKnJ05WIZrMtt0j6MEplLa4Ctv+FKpK2fMsJ6uQ2dA3QWcBe5B18KDoyNSOqTk1HlWnzAmjkzfZ9Z/Xp52XVfDHXI0mp+iZr5NXSF70CKxzNP8ISqePNTs2LXIK71RTiH7oOQ1/rLzjoqpT6XcRp0whetJbjnfwx7mPqk8XKyXvlyqnaCFama4jNMZlVJpLTU7Wb4dO0ULGwu+rYyHdBFVksyT0a65TtJBOeAHXT0+Hk9Cs0Sri/77ulJkjw7AG81CzlalstDvw79ai/VTdRUujVhdbyEbUZQbB3f0/YDTqNlplJmNA8rfWtLg0NPwFp2O/VyComU0AAAAASUVORK5CYII=">
-<span style="display: inline-block;color: gray;font-size:14px;" id="update"></span>
+<span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
 </div>
 <br>
 <div class="ui-grid-icon">
@@ -138,7 +138,7 @@ if (stripos("$run_list", " tor".PHP_EOL) !== false) {
 </div>
 </div>
 <br>
-<div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("traffic.php","Refresh=refresh","refresh")'>
+<div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white"></span>
 </div>
 <section class="ui-container">
@@ -183,22 +183,22 @@ if(xmlhttp.readyState==4&&xmlhttp.status==200) {
 document.getElementById("traffic").innerHTML=xmlhttp.responseText;
 }
 }
-xmlhttp.open("GET","traffic.php?t="+Math.random(),true);
+xmlhttp.open("GET","server.php?t="+Math.random(),true);
 xmlhttp.send();
 },1000);
 </script>
 -->
 <script type="text/javascript">
 if(typeof(EventSource) !== "undefined") {
-    var source = new EventSource("traffic.php");
-    source.onmessage = function(event) {
-        document.getElementById("traffic").innerHTML = event.data;
-    };
-    source.addEventListener("user", function (toast) {
-        document.getElementById("update").innerHTML = toast.data;
+    var source = new EventSource("server.php");
+    source.addEventListener("traffic", function (traffic) {
+        document.getElementById("traffic").innerHTML = traffic.data;
+   });
+    source.addEventListener("notification", function (toast) {
+        document.getElementById("notification").innerHTML = toast.data;
    });
 } else {
-    document.getElementById("traffic").innerHTML = "Sorry, your browser does not support server-sent events...";
+    alert("Sorry, your browser does not support server-sent events...");
 }
 </script>
 </body>

@@ -54,13 +54,14 @@ list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = net
 //$etime=microtime(true);//获取程序执行结束的时间
 //$total=$etime-$stime;  //计算差值
 echo "retry: 1000\n"; //1秒
+echo "event: traffic\n";
 $data = "网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
 echo "data: {$data}\n\n";
-echo "event: user\n";
-if (empty($log)) {
-$log=date("Y-m-d H:i:s");
+if ($log) {
+echo "event: notification\n";
+//$log=date("Y-m-d H:i:s");
+echo "data: ${log}\n\n";
 }
-echo "data: 无日志 ${log}\n\n";
 //<br>已经查询 <b>".$_SESSION['number']."</b> 次，耗时 <b>".round($total, 4)." </b>秒";
 session_write_close();
 flush();

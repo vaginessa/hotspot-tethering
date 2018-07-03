@@ -7,9 +7,11 @@
  </head>
  <body ontouchstart="">
  <section id="tab">
+   <!--
     <div class="demo-item">
         <p class="demo-desc">系统状态</p>
         <div class="demo-block">
+          -->
             <div class="ui-tab">
                 <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
                   <li class="current"><span>系统信息</span></li>

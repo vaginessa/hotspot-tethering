@@ -76,13 +76,15 @@ function cpu_activity() {
 
 function tcp_conntrack() {
 $tcp_file = file('/proc/net/tcp');
+/*
 $TCP_ESTABLISHED=0;
 foreach ($tcp_file as $key) {
     if (strpos($key, ' 0A ')) {
     $TCP_ESTABLISHED=$TCP_ESTABLISHED+1;
     }
  }
-  return array(count($tcp_file)-1,$TCP_ESTABLISHED);
+ */
+  return array(count($tcp_file)-1);
 }
 
 //刷新信息
@@ -109,13 +111,13 @@ $Total=($Total_2-$Total_1);
 $SYS_USAGE=($SYS_IDLE/$Total) * 100;
 $SYS_Rate=round(100-$SYS_USAGE,2);
 //
-list($tcp_num, $established) = tcp_conntrack();
+list($tcp_num) = tcp_conntrack();
 
 
 echo "retry: 1000\n"; //1秒(发送频率)
 
 echo "event: traffic\n";
-$data = "并发数: <b style=\"color:#8558ef;\">" . $established . "</b> 连接数: <b style=\"color:#8558ef;\">" . $tcp_num . "</b><br> 网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
+$data = "网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b> 连接数: <b style=\"color:#8558ef;\">" . $tcp_num . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
 echo "data: $data\n\n";
 
 echo "event: memory\n";

@@ -45,7 +45,7 @@ $dir = dirname(__FILE__);
 
 $run = $binary.' --conf-path='.$dir.'/aria2.conf --dir='.$dir.'/Download --log='.$dir.'/aria2.log --input-file='.$dir.'/aria2.session --save-session='.$dir.'/aria2.session --save-cookies='.$dir.'/Cookie --load-cookies='.$dir.'/Cookie --dht-file-path='.$dir.'/dht.dat';
 
-if (stripos(shell_exec('ps -A'), 'aria2c') === false) {
+if (stripos(shell_exec("${ps} -A"), 'aria2c') === false) {
     shell_exec($run);
 }
 

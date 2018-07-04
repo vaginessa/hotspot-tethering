@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_COOKIE["user_name"]) && isset($_COOKIE["pass_word"]) && $_SESSION['from']!='admin') { 
+if (isset($_COOKIE["user_name"]) && isset($_COOKIE["pass_word"]) && $_SESSION['from'] != 'admin') { 
 header("Location: ../Admin/");
 die('管理员首次进入没有到过管理页面');
 }
@@ -24,7 +24,7 @@ session_write_close();
 
 <body ontouchstart>
 
-<section class="ui-container"><section id="actionsheet"><a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 class="title">欢迎页设置</h1></a><div class="demo-item">		<p class="demo-desc">菜单</p>		<div class="demo-block">			<div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('kq')">开启热点欢迎页</button>					<button onclick="iptables('cz')">写入用户表规则</button>     <button class="ui-actionsheet-del" onclick="iptables('gb')">关闭热点欢迎页</button>					<button onclick="help_about();">帮助关于</button>     <div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">设置选择菜单</button></div></section>
+<section class="ui-container"><section id="actionsheet"><div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('kq')">开启热点欢迎页</button>					<button onclick="iptables('cz')">写入用户表规则</button>     <button class="ui-actionsheet-del" onclick="iptables('gb')">关闭热点欢迎页</button>     <div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">菜单</button></div></section>
 <?php
     $user_file="user.json";
     $data=json_decode(file_get_contents($user_file), true);
@@ -73,9 +73,6 @@ function iptables(command) {
 <script type="text/javascript">
 function toast(tos) { 
 alert(tos); 
-}
-function help_about() { 
-alert("iptables流量定向\nhttp端口: 8080 https端口: 4433\n请设置好ksweb的监听端口"); 
 }
 function status(status) { 
 if(status=='OK') alert("状态: 正常"); 

@@ -180,6 +180,10 @@ if (stripos($value, " tor".PHP_EOL)) {
 <div class="progress round-conner">
     <div class="curRate round-conner" id="ram3"></div>
 </div>
+<span class="demo-desc">剩余存储:  <b id="storage1"></b></span>
+<div class="progress round-conner">
+    <div class="curRate round-conner" id="storage2"></div>
+</div>
 
 <section class="ui-container">
 <div class="index-wrap">
@@ -256,6 +260,24 @@ if(typeof(EventSource) !== "undefined") {
             color="blue";
         }
         document.getElementById("cpu2").style.background = color;
+   });
+   source.addEventListener("storage", function (storage) {
+        obj = JSON.parse(storage.data);
+        document.getElementById("storage1").innerHTML = obj.storage_free+" / "+obj.storage_total;
+        document.getElementById("storage2").style.width = obj.storage_rate+"%";
+        if (obj.storage_rate>75)  {
+            color="blue";
+        }
+        else if (obj.storage_rate>50)  {
+            color="green";
+        }
+        else if (obj.storage_rate>25)  {
+            color="yellow";
+        }
+        else if (obj.storage_rate>0)  {
+            color="red";
+        }
+        document.getElementById("storage2").style.background = color;
    });
 } else {
     alert("Sorry, your browser does not support server-sent events...");

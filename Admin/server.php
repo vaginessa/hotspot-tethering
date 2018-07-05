@@ -74,18 +74,22 @@ function cpu_activity() {
   return array($totalCPUTime,$idle);
 }
 
-function tcp_conntrack() {
-$tcp_file = file('/proc/net/tcp');
-/*
-$TCP_ESTABLISHED=0;
-foreach ($tcp_file as $key) {
-    if (strpos($key, ' 0A ')) {
-    $TCP_ESTABLISHED=$TCP_ESTABLISHED+1;
+function storage()
+{
+    $size = trim(func_get_arg(0));
+    if ($size < 1024) {
+        return $size . " B";
+    } elseif ($size < 1024 * 1024) {
+        return number_format($size / 1024, 3) . " KB";
+    } elseif ($size < 1024 * 1024 * 1024) {
+        return number_format($size / 1024 / 1024, 3) . " MB";
+    } elseif ($size < 1024 * 1024 * 1024 * 1024) {
+        return number_format($size / 1024 / 1024 / 1024, 3) . " GB";
+    } else {
+        return number_format($size / 1024 / 1024 / 1024 / 1024, 3) . " TB";
     }
- }
- */
-  return array(count($tcp_file)-1);
 }
+
 
 //刷新信息
 if ($_POST['Refresh']=='refresh') {
@@ -111,13 +115,18 @@ $Total=($Total_2-$Total_1);
 $SYS_USAGE=($SYS_IDLE/$Total) * 100;
 $SYS_Rate=round(100-$SYS_USAGE,2);
 //
-list($tcp_num) = tcp_conntrack();
 
+$tcp_conntrack=count(file('/proc/net/tcp'))-1;
+
+$storage_name=__DIR__;
+$storage_total=storage(disk_total_space($storage_name));
+$storage_free=storage(disk_free_space($storage_name));
+$storage_rate=round(disk_free_space($storage_name)/disk_total_space($storage_name) * 100, 2);
 
 echo "retry: 1000\n"; //1秒(发送频率)
 
 echo "event: traffic\n";
-$data = "网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b> 连接数: <b style=\"color:#8558ef;\">" . $tcp_num . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
+$data = "网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b> 连接数: <b style=\"color:#8558ef;\">" . $tcp_conntrack . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
 echo "data: $data\n\n";
 
 echo "event: memory\n";
@@ -126,8 +135,8 @@ echo "data: {\"RAM\": \"$RAM\",\"RAM2\": \"$RAM2\",\"MemTotal\": \"$MemTotal\"}\
 echo "event: cpu\n";
 echo "data: $SYS_Rate\n\n";
 
-//echo "event: tcp\n";
-//echo "data: {\"tcp_num\": \"$tcp_num\",\"established\": \"$established\"}\n\n";
+echo "event: storage\n";
+echo "data: {\"storage_name\": \"$storage_name\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
 
 session_write_close();
 flush();

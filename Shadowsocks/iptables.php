@@ -89,23 +89,24 @@ $stop_iptables = array(
 );
 $status_iptables = array(
     //echo -e "nat表pre_forward链:"
-    "iptables -vxn -t nat -L pre_forward --line-number",
+    //"iptables -vxn -t nat -L pre_forward --line-number",
+    "iptables -n -t nat -L pre_forward --line-number",
     //echo -e "nat表user_portal链:"
-    "iptables -vxn -t nat -L user_portal --line-number",
+    "iptables -n -t nat -L user_portal --line-number",
     //echo -e "nat表out_lan链:"
-    "iptables -vxn -t nat -L out_lan --line-number",
+    "iptables -n -t nat -L out_lan --line-number",
     //echo -e "nat表koolproxy_forward链:"
-    "iptables -vxn -t nat -L koolproxy_forward --line-number",
+    "iptables -n -t nat -L koolproxy_forward --line-number",
     //echo -e "nat表out_forward链:"
-    "iptables -vxn -t nat -L out_forward --line-number",
+    "iptables -n -t nat -L out_forward --line-number",
     //echo -e "filter表user_block链:"
-    "iptables -vxn -t filter -L user_block --line-number",
+    "iptables -n -t filter -L user_block --line-number",
     //echo -e "mangle表redsocks2_pre链:"
-    "iptables -vxn -t mangle -L redsocks2_pre --line-number",
+    "iptables -n -t mangle -L redsocks2_pre --line-number",
     //echo -e "mangle表redsocks2_lan链:"
-    "iptables -vxn -t mangle -L redsocks2_lan --line-number",
+    "iptables -n -t mangle -L redsocks2_lan --line-number",
     //echo -e "mangle表redsocks2_out链:"
-    "iptables -vxn -t mangle -L redsocks2_out --line-number"
+    "iptables -n -t mangle -L redsocks2_out --line-number"
 );
 $status_binary = array(
     "ss-local",
@@ -118,18 +119,16 @@ $status_binary = array(
     "kcptun"
 );
 
-clearstatcache();
-
 function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp) {
     $tmp_file = sys_get_temp_dir()."/iptables_add.sh";
-    if (is_file($tmp_file)) { 
+    if (file_exists($tmp_file)) { 
     unlink("$tmp_file");
-    //支持tproxy吗？
     }
+    //支持tproxy吗？
     if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets') , 'TPROXY')) { 
     $tproxy = true;
-    //开启转发了吗？
     }
+    //开启转发了吗？
     if (stripos(shell_exec('su -c cat /proc/sys/net/ipv4/ip_forward') , '0')) { 
     shell_exec('su -c echo 1 > /proc/sys/net/ipv4/ip_forward');
     //sysctl -w net.ipv4.ip_forward=1
@@ -179,7 +178,7 @@ function iptables_stop($stop_iptables, $status_binary, $file_name) {
     $pkill = busybox_check("pkill");
     $file_name ? $file='iptables_del.sh' : $file='iptables_add.sh';
     $tmp_file = sys_get_temp_dir()."/$file";
-    if (is_file($tmp_file) and $file_name === true) unlink("$tmp_file");
+    if (file_exists($tmp_file) and $file_name === true) unlink("$tmp_file");
     foreach ($status_binary as $value) {
         file_put_contents($tmp_file, "$pkill $value". PHP_EOL, FILE_APPEND | LOCK_EX);
     }

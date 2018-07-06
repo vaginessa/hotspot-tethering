@@ -134,8 +134,8 @@ if (stripos($value, " tor".PHP_EOL)) {
 <li>
 <div class="ui-img-icon">
 <span style="background-image:url(../img/Network_shutdown.png)" id="network"></span></div>
-<h5 class="ui-txt-warning">关闭网络</h5>
-<p>手机数据连接关闭和开启</p>
+<h5 class="ui-txt-warning">开关控制</h5>
+<p>手机数据连接关闭和开启等</p>
 </li>
 </ul>
 </div>
@@ -160,8 +160,10 @@ if (stripos($value, " tor".PHP_EOL)) {
 <div class="ui-actionsheet" id="actionsheet1">
 <div class="ui-actionsheet-cnt am-actionsheet-down">
 <h4>这将会关闭或者开启手机热点的数据网络连接</h4>
-<button onclick='Refresh("../tools/Connections.php","sjwl=on","data")'>开启数据网络</button>
-<button onclick='Refresh("../tools/Connections.php","sjwl=off","data")' class="ui-actionsheet-del">关闭数据连接</button>
+<button onclick='Refresh("../tools/Console.php","sjkz=on","mobile")'>开启数据网络</button>
+<button onclick='Refresh("../tools/Console.php","sjkz=off","mobile")' class="ui-actionsheet-del">关闭数据连接</button>
+<button onclick='Refresh("../tools/Console.php","sjkz=restart","mobile")' class="ui-actionsheet-del">热点机重启</button>
+<button onclick='Refresh("../tools/Console.php","sjkz=shut_down","mobile")' class="ui-actionsheet-del">热点机关机</button>
 <div class="ui-actionsheet-split-line"></div>
 <button id="cancel">取消</button>
 </div>
@@ -200,7 +202,7 @@ function Refresh(a,b,c) {
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
 if(this.readyState==4&&this.status==200) { 
-if(c=='data')alert(xhttp.responseText);
+if(c=='mobile')alert(xhttp.responseText);
 if(c=='refresh')alert("已帮你刷新了网卡和IP地址!");
 if(c=='logout')window.location.href="";
 }

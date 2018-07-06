@@ -140,4 +140,5 @@ echo "data: {\"storage_name\": \"$storage_name\",\"storage_total\": \"$storage_t
 
 session_write_close();
 flush();
+exit;
 ?>

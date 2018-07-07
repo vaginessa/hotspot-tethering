@@ -1,9 +1,9 @@
 <?php
 if (isset($_COOKIE['user_name']) && isset($_COOKIE['pass_word'])) { 
-require '../Admin/main.class.php';
+  require '../Admin/main.class.php';
 } else {
-header('Location: login.php');
-die('你无权访问本页面');
+  header('Location: login.php');
+  die('你无权访问本页面');
 }
 ?>
 <!DOCTYPE html>

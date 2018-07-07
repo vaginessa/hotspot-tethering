@@ -79,10 +79,11 @@ if ($url) {
                     <li>
                     <?php
                     $tcp_file = file('/proc/net/tcp');
+                    $num=0;
                     echo "
                 <table id=\"connect\" class=\"ui-table ui-border-tb\">
                 <thead>
-                <tr><th>本地地址</th><th>远程地址</th><th>UID</th><th>查询</th><th>连接状态描述</th></tr>
+                <tr><th>序号</th><th>本地地址</th><th>远程地址</th><th>UID</th><th>查询</th><th>连接状态描述</th></tr>
                 </thead>
                 <tbody>";
                     foreach ($tcp_file as $key) {
@@ -130,7 +131,8 @@ if ($url) {
         $check="";
     }
     if ($lport != "0") {
-        echo "<tr><td>$laddress:$lport</td><td>$raddress:$rport</td><td>$uid</td><td>$check</td><td>$status</td></tr>";
+        $num=$num+1;
+        echo "<tr><td>$num</td><td>$laddress:$lport</td><td>$raddress:$rport</td><td>$uid</td><td>$check</td><td>$status</td></tr>";
     }
 }           
         echo "         

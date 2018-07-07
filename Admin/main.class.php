@@ -1,13 +1,23 @@
 <?php
-$dir=__DIR__."/admin.php";
+$dir=__DIR__.'/admin.php';
 if (file_exists($dir)) { 
-require $dir;
+  require $dir;
 } else {
-die('管理员密码配置文件遗失');
+  die('管理员密码配置文件遗失');
 }
-if ($_COOKIE['user_name'] != hash('sha512',U) || $_COOKIE['pass_word'] != hash('sha512',P)) { 
-header('Location: ../Admin/login.php');
-die('需要登录认证才能访问!');
+$rza=$_COOKIE['user_name'];
+$rzb=$_COOKIE['pass_word'];
+$rzc=hash('sha512',U);
+$rzd=hash('sha512',P);
+
+if ($rza && $rzb) { 
+  if ($rza != $rzc && $rzb != $rzd) { 
+    die('非法登录！');
+  }
+}
+else { 
+  header('Location: ../Admin/login.php');
+  die('需要登录认证才能访问!');
 }
 
 function geturlkeyvalue($url)

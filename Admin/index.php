@@ -29,12 +29,12 @@ if ($receive) {
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
-<title>热点后台管理</title>
-<link rel="shortcut icon" href="../favicon.ico" />
-<link rel="stylesheet" href="../css/frozenui.css" />
-<link rel="stylesheet" href="../css/style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
+  <title>热点后台管理</title>
+  <link rel="shortcut icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="../css/frozenui.css" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body ontouchstart="">
 <style type="text/css">
@@ -70,12 +70,12 @@ if ($receive) {
 }
 </style>
 <section class="ui-container">
-<div class="index-wrap">
-<div style="background-color:#0F7884" class="header">
-<a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1 style="color:white"><?php system("getprop ro.product.model"); ?></h1></a>
-<h2 style="color:#eeeeee"><?php system("getprop gsm.network.type"); ?></h2>
-</div>
-</div>
+  <div class="index-wrap">
+    <div style="background-color:#0F7884" class="header">
+      <a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1 style="color:white"><?php system("getprop ro.product.model"); ?></h1></a>
+    <h2 style="color:#eeeeee"><?php system("getprop gsm.network.type"); ?></h2>
+      </div>
+    </div>
 </section>
 
 <!--
@@ -84,73 +84,87 @@ if ($receive) {
 <span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
 </div>
 -->
-<div class="ui-grid-icon">
-<ul>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/Shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span></div>
-<h5>Shadowsocks</h5>
-<p>一種基於Socks5代理方式的加密傳輸協定</p>
-</li>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/welcom.png)" onclick='window.location.href="../Welcom/"'></span></div>
-<h5>欢迎页</h5>
-<p>热点欢迎页设置</p>
-</li>
-</ul>
-</div>
+<div class="ui-grid-icon ">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/Shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
+                </div>
+                <h5>Shadowsocks</h5>
+                <p>一種基於Socks5代理方式的加密傳輸協定</p>
 
-<div class="ui-grid-icon">
-<ul>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/tor.png)" id='tor'><?php echo $tor_status; ?></span></div>
-<h5>Tor</h5>
-<p>请戴“套”翻墻</p>
-</li>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span></div>
-<h5>KoolProxy</h5>
-<p>用于去除网页静广告和视频广告，并且支持https！</p>
-</li>
-</ul>
-</div>
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/welcom.png)" onclick='window.location.href="../Welcom/"'></span>
+                </div>
+                <h5>欢迎页</h5>
+                <p>热点欢迎页设置</p>
 
-<div class="ui-grid-icon">
-<ul>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/tileicon.png)" id="aria2"><?php echo $aria2_status; ?></span></div>
-<h5>Aria2</h5>
-<p>一个轻量级的多协议和多资源命令行下载工具</p>
-</li>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/Network_shutdown.png)" id="switch"></span></div>
-<h5 class="ui-txt-warning">开关控制</h5>
-<p>手机数据连接关闭和开启等</p>
-</li>
-</ul>
-</div>
+              </li>
+          </ul>
+        </div>
+<div class="ui-grid-icon ">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/tor.png)" id='tor'><?php echo $tor_status; ?></span>
+                </div>
+                <h5>Tor</h5>
+                <p>请戴“套”翻墻</p>
 
-<div class="ui-grid-icon">
-<ul>
-<li>
-<div class="ui-img-icon">
-<span style="background-image:url(../img/mobile.png)" onclick='window.location.href="./mobile.php"'></span></div>
-<h5>关于手机</h5>
-<p>系统、电量、内存等详细信息</p>
-</li>
-<li>
-<div class="ui-img-icon" onclick='if (confirm("要退出登录吗？")==true) Refresh("login.php","logout=logout","logout");'>
-<span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span></div>
-<h5 class="admin"><?php echo U; ?></h5>
-<p>注销登录</p>
-</li>
-</ul>
-</div>
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
+                </div>
+                <h5>KoolProxy</h5>
+                <p>用于去除网页静广告和视频广告，并且支持https！</p>
+
+              </li>
+          </ul>
+        </div>
+<div class="ui-grid-icon ">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/tileicon.png)" id="aria2"><?php echo $aria2_status; ?></span>
+                </div>
+                <h5>Aria2</h5>
+                <p>一个轻量级的多协议和多资源命令行下载工具</p>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/Network_shutdown.png)" id="switch"></span>
+                </div>
+                <h5>开关控制</h5>
+                <p>手机数据连接关闭和开启等</p>
+
+              </li>
+          </ul>
+        </div>
+<div class="ui-grid-icon ">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/mobile.png)" onclick='window.location.href="./mobile.php"'></span>
+                </div>
+                <h5>关于手机</h5>
+                <p>系统、电量、内存等详细信息</p>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)" onclick='if (confirm("要退出登录吗？")==true) Refresh("login.php","logout=logout","logout");'><?php echo $kool_status; ?></span>
+                </div>
+                <h5 class="admin"><?php echo U; ?></h5>
+                <p>注销登录</p>
+
+              </li>
+          </ul>
+        </div>        
+                
 
 <div class="ui-actionsheet" id="actionsheet">
    <div class="ui-actionsheet-cnt am-actionsheet-down">

@@ -295,7 +295,7 @@ $("#aria2").click(function(){
   select(content1);
 });
 
-var content2="\n<button onclick='Refresh(\"../Orbot/\",\"receive=start\",\"tor\")'>打开</button>\n<button onclick='Refresh(\"../Orbot/\",\"receive=stop\",\"tor\")' class=\"ui-actionsheet-del\">关闭</button>\n<hr>\n<button onclick='window.open(\"https://check.torproject.org/?lang=zh_CN\")'>网络检测</button>\n";
+var content2="\n<button onclick='Refresh(\"../Orbot/\",\"receive=start\",\"tor\")'>启动tor</button>\n<button onclick='Refresh(\"../Orbot/\",\"receive=stop\",\"tor\")' class=\"ui-actionsheet-del\">关闭tor</button>\n<hr>\n<button onclick='window.open(\"https://check.torproject.org/?lang=zh_CN\")'>网络检测</button>\n";
 $("#tor").click(function(){
   select(content2);
 });

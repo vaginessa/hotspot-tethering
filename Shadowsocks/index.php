@@ -1,12 +1,7 @@
 <?php
-require '../tools/Certified.php';
-require "../tools/busybox.php";
-$ps=busybox_check("ps");
-session_start();
-$_SESSION['token'] = md5(microtime(true));
-session_write_close();
+require '../Admin/main.class.php';
 //检查ss进程是否存在
-if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
+if (binary_status("ss-local")) {
   $status = true;
 }
 
@@ -329,16 +324,7 @@ if (stripos(shell_exec("su -c $ps -A"), 'ss-local')) {
           </div> 
           
   <!-- 插件类结尾 -->
-  
-        <!--
-        <div class="ui-form-item ui-form-item-link ui-border-b"> 
-         <label> 列表标题 </label> 
-        </div> 
-        <div class="ui-form-item ui-form-item-link ui-border-b"> 
-         <label> 标题 </label> 
-        </div> 
-        --> 
-       <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">
+
         <div class="ui-btn-wrap"> 
          <button id="todo" class="ui-btn-lg ui-btn-primary"> 提交 </button> 
         </div> 

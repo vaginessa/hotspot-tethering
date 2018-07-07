@@ -8,7 +8,14 @@ session_start();
 if ($_SESSION['from'] != 'login') {
     die('你无权访问本页面');
 }
-require "../tools/token.php";
+function set_token() {
+    $_SESSION['token'] = md5(microtime(true));
+}
+function valid_token() {
+    $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
+    set_token();
+    return $return;
+}
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
     set_token();
 }
@@ -18,7 +25,7 @@ if (isset($_GET['token'])) {
         die('请勿重复提交表单!');
     }
 }
-require "./user.php";
+require 'user.php';
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $user_ip = $_SERVER['REMOTE_ADDR'];
     $user_mac = get_mac($user_ip);
@@ -33,21 +40,16 @@ if ($user_ip and $user_mac and $token) {
         foreach ($value as $user => $info) {
             $macaddress = $info['mac_address'];
             $status = $info['status'];
-            if ($macaddress == "$user_mac") { 
-            $fhts='exist';
+            if ($macaddress == $user_mac) { 
+              die('你已经登录过了，如果无法上网请联系网络管理员！');
+              $fhts='exist';
             }
-            if ($macaddress == "$user_mac" and $status == "Block") { 
-            $fhts='block';
+            if ($macaddress == $user_mac && $status == "Block") { 
+              die('你被网络管理员禁止登录！');
+              $fhts='block';
             }
         }
     }
-}
-if ($fhts=='block') {
-die('你被网络管理员禁止登录！');
-}
-
-if ($fhts=='exist') {
-die('你已经登录过了，如果无法上网请联系网络管理员！');
 }
 
 if (empty($fhts) and $user_ip and $user_mac and $token) {
@@ -65,7 +67,7 @@ shell_exec("su -c $command_file");
 $command_run="iptables -t nat -I user_portal -p tcp -s $user_ip -m mac --mac-source $user_mac -j RETURN";
 shell_exec("su -c $command_run");
 unset($_SESSION['from']);
-header("Location: http://wap.baidu.com");
+header("Location: http://www.google.com");
 }
 ?>
 

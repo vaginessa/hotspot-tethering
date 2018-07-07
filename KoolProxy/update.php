@@ -1,9 +1,7 @@
 <?php
-require '../tools/Certified.php';
-require '../tools/curl.php';
+require '../Admin/main.class.php';
 date_default_timezone_set("Asia/Shanghai");
 $date = date("Y-m-d H:i:s");
-if (!isset($_POST["rand"])) die("拒绝访问！$date");
 $file = array(
     "kp.dat",
     "daily.txt",

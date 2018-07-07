@@ -1,34 +1,29 @@
 <?php
-if (!file_exists('admin.php')) { 
-die('管理员密码配置文件遗失');
-}
-require 'admin.php';
-if ($_COOKIE["user_name"] != hash('sha512',U) || $_COOKIE["pass_word"] != hash('sha512',P)) { 
-header('Location: login.php');
-die('需要登录认证才能访问!');
-}
 session_start();
+require 'main.class.php';
 $_SESSION['from']='admin';
 session_write_close();
-require '../tools/busybox.php';
-$ps=busybox_check("ps");
-exec("su -c ${ps} -A", $output, $return_val);
-if ($return_val != 0) {
-die("运行失败! <br>返回值: ${return_val}");
+$tor=sys_get_temp_dir().'/tor';
+$out=binary_status(array("aria2c","ss-local","koolproxy",$tor));
+if ($out) {
+  foreach ($out as $val) { 
+    if ($val=='aria2c') {
+      $aria2_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
+    }
+    if ($val=='ss-local') {
+      $ss_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
+    }
+    if ($val=='koolproxy') {
+      $kool_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
+    }
+    if ($val==$tor) {
+      $tor_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
+    }
+  }
 }
-foreach ($output as $value) { 
-if (stripos($value, 'aria2c')) {
-    $aria2_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
-}
-if (stripos($value, 'ss-local')) {
-    $ss_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
-}
-if (stripos($value, 'koolproxy')) {
-    $kool_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
-}
-if (stripos($value, " tor".PHP_EOL)) {
-    $tor_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
-}
+$receive=htmlspecialchars($_POST["receive"]);
+if ($receive) { 
+  Console($receive);
 }
 ?>
 <!DOCTYPE html>
@@ -110,7 +105,7 @@ if (stripos($value, " tor".PHP_EOL)) {
 <ul>
 <li>
 <div class="ui-img-icon">
-<span style="background-image:url(../img/tor.png)" onclick='window.location.href="../Orbot/"'><?php echo $tor_status; ?></span></div>
+<span style="background-image:url(../img/tor.png)" id='tor'><?php echo $tor_status; ?></span></div>
 <h5>Tor</h5>
 <p>请戴“套”翻墻</p>
 </li>
@@ -127,13 +122,13 @@ if (stripos($value, " tor".PHP_EOL)) {
 <ul>
 <li>
 <div class="ui-img-icon">
-<span style="background-image:url(../img/tileicon.png)" onclick='window.location.href="../Aria2/"'><?php echo $aria2_status; ?></span></div>
-<h5>AriaNg</h5>
-<p>一个让 aria2 更容易使用的现代 Web 前端</p>
+<span style="background-image:url(../img/tileicon.png)" id="aria2"><?php echo $aria2_status; ?></span></div>
+<h5>Aria2</h5>
+<p>一个轻量级的多协议和多资源命令行下载工具</p>
 </li>
 <li>
 <div class="ui-img-icon">
-<span style="background-image:url(../img/Network_shutdown.png)" id="network"></span></div>
+<span style="background-image:url(../img/Network_shutdown.png)" id="switch"></span></div>
 <h5 class="ui-txt-warning">开关控制</h5>
 <p>手机数据连接关闭和开启等</p>
 </li>
@@ -149,7 +144,7 @@ if (stripos($value, " tor".PHP_EOL)) {
 <p>系统、电量、内存等详细信息</p>
 </li>
 <li>
-<div class="ui-img-icon" onclick='Refresh("login.php","logout=logout","logout")'>
+<div class="ui-img-icon" onclick='if (confirm("要退出登录吗？")==true) Refresh("login.php","logout=logout","logout");'>
 <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span></div>
 <h5 class="admin"><?php echo U; ?></h5>
 <p>注销登录</p>
@@ -157,18 +152,36 @@ if (stripos($value, " tor".PHP_EOL)) {
 </ul>
 </div>
 
-<div class="ui-actionsheet" id="actionsheet1">
-<div class="ui-actionsheet-cnt am-actionsheet-down">
-<h4>这将会关闭或者开启手机热点的数据网络连接</h4>
-<button onclick='Refresh("../tools/Console.php","sjkz=on","mobile")'>开启数据网络</button>
-<button onclick='Refresh("../tools/Console.php","sjkz=off","mobile")' class="ui-actionsheet-del">关闭数据连接</button>
-<button onclick='Refresh("../tools/Console.php","sjkz=restart","mobile")' class="ui-actionsheet-del">热点机重启</button>
-<button onclick='Refresh("../tools/Console.php","sjkz=shut_down","mobile")' class="ui-actionsheet-del">热点机关机</button>
-<div class="ui-actionsheet-split-line"></div>
-<button id="cancel">取消</button>
+<div class="ui-actionsheet" id="actionsheet">
+   <div class="ui-actionsheet-cnt am-actionsheet-down">
+        <menu>
+        </menu>
+        <div class="ui-actionsheet-split-line"></div>
+        <button id="cancel">取消</button>
+      </div>
+   </div>
 </div>
-</div>
-</div>
+
+<!-- 带标题文字消息 -->
+			<div class="ui-dialog" id="dialog">
+			    <div class="ui-dialog-cnt">
+			        <div class="ui-dialog-bd">
+			            <h3></h3>
+			            <p></p>
+			        </div>
+			        <div class="ui-dialog-ft">
+			            <button type="button" data-role="button" onclick='$("#dialog").removeClass("show")'>取消</button>
+			            <button type="button" data-role="button" class="btn-recommand" onclick=''>确认</button>
+			        </div>
+			    </div>
+			</div>
+			
+			<div class="ui-loading-block show" id="loading" style="display:none">
+                <div class="ui-loading-cnt">
+                    <i class="ui-loading-bright"></i>
+                    <p></p>
+                </div>
+            </div>
 
 <div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white"></span>
@@ -188,37 +201,111 @@ if (stripos($value, " tor".PHP_EOL)) {
 </div>
 
 <section class="ui-container">
-<div class="index-wrap">
-<div class="footer">
-<a href="" id="footer"></a>
-</div>
-</div>
+  <div class="index-wrap">
+    <div class="footer">
+      <a href="" id="footer"></a>
+    </div>
+  </div>
 </section>
 
 <script src="../js/zepto.min.js"></script>
 <script src="../js/footer.js"></script>
 <script type="text/javascript">
+function loading(a) { 
+if (a==""||a==null) {
+    var a="请稍候…";
+  }
+$(".ui-loading-cnt p").text(a);
+if ($("#loading").css("display")=="none"){
+    $("#loading").show();
+  } else {
+    $("#loading").hide();  
+  }
+  setTimeout(function(){
+  if ($("#loading").css("display")!="none"){
+    $("#loading").hide();
+    alert("时间超时!");
+  }
+  },10000);
+}
+
+//https://blog.csdn.net/lee_magnum/article/details/11555981
+function isArrayFn(value){
+	if (typeof Array.isArray === "function") {
+		return Array.isArray(value);    
+	}else{
+		return Object.prototype.toString.call(value) === "[object Array]";    
+	}
+}
+
 function Refresh(a,b,c) { 
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
 if(this.readyState==4&&this.status==200) { 
-if(c=='mobile')alert(xhttp.responseText);
-if(c=='refresh')alert("已帮你刷新了网卡和IP地址!");
-if(c=='logout')window.location.href="";
+  if (c=='mobile'||c=='aria2'||c=='tor') {
+    $("#loading").hide();
+  }
+  if (c=='mobile') alert(xhttp.responseText);
+  if (c=='aria2') alert(xhttp.responseText);
+  if (c=='tor') alert(xhttp.responseText);
+  if (c=='refresh') alert("已帮你刷新了网卡和IP地址!");
+  if (c=='logout') window.location.href="";
 }
 };
 xhttp.open("POST",a,true);
 xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xhttp.send(b+"&number="+Math.random());
+if(c=='aria2'){ 
+    if(b=='receive=update') {
+      var x="tracker更新中…";
+    }
+      loading(x);
+}
+if(c=='tor'){ 
+    if(b=='receive=start') {
+      var x="tor启动中…";
+    }
+      loading(x);
+}
+if(c=='mobile'){ 
+    if(b=='receive=on') {
+      var x="正在打开数据网络，请稍候…";
+    }
+      loading(x);
+}
+
 }
 </script>
 <script type="text/javascript">
-$("#network").click(function(){
-$('.ui-actionsheet').addClass('show');
+function select(content) { 
+  $("menu").empty();
+  $("menu").html(content);
+  $('.ui-actionsheet').addClass('show');
+}
+$("#actionsheet").click(function(){
+  $(".ui-actionsheet").removeClass("show");
 });
-$("#actionsheet1").click(function(){
-$(".ui-actionsheet").removeClass("show");
+
+var content="<button onclick='Refresh(\"\",\"receive=on\",\"mobile\")'>打开数据网络</button>\n<button onclick='Refresh(\"\",\"receive=off\",\"mobile\")'>关闭数据连接</button>\n<button onclick='Toast(\"重启\",\"确认重启手机？\",\"restart\")' class=\"ui-actionsheet-del\">重启</button>\n<button onclick='Toast(\"关机\",\"确认关机？\",\"shutdown\")' class=\"ui-actionsheet-del\">关机</button>\n";
+$("#switch").click(function(){
+  select(content);
 });
+var content1="\n<h4>可自行添加更多的webui前端界面</h4>\n<button onclick='Refresh(\"../Aria2/\",\"receive=start\",\"aria2\")'>启动aria2</button>\n<button onclick='Refresh(\"../Aria2/\",\"receive=stop\",\"aria2\")' class=\"ui-actionsheet-del\">关闭aria2</button>\n<button onclick='Refresh(\"../Aria2/\",\"receive=update\",\"aria2\")'>更新tracker</button>\n<button onclick='window.location.href=\"../Aria2/AriaNg/\"'>Aria2Ng</button>\n<button onclick='window.location.href=\"../Aria2/webui-aria2/\"'>webui-aria2</button>\n";
+$("#aria2").click(function(){
+  select(content1);
+});
+
+var content2="\n<button onclick='Refresh(\"../Orbot/\",\"receive=start\",\"tor\")'>打开</button>\n<button onclick='Refresh(\"../Orbot/\",\"receive=stop\",\"tor\")' class=\"ui-actionsheet-del\">关闭</button>\n<hr>\n<button onclick='window.open(\"https://check.torproject.org/?lang=zh_CN\")'>网络检测</button>\n";
+$("#tor").click(function(){
+  select(content2);
+});
+
+function Toast(a,b,c) { 
+  $("#dialog .ui-dialog-bd h3").text(a);
+  $("#dialog .ui-dialog-bd p").text(b);
+  $("#dialog").addClass("show");  
+  $("#dialog .ui-dialog-ft .btn-recommand").attr("onclick",'Refresh(\"\",\"receive='+c+'\",\"mobile\")');
+}
 </script>
 
 <script type="text/javascript">

@@ -65,5 +65,3 @@ www.quanben.io##amp-ad
 |https://s.ip-cdn.com/img/a_hb.jpg
 |https://s.ip-cdn.com/img/ali_hb.jpg
 |https://adservice.google.com
-@@connectivitycheck.gstatic.com
-@@www.google.com/gen_204

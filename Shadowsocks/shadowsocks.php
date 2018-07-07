@@ -1,15 +1,19 @@
-<?
-session_start();
-require '../tools/Certified.php';
-require '../tools/token.php';
-require '../tools/ssurl.php';
-require '../tools/input.php';
+<?php
 require 'iptables.php';
 
-
 //命令查找
-$pkill = busybox_check("pkill");
+$pkill = toolbox_check()[1]." pkill";
 
+$status_binary = array(
+    "ss-local",
+    "obfs-local",
+    "overture",
+    "gost",
+    "redsocks2",
+    "tproxy",
+    "GoQuiet",
+    "kcptun"
+);
 //移动模块文件
 foreach ($status_binary as $value) {
     $binary_file = sys_get_temp_dir() . "/$value";
@@ -19,48 +23,41 @@ foreach ($status_binary as $value) {
     }
 }
 
-if (!valid_token()) { 
-    header('Location: ./');
-    die("请勿重复提交表单");
- }
-session_write_close();
-
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-   $shadowsocks = test_input($_GET['shadowsocks']);
-   $name = test_input($_GET['name']);
-   $server = test_input($_GET['server']);
-   $server_port = test_input($_GET['server_port']);
-   $password = test_input($_GET['password']);
-   $method = test_input($_GET['method']);
-   $route = test_input($_GET['route']);
-   $udp = test_input($_GET['udp']);
-   $gost_server = test_input($_GET['gost_server']);
-   $gost_server_port = test_input($_GET['gost_server_port']);
-   $gost_username = test_input($_GET['gost_username']);
-   $gost_password = test_input($_GET['gost_password']);
-   $plugin = test_input($_GET['plugin']);
-   $obfs = test_input($_GET['obfs']);
-   $obfs_host = test_input($_GET['obfs_host']);
-   $token = test_input($_GET['token']);
-   $remotePort = test_input($_GET['remotePort']);
-   $remoteHost = test_input($_GET['remoteHost']);
-   $ServerName = test_input($_GET['ServerName']);
-   $Key = test_input($_GET['Key']);
-   $TicketTimeHint = test_input($_GET['TicketTimeHint']);
-   $Browser = test_input($_GET['Browser']);
-   $kcpremoteaddr = test_input($_GET['kcpremoteaddr']);
-   $kcpkey = test_input($_GET['kcpkey']);
-   $kcpcrypt = test_input($_GET['kcpcrypt']);
-   $kcpmode = test_input($_GET['kcpmode']);
-   $kcpconn = test_input($_GET['kcpconn']);
-   $kcpautoexpire = test_input($_GET['kcpautoexpire']);
-   $kcpscavengettl = test_input($_GET['kcpscavengettl']);
-   $kcpmtu = test_input($_GET['kcpmtu']);
-   $kcpsndwnd = test_input($_GET['kcpsndwnd']);
-   $kcprcvwnd = test_input($_GET['kcprcvwnd']);
-   $kcpdatashard = test_input($_GET['kcpdatashard']);
-   $kcpparityshard = test_input($_GET['kcpparityshard']);
-   $kcpdscp = test_input($_GET['kcpdscp']);
+   $shadowsocks = $_GET['shadowsocks'];
+   $name = $_GET['name'];
+   $server = $_GET['server'];
+   $server_port = $_GET['server_port'];
+   $password = $_GET['password'];
+   $method = $_GET['method'];
+   $route = $_GET['route'];
+   $udp = $_GET['udp'];
+   $gost_server = $_GET['gost_server'];
+   $gost_server_port = $_GET['gost_server_port'];
+   $gost_username = $_GET['gost_username'];
+   $gost_password = $_GET['gost_password'];
+   $plugin = $_GET['plugin'];
+   $obfs = $_GET['obfs'];
+   $obfs_host = $_GET['obfs_host'];
+   $remotePort = $_GET['remotePort'];
+   $remoteHost = $_GET['remoteHost'];
+   $ServerName = $_GET['ServerName'];
+   $Key = $_GET['Key'];
+   $TicketTimeHint = $_GET['TicketTimeHint'];
+   $Browser = $_GET['Browser'];
+   $kcpremoteaddr = $_GET['kcpremoteaddr'];
+   $kcpkey = $_GET['kcpkey'];
+   $kcpcrypt = $_GET['kcpcrypt'];
+   $kcpmode = $_GET['kcpmode'];
+   $kcpconn = $_GET['kcpconn'];
+   $kcpautoexpire = $_GET['kcpautoexpire'];
+   $kcpscavengettl = $_GET['kcpscavengettl'];
+   $kcpmtu = $_GET['kcpmtu'];
+   $kcpsndwnd = $_GET['kcpsndwnd'];
+   $kcprcvwnd = $_GET['kcprcvwnd'];
+   $kcpdatashard = $_GET['kcpdatashard'];
+   $kcpparityshard = $_GET['kcpparityshard'];
+   $kcpdscp = $_GET['kcpdscp'];
 }
 
 //服务器是否ss://链接然后解析

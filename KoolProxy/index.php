@@ -10,32 +10,23 @@
 <body ontouchstart onload="checkCookie()">
 
 <?php
-require '../tools/Certified.php';
-session_start();
-clearstatcache();
-require '../tools/busybox.php';
-require '../tools/token.php';
-if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
-    set_token();
-}
-session_write_close();
-if (isset($_GET['token'])) {
-    if (!valid_token()) die("请勿重复提交表单");
-}
+require '../Admin/main.class.php';
 
-$ps=busybox_check("ps");
-$pkill=busybox_check("pkill");
-if (!is_file('koolproxy')) die('程序主文件不见了');
-if (!is_dir('rules/')) die('程序配置文件夹不见了');
+$pkill=toolbox_check()[1]." pkill";
+if (!file_exists('koolproxy')) { 
+  die('程序主文件不见了');
+  }
+if (!file_exists('rules/')) { 
+  die('程序配置文件夹不见了');
+  }
 $binary_file = sys_get_temp_dir()."/koolproxy";
 if (!is_executable($binary_file) and file_exists('koolproxy')) {
-    copy('./koolproxy', $binary_file);
+    copy('koolproxy', $binary_file);
     chmod($binary_file, 0700);
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $koolproxy = $_GET['koolproxy'];
     $guolv = $_GET['guolv'];
-    $token = $_GET['token'];
     $usergz = $_GET['usergz'];
     if ($guolv == "all") {
         $run_ipt = "80,443,8080";
@@ -47,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 if (isset($usergz)) {
-file_put_contents('./rules/user.txt', $usergz, LOCK_EX);
+  file_put_contents('rules/user.txt', $usergz, LOCK_EX);
 }
 
 
@@ -55,7 +46,7 @@ function zx_input($yxfile,$yx) {
   if (file_exists($yxfile) or is_executable($yxfile)) unlink($yxfile);
         file_put_contents($yxfile, $yx, LOCK_EX);
         chmod($yxfile, 0700);
-        shell_exec("su -c sh $yxfile");
+        shell_exec("su -c $yxfile");
 }
 
 $yxfile=sys_get_temp_dir()."/koolproxy.sh";
@@ -68,13 +59,14 @@ if (isset($guolv)) {
         $yx=$jsyx.PHP_EOL.$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
         zx_input($yxfile,$yx);
     }
-    if (empty($koolproxy) and $guolv and $token) {
+    if (empty($koolproxy) and $guolv) {
         zx_input($yxfile,$jsyx);
     }
     sleep(1);
     header('Location: ../Admin/');
 }
-if (stripos(shell_exec("su -c $ps -A") , "koolproxy")) {
+
+if (binary_status("koolproxy")) {
     $status = true;
 } else {
     $status = false;

@@ -1,6 +1,5 @@
 <?php
-require '../tools/Certified.php';
-require "../tools/busybox.php";
+require '../Admin/main.class.php';
 
 $mangle = array(
     //mangle表
@@ -87,27 +86,28 @@ $stop_iptables = array(
     "iptables -t filter -F user_block",
     "iptables -t filter -X user_block"
 );
+
 $status_iptables = array(
     //echo -e "nat表pre_forward链:"
-    //"iptables -vxn -t nat -L pre_forward --line-number",
-    "iptables -n -t nat -L pre_forward --line-number",
+    "iptables -vxn -t nat -L pre_forward --line-number",
     //echo -e "nat表user_portal链:"
-    "iptables -n -t nat -L user_portal --line-number",
+    "iptables -vxn -t nat -L user_portal --line-number",
     //echo -e "nat表out_lan链:"
-    "iptables -n -t nat -L out_lan --line-number",
+    "iptables -vxn -t nat -L out_lan --line-number",
     //echo -e "nat表koolproxy_forward链:"
-    "iptables -n -t nat -L koolproxy_forward --line-number",
+    "iptables -vxn -t nat -L koolproxy_forward --line-number",
     //echo -e "nat表out_forward链:"
-    "iptables -n -t nat -L out_forward --line-number",
+    "iptables -vxn -t nat -L out_forward --line-number",
     //echo -e "filter表user_block链:"
-    "iptables -n -t filter -L user_block --line-number",
+    "iptables -vxn -t filter -L user_block --line-number",
     //echo -e "mangle表redsocks2_pre链:"
-    "iptables -n -t mangle -L redsocks2_pre --line-number",
+    "iptables -vxn -t mangle -L redsocks2_pre --line-number",
     //echo -e "mangle表redsocks2_lan链:"
-    "iptables -n -t mangle -L redsocks2_lan --line-number",
+    "iptables -vxn -t mangle -L redsocks2_lan --line-number",
     //echo -e "mangle表redsocks2_out链:"
-    "iptables -n -t mangle -L redsocks2_out --line-number"
+    "iptables -vxn -t mangle -L redsocks2_out --line-number"
 );
+
 $status_binary = array(
     "ss-local",
     "obfs-local",
@@ -175,7 +175,7 @@ function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, 
 
 //停止规则和模块
 function iptables_stop($stop_iptables, $status_binary, $file_name) {
-    $pkill = busybox_check("pkill");
+    $pkill = toolbox_check()[1]." pkill";
     $file_name ? $file='iptables_del.sh' : $file='iptables_add.sh';
     $tmp_file = sys_get_temp_dir()."/$file";
     if (file_exists($tmp_file) and $file_name === true) unlink("$tmp_file");

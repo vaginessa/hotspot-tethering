@@ -1,6 +1,5 @@
 <?php
-require '../Shadowsocks/iptables.php';
-require '../tools/curl.php';
+require 'main.class.php';
 function get_address() {
     $data=func_get_arg(0);
     $a=str_split($data);
@@ -12,7 +11,7 @@ function get_address() {
 }
 $url=$_GET['url'];
 if ($url) {
-die(GET($url));
+  die(GET($url));
 }
 ?>
 <!DOCTYPE html>
@@ -20,6 +19,7 @@ die(GET($url));
  <head>
   <link rel="stylesheet" href="../css/frozenui.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
   <title>关于手机</title>
  </head>
  <body ontouchstart="">
@@ -36,31 +36,44 @@ die(GET($url));
                 <ul class="ui-tab-content" style="width:600%">
                     <li>
                   <?php
-                  $ps=busybox_check("ps");
-                  $output=shell_exec("su -c ${ps} -A");
+                  $tor=sys_get_temp_dir().'/tor';
+                  $binary=array("ss-local","obfs-local","overture","gost","redsocks2","tproxy","GoQuiet","kcptun","aria2c","koolproxy",$tor);
+                  $status=binary_status($binary);
                   echo "<ul class=\"ui-list ui-list-single ui-list-link ui-border-tb\">";
-                  foreach ($status_binary as $key) { 
-                      if (stripos($output, $key)) {
-                          $x="<p class=\"ui-txt-warning ui-reddot\">运行中</p>";
-                      } else { 
-                          $x="未运行";
-                      }
-                  echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key."</h4><div class=\"ui-txt-info\">".$x."</div></div></li>";
+                  if ($status) { 
+                    foreach ($binary as $key) {                     
+                       foreach ($status as $val) {
+                         if ($key==$val) {
+                            echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">".$key."</h4><div class=\"ui-txt-info\">运行中</div></div></li>";
+                            }
+                         }
+                     }
                   }
-                  echo "</ul>"; ?>
+                   echo "</ul>"; ?>
                     </li>
                     <li>
                     <?php 
                     $tmp_file = sys_get_temp_dir()."/iptables_status.sh";
                     if (file_exists($tmp_file)) { 
-                        unlink("$tmp_file");
+                        unlink($tmp_file);
                     } 
+                    $status_iptables = array(
+    "iptables -vxn -t nat -L pre_forward --line-number",
+    "iptables -vxn -t nat -L user_portal --line-number",
+    "iptables -vxn -t nat -L out_lan --line-number",
+    "iptables -vxn -t nat -L koolproxy_forward --line-number",
+    "iptables -vxn -t nat -L out_forward --line-number",
+    "iptables -vxn -t filter -L user_block --line-number",
+    "iptables -vxn -t mangle -L redsocks2_pre --line-number",
+    "iptables -vxn -t mangle -L redsocks2_lan --line-number",
+    "iptables -vxn -t mangle -L redsocks2_out --line-number"
+                    );
                     foreach ($status_iptables as $key) { 
                         file_put_contents($tmp_file, $key.PHP_EOL, FILE_APPEND | LOCK_EX);
                     } 
                     chmod($tmp_file, 0700); 
                     $vi=str_replace(PHP_EOL,"<br>",shell_exec("su -c $tmp_file")); 
-                    echo "<i style=\"font-size: 28px\">$vi</i>"
+                    echo "$vi";
                     ?>
                     </li>                  
                     <li>
@@ -69,7 +82,7 @@ die(GET($url));
                     echo "
                 <table id=\"connect\" class=\"ui-table ui-border-tb\">
                 <thead>
-                <tr><th>本地地址</th><th>远程地址</th><th>UID</th><th>查询远程地址</th><th>连接状态描述</th></tr>
+                <tr><th>本地地址</th><th>远程地址</th><th>UID</th><th>查询</th><th>连接状态描述</th></tr>
                 </thead>
                 <tbody>";
                     foreach ($tcp_file as $key) {

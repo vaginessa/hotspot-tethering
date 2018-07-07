@@ -5,9 +5,9 @@ header("Location: ../Admin/");
 die('管理员首次进入没有到过管理页面');
 }
 if (isset($_COOKIE["user_name"]) && isset($_COOKIE["pass_word"]) && $_SESSION['from']=='admin') { 
-require '../tools/Certified.php';
+require '../Admin/main.class.php';
 } else {
-header("Location: ./login.php");
+header("Location: login.php");
 die('你无权访问本页面');
 }
 session_write_close();

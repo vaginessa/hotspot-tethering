@@ -197,7 +197,7 @@ if ($receive) {
             </div>
 
 <div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
- <span id="traffic" style="color:white"></span>
+ <span id="traffic" style="color:white">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br>下载: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b> 数据包数量: <b id="traffic5"></b><br>上传: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b> 数据包数量: <b id="traffic7"></b></span>
 </div>
 
 <span class="demo-desc">CPU使用率: <b id="cpu1"></b></span>
@@ -325,23 +325,38 @@ function Toast(a,b,c) {
 if(typeof(EventSource) !== "undefined") {
     var source = new EventSource("server.php");
     source.addEventListener("traffic", function (traffic) {
-        document.getElementById("traffic").innerHTML = traffic.data;
+        obj = JSON.parse(traffic.data);
+        document.getElementById("traffic1").innerHTML = obj.interface_name;
+        document.getElementById("traffic2").innerHTML = obj.local_address;
+        document.getElementById("traffic3").innerHTML = obj.tcp_conntrack;
+        var down=obj.download_speed;
+        if(down==null||down=="") { 
+            var down=obj.download_format;
+        }
+        document.getElementById("traffic4").innerHTML = down;
+        document.getElementById("traffic5").innerHTML = obj.Receive_packets;
+        var up=obj.upload_speed;
+        if(up==null||up=="") { 
+            var up=obj.upload_format;
+        }
+        document.getElementById("traffic6").innerHTML = up;
+        document.getElementById("traffic7").innerHTML = obj.Transmit_packets;
    });
     source.addEventListener("memory", function (ram) {
         obj = JSON.parse(ram.data);
-        document.getElementById("ram1").innerHTML = obj.RAM;
-        document.getElementById("ram2").innerHTML = obj.MemTotal;
-        document.getElementById("ram3").style.width = obj.RAM2+"%";
-        if (obj.RAM2>75)  {
+        document.getElementById("ram1").innerHTML = obj.ram_free;
+        document.getElementById("ram2").innerHTML = obj.mem_total;
+        document.getElementById("ram3").style.width = obj.ram_rate+"%";
+        if (obj.ram_rate>75)  {
             color="blue";
         }
-        else if (obj.RAM2>50)  {
+        else if (obj.ram_rate>50)  {
             color="green";
         }
-        else if (obj.RAM2>25)  {
+        else if (obj.ram_rate>25)  {
             color="yellow";
         }
-        else if (obj.RAM2>0)  {
+        else if (obj.ram_rate>0)  {
             color="red";
         }
         document.getElementById("ram3").style.background = color;

@@ -73,9 +73,9 @@ if(strpos("$server",'ss://') !== false) {
 
 if (empty($_REQUEST['shadowsocks']) and $server and $server_port and $password and $method) {
 //如果开关按钮关闭
-iptables_stop($stop_iptables, $status_binary, true);
-sleep(1);
-die(header('Location: ../Admin/'));
+  iptables_stop($stop_iptables, $status_binary, true);
+  sleep(1);
+  die(header('Location: ../Admin/'));
 }
 
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {

@@ -5,14 +5,14 @@ header('Cache-Control: no-cache');
 
 function network_traffic($interface) {
     foreach (explode(PHP_EOL, file_get_contents('/proc/net/dev')) as $key) {
-        $dev = explode(':', $key);
-        preg_match_all('/[0-9]{3,}/', $dev[1], $matchs);
-        if ($dev[0] == $interface) {
+         $dev = explode(':', $key);
+         if ($dev[0] == $interface) {
+            $flow = explode(' ', $dev[1]);
             return array(
-                $matchs[0][0],
-                $matchs[0][1],
-                $matchs[0][2],
-                $matchs[0][3]
+                $flow[1],
+                $flow[4],
+                $flow[42],
+                $flow[45]
             );
         }
     }
@@ -21,16 +21,33 @@ function network_traffic($interface) {
 function network_interface_card() {
     $data = explode(PHP_EOL, shell_exec('ip address'));
     foreach ($data as $key) {
-        preg_match_all('/10(\.[0-9]{1,3}){3}/', $key, $ip);
         $data = explode(' ', $key);
-        if ($ip[0][0] && $data[8]) {
+        if ($data[8] && $data[5]) {
+          preg_match('/^(?!^127\.|^255\.|^0\.)10(\.[0-9]{1,3}){3}/', $data[5], $ip);
+          if ($ip[0]) {
             return array(
                 $data[8],
-                $ip[0][0]
+                $ip[0]
+            );
+          }
+       }
+    }
+}
+/*
+function network_interface_card2() {
+    $data = explode(PHP_EOL, shell_exec('ip address'));
+    foreach ($data as $key) {
+        preg_match('/10(\.[0-9]{1,3}){3}/', $key, $ip);
+        $data = explode(' ', $key);
+        if ($ip[0] && $data[8]) {
+            return array(
+                $data[8],
+                $ip[0]
             );
         }
     }
 }
+*/
 
 function memory() {
  foreach (explode(PHP_EOL, file_get_contents('/proc/meminfo')) as $key) {
@@ -54,10 +71,10 @@ function memory() {
       }
    }
   $free=($MemFree+$Buffers+$Cached);
-  $RAM=round($free/1024,2); //剩余内存(MB)
-  $RAM2=round(($free/$MemTotal)*100,2); //剩余内存百分比
-  $MemTotal2=round($MemTotal/1024, 2); //可用总内存(MB)
-  return array($RAM,$RAM2,$MemTotal2);
+  $ram_free=round($free/1024,2); //剩余内存(MB)
+  $ram_rate=round(($free/$MemTotal)*100,2); //剩余内存百分比
+  $mem_total=round($MemTotal/1024, 2); //可用总内存(MB)
+  return array($ram_free,$ram_rate,$mem_total);
 } 
 
 function cpu_activity() {
@@ -74,39 +91,75 @@ function cpu_activity() {
   return array($totalCPUTime,$idle);
 }
 
-function storage()
+function size_unit()
 {
     $size = trim(func_get_arg(0));
     if ($size < 1024) {
-        return $size . " B";
+        return array($size,'B');
     } elseif ($size < 1024 * 1024) {
-        return number_format($size / 1024, 3) . " KB";
+        $size=number_format($size / 1024, 3);
+        return array($size,'KB');
     } elseif ($size < 1024 * 1024 * 1024) {
-        return number_format($size / 1024 / 1024, 3) . " MB";
+        $size=number_format($size / 1024 / 1024, 3);
+        return array($size,'MB');
     } elseif ($size < 1024 * 1024 * 1024 * 1024) {
-        return number_format($size / 1024 / 1024 / 1024, 3) . " GB";
+        $size=number_format($size / 1024 / 1024 / 1024, 3);
+        return array($size,'GB');
     } else {
-        return number_format($size / 1024 / 1024 / 1024 / 1024, 3) . " TB";
+        $size=number_format($size / 1024 / 1024 / 1024 / 1024, 3);
+        return array($size,'TB');
     }
 }
 
 
-//刷新信息
+//刷新流量信息
 if ($_POST['Refresh']=='refresh') {
-session_destroy();
+  session_destroy();
 }
 
+//读取网卡信息
 if (!isset($_SESSION['interface_name'])) {
-    list($interface_name, $ip_address) = network_interface_card();
+    list($interface_name, $local_address) = network_interface_card();
     $_SESSION['interface_name'] = $interface_name;
-    $_SESSION['ip_address'] = $ip_address;
+    $_SESSION['local_address'] = $local_address;
 }
 
+//返回流量信息
 list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = network_traffic($_SESSION['interface_name']);
 
-list($RAM, $RAM2, $MemTotal) = memory();
+//流量速率采样
+if (isset($_SESSION['download_speed']) && isset($_SESSION['upload_speed'])) {
+    $New_Rb=$Receive_bytes-$_SESSION['download_speed'];
+    $New_Tb=$Transmit_bytes-$_SESSION['upload_speed'];
+    //刷新流量数据
+    $_SESSION['download_speed'] = $Receive_bytes;
+    $_SESSION['upload_speed'] = $Transmit_bytes;
+    if ($New_Rb > 0) {
+        $Download=size_unit($New_Rb);
+    } else {
+        unset($Download);
+    }
+    if ($New_Tb > 0) {
+        $Upload=size_unit($New_Tb);
+    } else {
+        unset($Upload);
+    }
+} else { 
+    $_SESSION['download_speed'] = $Receive_bytes;
+    $_SESSION['upload_speed'] = $Transmit_bytes;
+}
 
-//cpu采样
+//流量统计
+$Rb_Size=size_unit($Receive_bytes);
+$Rb_All=$Rb_Size[0].$Rb_Size[1];
+$Tb_Size=size_unit($Transmit_bytes);
+$Tb_All=$Tb_Size[0].$Tb_Size[1];
+
+
+//返回RAM信息
+list($ram_free, $ram_rate, $mem_total) = memory();
+
+//CPU信息采样
 list($Total_1, $SYS_IDLE_1) = cpu_activity();
 sleep(1);
 list($Total_2, $SYS_IDLE_2) = cpu_activity();
@@ -114,31 +167,31 @@ $SYS_IDLE=($SYS_IDLE_2-$SYS_IDLE_1);
 $Total=($Total_2-$Total_1);
 $SYS_USAGE=($SYS_IDLE/$Total) * 100;
 $SYS_Rate=round(100-$SYS_USAGE,2);
-//
 
+//TCP连接数统计
 $tcp_conntrack=count(file('/proc/net/tcp'))-1;
 
-$storage_name=__DIR__;
-$storage_total=storage(disk_total_space($storage_name));
-$storage_free=storage(disk_free_space($storage_name));
-$storage_rate=round(disk_free_space($storage_name)/disk_total_space($storage_name) * 100, 2);
+//剩余存储空间信息
+$storage_dir=__DIR__;
+$st=size_unit(disk_total_space($storage_dir));
+$storage_total="$st[0] $st[1]";
+$sf=size_unit(disk_free_space($storage_dir));
+$storage_free="$sf[0] $sf[1]";
+$storage_rate=round($sf[0]/$st[0] * 100, 2);
 
 echo "retry: 1000\n"; //1秒(发送频率)
 
 echo "event: traffic\n";
-$data = "网卡: <b style=\"color:#8558ef;\">" . $_SESSION['interface_name'] . "</b> 内网: <b style=\"color:#8558ef;\">" . $_SESSION['ip_address'] . "</b> 连接数: <b style=\"color:#8558ef;\">" . $tcp_conntrack . "</b><br>接收的字节数: <b style=\"font-size: 20px;color:#ee82ee;\">" . round($Receive_bytes / 1024 / 1024, 2) . " MB</b> 收到的数据包数量: <b>$Receive_packets </b><br>传输的字节数: <b style=\"font-size: 20px;color:#66ccff;\">" . round($Transmit_bytes / 1024 / 1024, 2) . " MB</b> 传输的数据包数量: <b>$Transmit_packets</b>";
-echo "data: $data\n\n";
+echo 'data: {"interface_name": "'.$_SESSION['interface_name'].'", "local_address": "'.$_SESSION['local_address'].'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].$Download[1].'", "upload_speed": "'.$Upload[0].$Upload[1].'", "download_format": "'.$Rb_All.'", "upload_format": "'.$Tb_All.'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";
 
 echo "event: memory\n";
-echo "data: {\"RAM\": \"$RAM\",\"RAM2\": \"$RAM2\",\"MemTotal\": \"$MemTotal\"}\n\n";
+echo "data: {\"ram_free\": \"$ram_free\",\"ram_rate\": \"$ram_rate\",\"mem_total\": \"$mem_total\"}\n\n";
 
 echo "event: cpu\n";
 echo "data: $SYS_Rate\n\n";
 
 echo "event: storage\n";
-echo "data: {\"storage_name\": \"$storage_name\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
+echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
 
 session_write_close();
-flush();
-exit;
 ?>

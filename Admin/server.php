@@ -144,8 +144,6 @@ function clear_var()
   foreach ($clear as $key) {
     unset($key);
   }
-  $_SESSION = array();
-  session_unset();
 }
 
 //刷新流量信息
@@ -223,8 +221,9 @@ echo "data: $SYS_Rate\n\n";
 
 echo "event: storage\n";
 echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
-session_write_close();
-session_destroy();
 clear_var();
+session_write_close();
+session_unset();
+session_destroy();
 die(0);
 ?>

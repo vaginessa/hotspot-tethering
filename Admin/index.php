@@ -331,7 +331,7 @@ if(typeof(EventSource) !== "undefined") {
         document.getElementById("traffic3").innerHTML = obj.tcp_conntrack;
         if(obj.download_speed != "") { 
             var down=obj.download_speed;
-            var down_unit=obj.download_speed_unit;
+            var down_unit=obj.download_speed_unit+"/s";
             var download_all="下载中";
         } else { 
             var down=obj.download;
@@ -346,7 +346,7 @@ if(typeof(EventSource) !== "undefined") {
         document.getElementById("traffic5").innerHTML = obj.Receive_packets;
         if(obj.upload_speed != "") { 
             var up=obj.upload_speed;
-            var up_unit=obj.upload_speed_unit;
+            var up_unit=obj.upload_speed_unit+"/s";
             var upload_all="上传中";
         } else { 
             var up=obj.upload;

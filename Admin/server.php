@@ -3,6 +3,15 @@ session_start();
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 
+function get_address() {
+    $data=func_get_arg(0);
+    $a=str_split($data);
+    $b=base_convert($a[0].$a[1],16,10);
+    $c=base_convert($a[2].$a[3],16,10);
+    $d=base_convert($a[4].$a[5],16,10);
+    $e=base_convert($a[6].$a[7],16,10);
+    return "$e.$d.$c.$b"; //发现倒序
+}
 function network_traffic($interface) {
     foreach (explode(PHP_EOL, file_get_contents('/proc/net/dev')) as $key) {
          $dev = explode(':', $key);
@@ -19,35 +28,21 @@ function network_traffic($interface) {
 }
 
 function network_interface_card() {
-    $data = explode(PHP_EOL, shell_exec('ip address'));
-    foreach ($data as $key) {
-        $data = explode(' ', $key);
-        if ($data[8] && $data[5]) {
-          preg_match('/^(?!^127\.|^255\.|^0\.)10(\.[0-9]{1,3}){3}/', $data[5], $ip);
-          if ($ip[0]) {
+    $route_file = file('/proc/net/route');
+    $Interface_face = explode('	', $route_file[1])[0];
+    $Local_address = explode('	', $route_file[1])[1];
+    $Local_address=get_address($Local_address);
+    if ($Interface_face && $Local_address) { 
+        preg_match('/^(?!^127\.|^255\.|^0\.)[0-9]{1,3}(\.[0-9]{1,3}){3}/', $Local_address, $Local_address);
+        $Local_address=$Local_address[0];
+        if ($Local_address) {
             return array(
-                $data[8],
-                $ip[0]
-            );
-          }
-       }
-    }
-}
-/*
-function network_interface_card2() {
-    $data = explode(PHP_EOL, shell_exec('ip address'));
-    foreach ($data as $key) {
-        preg_match('/10(\.[0-9]{1,3}){3}/', $key, $ip);
-        $data = explode(' ', $key);
-        if ($ip[0] && $data[8]) {
-            return array(
-                $data[8],
-                $ip[0]
-            );
+                $Interface_face,
+                $Local_address
+            );    
         }
-    }
-}
-*/
+    }       
+}    
 
 function memory() {
  foreach (explode(PHP_EOL, file_get_contents('/proc/meminfo')) as $key) {
@@ -118,15 +113,11 @@ if ($_POST['Refresh']=='refresh') {
 }
 
 //读取网卡信息
-if (!isset($_SESSION['interface_name'])) {
-    list($interface_name, $local_address) = network_interface_card();
-    $_SESSION['interface_name'] = $interface_name;
-    $_SESSION['local_address'] = $local_address;
-}
+list($interface_name, $local_address) = network_interface_card();
 
 //返回流量信息
-list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = network_traffic($_SESSION['interface_name']);
-//echo ("$Receive_bytes $Receive_packets $Transmit_bytes $Transmit_packets");
+list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = network_traffic($interface_name);
+
 //流量速率计算
 if ($Receive_bytes > 0 && $_SESSION['download_speed'] > 0) {
     $New_Rb=$Receive_bytes-$_SESSION['download_speed'];
@@ -181,7 +172,7 @@ $storage_rate=round($sf[0]/$st[0] * 100, 2);
 echo "retry: 1000\n"; //1秒(发送频率)
 
 echo "event: traffic\n";
-echo 'data: {"interface_name": "'.$_SESSION['interface_name'].'", "local_address": "'.$_SESSION['local_address'].'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].'", "download_speed_unit": "'.$Download[1].'", "upload_speed": "'.$Upload[0].'", "upload_speed_unit": "'.$Upload[1].'", "download": "'.$Rb_Size[0].'", "download_unit": "'.$Rb_Size[1].'", "upload": "'.$Tb_Size[0].'","upload_unit": "'.$Tb_Size[1].'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";
+echo 'data: {"interface_name": "'.$interface_name.'", "local_address": "'.$local_address.'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].'", "download_speed_unit": "'.$Download[1].'", "upload_speed": "'.$Upload[0].'", "upload_speed_unit": "'.$Upload[1].'", "download": "'.$Rb_Size[0].'", "download_unit": "'.$Rb_Size[1].'", "upload": "'.$Tb_Size[0].'","upload_unit": "'.$Tb_Size[1].'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";
 
 echo "event: memory\n";
 echo "data: {\"ram_free\": \"$ram_free\",\"ram_rate\": \"$ram_rate\",\"mem_total\": \"$mem_total\"}\n\n";

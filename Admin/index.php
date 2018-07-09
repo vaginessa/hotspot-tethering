@@ -261,7 +261,7 @@ if(this.readyState==4&&this.status==200) {
   if (c=='mobile') alert(xhttp.responseText);
   if (c=='aria2') alert(xhttp.responseText);
   if (c=='tor') alert(xhttp.responseText);
-  if (c=='refresh') alert("已帮你刷新了网卡和IP地址!");
+  if (c=='refresh') alert("已帮你刷新了流量信息!");
   if (c=='logout') window.location.href="";
 }
 };

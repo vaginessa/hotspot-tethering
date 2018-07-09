@@ -316,9 +316,12 @@ $("#tor").click(function(){
 function Toast(a,b,c) { 
   $("#dialog .ui-dialog-bd h3").text(a);
   $("#dialog .ui-dialog-bd p").text(b);
-  $("#dialog").addClass("show");  
   $("#dialog .ui-dialog-ft .btn-recommand").attr("onclick",'Refresh(\"\",\"receive='+c+'\",\"mobile\")');
+  $("#dialog").addClass("show");  
 }
+$("#dialog .ui-dialog-ft .btn-recommand").click(function(){
+  $("#dialog").removeClass("show");
+});
 </script>
 
 <script type="text/javascript">

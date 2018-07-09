@@ -12,10 +12,11 @@ function get_address() {
     $e=base_convert($a[6].$a[7],16,10);
     return "$e.$d.$c.$b"; //发现倒序
 }
+
 function network_traffic($interface) {
     foreach (explode(PHP_EOL, file_get_contents('/proc/net/dev')) as $key) {
          $dev = explode(':', $key);
-         if ($dev[0] == $interface) {
+         if (trim($dev[0]) == $interface) {
             preg_match_all('/[0-9]{3,}/', $dev[1], $flow);
             return array(
                 $flow[0][0],

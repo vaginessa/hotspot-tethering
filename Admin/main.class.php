@@ -234,6 +234,4 @@ function share_input($ss) {
         );
     }
 }
-
-//print_r(binary_status(array("ss-local","obfs-local","overture","gost","redsocks2","tproxy","GoQuiet","kcptun")));
 ?>

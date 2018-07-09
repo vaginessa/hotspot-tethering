@@ -264,7 +264,6 @@ xhttp.onreadystatechange=function() {
     if (c=='refresh') alert("已帮你刷新了流量信息!");
     if (c=='logout') window.location.href="";
   }
-  xhttp=null;
 };
 xhttp.open("POST",a,true);
 xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");

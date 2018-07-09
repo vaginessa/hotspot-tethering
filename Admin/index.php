@@ -80,7 +80,7 @@ if ($receive) {
 
 <!--
 <div style="display:none;background-color: white;border-style: dotted;width: 98%;padding: 1px;border-radius:25px;">
-<img style="display: inline-block;vertical-align: middle;height:18px;" src="../img/notification.png">
+<img style="display: inline-block;vertical-align: middle;height:18px;" src="../img/icon-notification.png">
 <span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
 </div>
 -->
@@ -88,7 +88,7 @@ if ($receive) {
           <ul>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/Shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
+                  <span style="background-image:url(../img/icon-shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
                 </div>
                 <h5>Shadowsocks</h5>
                 <p>一種基於Socks5代理方式的加密傳輸協定</p>
@@ -96,7 +96,7 @@ if ($receive) {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/welcom.png)" onclick='window.location.href="../Welcom/"'></span>
+                  <span style="background-image:url(../img/icon-welcom.png)" onclick='window.location.href="../Welcom/"'></span>
                 </div>
                 <h5>欢迎页</h5>
                 <p>热点欢迎页设置</p>
@@ -108,7 +108,7 @@ if ($receive) {
           <ul>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/tor.png)" id='tor'><?php echo $tor_status; ?></span>
+                  <span style="background-image:url(../img/icon-tor.png)" id='tor'><?php echo $tor_status; ?></span>
                 </div>
                 <h5>Tor</h5>
                 <p>请戴“套”翻墻</p>
@@ -116,7 +116,7 @@ if ($receive) {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
+                  <span style="background-image:url(../img/icon-koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
                 </div>
                 <h5>KoolProxy</h5>
                 <p>用于去除网页静广告和视频广告，并且支持https！</p>
@@ -128,7 +128,7 @@ if ($receive) {
           <ul>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/tileicon.png)" id="aria2"><?php echo $aria2_status; ?></span>
+                  <span style="background-image:url(../img/icon-aria2.png)" id="aria2"><?php echo $aria2_status; ?></span>
                 </div>
                 <h5>Aria2</h5>
                 <p>一个轻量级的多协议和多资源命令行下载工具</p>
@@ -136,7 +136,7 @@ if ($receive) {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/Network_shutdown.png)" id="switch"></span>
+                  <span style="background-image:url(../img/icon-switch.png)" id="switch"></span>
                 </div>
                 <h5>开关控制</h5>
                 <p>手机数据连接关闭和开启等</p>
@@ -148,7 +148,7 @@ if ($receive) {
           <ul>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/mobile.png)" onclick='window.location.href="./mobile.php"'></span>
+                  <span style="background-image:url(../img/icon-mobile.png)" onclick='window.location.href="./mobile.php"'></span>
                 </div>
                 <h5>关于手机</h5>
                 <p>系统、电量、内存等详细信息</p>

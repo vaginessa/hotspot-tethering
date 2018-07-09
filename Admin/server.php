@@ -224,6 +224,5 @@ echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_tot
 clear_var();
 session_write_close();
 session_unset();
-session_destroy();
 die(0);
 ?>

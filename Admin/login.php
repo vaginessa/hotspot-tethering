@@ -5,12 +5,12 @@ setcookie("pass_word", "", time()-2592000,'/');
 session_start();
 unset($_SESSION['from']);
 session_write_close();
-die;
+die(0);
 }
 if ($_POST['username'] && $_POST['password']) {
 setcookie("user_name", hash('sha512', $_POST['username']), time()+2592000,'/');
 setcookie("pass_word", hash('sha512', $_POST['password']), time()+2592000,'/');
-die;
+die(0);
 }
 ?>
 <!DOCTYPE html>

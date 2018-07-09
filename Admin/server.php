@@ -106,9 +106,8 @@ function size_unit()
     }
 }
 
-
-//刷新流量信息
-if ($_POST['Refresh']=='refresh') {
+function clear_var()
+{
   $clear=array(
     $interface_name, 
     $local_address, 
@@ -148,6 +147,11 @@ if ($_POST['Refresh']=='refresh') {
   $_SESSION = array();
   session_unset();
   session_destroy();
+}
+
+//刷新流量信息
+if ($_POST['Refresh']=='refresh') {
+  clear_var();
 }
 
 //读取网卡信息
@@ -222,4 +226,6 @@ echo "event: storage\n";
 echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
 
 session_write_close();
+clear_var();
+die(0);
 ?>

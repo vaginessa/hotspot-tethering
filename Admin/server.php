@@ -146,7 +146,6 @@ function clear_var()
   }
   $_SESSION = array();
   session_unset();
-  session_destroy();
 }
 
 //刷新流量信息
@@ -224,8 +223,8 @@ echo "data: $SYS_Rate\n\n";
 
 echo "event: storage\n";
 echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
-
 session_write_close();
+session_destroy();
 clear_var();
 die(0);
 ?>

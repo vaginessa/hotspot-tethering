@@ -7,12 +7,12 @@ function network_traffic($interface) {
     foreach (explode(PHP_EOL, file_get_contents('/proc/net/dev')) as $key) {
          $dev = explode(':', $key);
          if ($dev[0] == $interface) {
-            $flow = explode(' ', $dev[1]);
+            preg_match_all('/[0-9]{3,}/', $dev[1], $flow);
             return array(
-                $flow[1],
-                $flow[4],
-                $flow[42],
-                $flow[45]
+                $flow[0][0],
+                $flow[0][1],
+                $flow[0][2],
+                $flow[0][3]
             );
         }
     }
@@ -126,35 +126,34 @@ if (!isset($_SESSION['interface_name'])) {
 
 //返回流量信息
 list($Receive_bytes, $Receive_packets, $Transmit_bytes, $Transmit_packets) = network_traffic($_SESSION['interface_name']);
-
-//流量速率采样
-if (isset($_SESSION['download_speed']) && isset($_SESSION['upload_speed'])) {
+//echo ("$Receive_bytes $Receive_packets $Transmit_bytes $Transmit_packets");
+//流量速率计算
+if ($Receive_bytes > 0 && $_SESSION['download_speed'] > 0) {
     $New_Rb=$Receive_bytes-$_SESSION['download_speed'];
-    $New_Tb=$Transmit_bytes-$_SESSION['upload_speed'];
-    //刷新流量数据
-    $_SESSION['download_speed'] = $Receive_bytes;
-    $_SESSION['upload_speed'] = $Transmit_bytes;
-    if ($New_Rb > 0) {
-        $Download=size_unit($New_Rb);
-    } else {
-        unset($Download);
-    }
-    if ($New_Tb > 0) {
-        $Upload=size_unit($New_Tb);
-    } else {
-        unset($Upload);
-    }
+    $_SESSION['download_speed'] = $Receive_bytes; //更新下载流量数据
 } else { 
     $_SESSION['download_speed'] = $Receive_bytes;
+}
+if ($Transmit_bytes > 0 && $_SESSION['upload_speed'] > 0) {
+    $New_Tb=$Transmit_bytes-$_SESSION['upload_speed'];
+    $_SESSION['upload_speed'] = $Transmit_bytes; //更新上传流量数据
+} else { 
     $_SESSION['upload_speed'] = $Transmit_bytes;
+}
+if ($New_Rb > 0) {
+    $Download=size_unit($New_Rb);
+} else {
+    unset($Download);
+}
+if ($New_Tb > 0) {
+    $Upload=size_unit($New_Tb);
+} else {
+    unset($Upload);
 }
 
 //流量统计
 $Rb_Size=size_unit($Receive_bytes);
-$Rb_All=$Rb_Size[0].$Rb_Size[1];
 $Tb_Size=size_unit($Transmit_bytes);
-$Tb_All=$Tb_Size[0].$Tb_Size[1];
-
 
 //返回RAM信息
 list($ram_free, $ram_rate, $mem_total) = memory();
@@ -182,7 +181,7 @@ $storage_rate=round($sf[0]/$st[0] * 100, 2);
 echo "retry: 1000\n"; //1秒(发送频率)
 
 echo "event: traffic\n";
-echo 'data: {"interface_name": "'.$_SESSION['interface_name'].'", "local_address": "'.$_SESSION['local_address'].'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].$Download[1].'", "upload_speed": "'.$Upload[0].$Upload[1].'", "download_format": "'.$Rb_All.'", "upload_format": "'.$Tb_All.'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";
+echo 'data: {"interface_name": "'.$_SESSION['interface_name'].'", "local_address": "'.$_SESSION['local_address'].'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].'", "download_speed_unit": "'.$Download[1].'", "upload_speed": "'.$Upload[0].'", "upload_speed_unit": "'.$Upload[1].'", "download": "'.$Rb_Size[0].'", "download_unit": "'.$Rb_Size[1].'", "upload": "'.$Tb_Size[0].'","upload_unit": "'.$Tb_Size[1].'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";
 
 echo "event: memory\n";
 echo "data: {\"ram_free\": \"$ram_free\",\"ram_rate\": \"$ram_rate\",\"mem_total\": \"$mem_total\"}\n\n";

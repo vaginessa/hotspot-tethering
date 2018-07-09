@@ -197,7 +197,7 @@ if ($receive) {
             </div>
 
 <div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
- <span id="traffic" style="color:white">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br>下载: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b> 数据包数量: <b id="traffic5"></b><br>上传: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b> 数据包数量: <b id="traffic7"></b></span>
+ <span id="traffic" style="color:white">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>
 
 <span class="demo-desc">CPU使用率: <b id="cpu1"></b></span>
@@ -329,17 +329,35 @@ if(typeof(EventSource) !== "undefined") {
         document.getElementById("traffic1").innerHTML = obj.interface_name;
         document.getElementById("traffic2").innerHTML = obj.local_address;
         document.getElementById("traffic3").innerHTML = obj.tcp_conntrack;
-        var down=obj.download_speed;
-        if(down==null||down=="") { 
-            var down=obj.download_format;
+        if(obj.download_speed != "") { 
+            var down=obj.download_speed;
+            var down_unit=obj.download_speed_unit;
+            var download_all="下载中";
+        } else { 
+            var down=obj.download;
+            var down_unit=obj.download_unit;
+            var download_all="下载数据总量";
         }
-        document.getElementById("traffic4").innerHTML = down;
+        if(down != "" && down_unit !="") {
+            document.getElementById("traffic4").innerHTML = down;
+            document.getElementById("unit1").innerHTML = down_unit;
+            document.getElementById("download_all").innerHTML = download_all;
+        }
         document.getElementById("traffic5").innerHTML = obj.Receive_packets;
-        var up=obj.upload_speed;
-        if(up==null||up=="") { 
-            var up=obj.upload_format;
+        if(obj.upload_speed != "") { 
+            var up=obj.upload_speed;
+            var up_unit=obj.upload_speed_unit;
+            var upload_all="上传中";
+        } else { 
+            var up=obj.upload;
+            var up_unit=obj.upload_unit;
+            var upload_all="上传数据总量";
         }
+        if(up != "" && up_unit !="") {
         document.getElementById("traffic6").innerHTML = up;
+        document.getElementById("unit2").innerHTML = up_unit;
+        document.getElementById("upload_all").innerHTML = upload_all;
+        }
         document.getElementById("traffic7").innerHTML = obj.Transmit_packets;
    });
     source.addEventListener("memory", function (ram) {

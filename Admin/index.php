@@ -254,16 +254,17 @@ function isArrayFn(value){
 function Refresh(a,b,c) { 
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
-if(this.readyState==4&&this.status==200) { 
-  if (c=='mobile'||c=='aria2'||c=='tor') {
-    $("#loading").hide();
+  if(this.readyState==4&&this.status==200) { 
+    if (c=='mobile'||c=='aria2'||c=='tor') {
+      $("#loading").hide();
+    }
+    if (c=='mobile') alert(xhttp.responseText);
+    if (c=='aria2') alert(xhttp.responseText);
+    if (c=='tor') alert(xhttp.responseText);
+    if (c=='refresh') alert("已帮你刷新了流量信息!");
+    if (c=='logout') window.location.href="";
   }
-  if (c=='mobile') alert(xhttp.responseText);
-  if (c=='aria2') alert(xhttp.responseText);
-  if (c=='tor') alert(xhttp.responseText);
-  if (c=='refresh') alert("已帮你刷新了流量信息!");
-  if (c=='logout') window.location.href="";
-}
+  xhttp=null;
 };
 xhttp.open("POST",a,true);
 xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");

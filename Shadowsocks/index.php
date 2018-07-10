@@ -39,7 +39,7 @@ if (binary_status("ss-local")) {
                 <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
                   <li class="current"><span>Shadowsocks</span></li>
                   <li><span>自定义规则</span></li>
-                  <li><span>Host编辑</span></li>
+                  <li><span>hosts编辑</span></li>
                 </ul>
                 <ul class="ui-tab-content" style="width:300%">
 <!-- Shadowsocks配置开始 -->                
@@ -357,11 +357,11 @@ if (binary_status("ss-local")) {
             </li>
 <!-- 自定义规则结束 -->                        
 
-<!-- 自定义Host编辑 -->         
+<!-- 自定义hosts编辑 -->         
             <li>
-            <textarea rows="30" style="width:99%" cols="50" name="hosts" form="hosts" placeholder="overture的Host文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            <textarea rows="30" style="width:99%" cols="50" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
-<!-- 自定义Host结束 -->                     
+<!-- 自定义hosts结束 -->                     
             </ul>
            </div>
             

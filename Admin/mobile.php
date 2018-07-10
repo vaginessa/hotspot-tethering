@@ -158,7 +158,7 @@ if ($url) {
     $signal=shell_exec('su -c dumpsys telephony.registry');
     $signal_text=strpos($signal, 'SignalStrength: ');
     $nub=explode(' ', substr($signal,$signal_text,100));
-    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SIM信号强度</h4><div class=\"ui-txt-info\">".$nub[9]."</div></div></li>";
+    echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">SIM信号强度</h4><div class=\"ui-txt-info\">".$nub[9]." dBm</div></div></li>";
     $loadavg_now=explode(' ',shell_exec('su -c cat /proc/loadavg'));
     echo "<li class=\"ui-border-t\"><div class=\"ui-list-info\"><h4 class=\"ui-nowrap\">系统负载 (1 , 5 , 15 分钟)</h4><div class=\"ui-txt-info\">$loadavg_now[0] / $loadavg_now[1] / $loadavg_now[2]</div></div></li>";
     echo "</ul>"; ?>

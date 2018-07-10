@@ -41,7 +41,7 @@ if(!is_executable($binary) and file_exists('aria2c')) {
 if ($receive=="start") {
    exec($run, $output, $return_val);
    if ($return_val == 0) { 
-     die('运行成功！(请手动刷新页面)');
+     die('运行成功！');
    } else { 
      die('运行失败！返回值: '.$return_val);
    }
@@ -49,7 +49,7 @@ if ($receive=="start") {
 if ($receive=="stop") {
    exec($pkill, $output, $return_val);
    if ($return_val == 0) { 
-     die('停止运行成功！(请手动刷新页面)');
+     die('停止运行成功！');
    } else { 
      die('停止运行失败！返回值: '.$return_val);
    }

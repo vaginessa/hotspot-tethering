@@ -1,12 +1,24 @@
 <?php
 require '../Admin/main.class.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $acl = $_GET['acl'];
+    $hosts = $_GET['hosts'];    
+}
+if (isset($acl)) {
+  file_put_contents('custom.acl', $acl, LOCK_EX);
+} 
+if (isset($hosts)) {
+  file_put_contents('hosts', $hosts, LOCK_EX);
+}
+
 //检查ss进程是否存在
 if (binary_status("ss-local")) {
   $status = true;
 }
 
 //读取ini配置文件
-   if (file_exists('ss-local.ini')) $my_ini = parse_ini_file('ss-local.ini');
+   if (file_exists('config.ini')) $my_ini = parse_ini_file('config.ini');
 
 ?>
 
@@ -23,13 +35,18 @@ if (binary_status("ss-local")) {
  </head>
  <body ontouchstart="">
 
-  <section> 
-  <!--
+<div class="ui-tab">
+                <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
+                  <li class="current"><span>Shadowsocks</span></li>
+                  <li><span>自定义规则</span></li>
+                  <li><span>Host编辑</span></li>
+                </ul>
+                <ul class="ui-tab-content" style="width:300%">
+<!-- Shadowsocks配置开始 -->                
+                    <li>
+    <!--
    <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 style="background-color:#78909c;width: 100%;height:60px;text-align:center;">Shadowsocks</h1></a> 
    -->
-   <div class="demo-item"> 
-    <p class="demo-desc">服务器设置</p> 
-    <div class="demo-block"> 
      <div class="ui-form ui-border-t"> 
       <form action="shadowsocks.php" method="GET" id="usrform"> 
       
@@ -331,17 +348,22 @@ if (binary_status("ss-local")) {
         
       </form> 
      </div> 
-    </div> 
-   </div> 
-  </section> 
-  
-  <div class="ui-loading-block show" id="loading" style="display:none">
-                <div class="ui-loading-cnt">
-                    <i class="ui-loading-bright"></i>
-                    <p>请留意手机荧幕的Root授权提示，和耐心等待...</p>
-                </div>
-            </div>
-            
+            </li>
+<!-- Shadowsocks配置结束 -->     
+
+<!-- 自定义规则编辑 -->            
+            <li>
+            <textarea rows="30" style="width:99%" cols="50" name="acl" form="acl" placeholder="自定义acl规则"><?php echo file_get_contents('custom.acl'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="acl"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            </li>
+<!-- 自定义规则结束 -->                        
+
+<!-- 自定义Host编辑 -->         
+            <li>
+            <textarea rows="30" style="width:99%" cols="50" name="hosts" form="hosts" placeholder="overture的Host文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            </li>
+<!-- 自定义Host结束 -->                     
+            </ul>
+           </div>
             
             
   <script src="../js/zepto.min.js"></script> 
@@ -349,24 +371,24 @@ if (binary_status("ss-local")) {
   <script type="text/javascript">		
   function setplugin(){
   if ($("#plugin").val() == "off") { 
-  $("plugin").hide();
+    $("plugin").hide();
   } else {
-  $("plugin").show();
+    $("plugin").show();
   }
   if ($("#plugin").val() == "obfs-local") { 
-  $("obfs-local").show();
+    $("obfs-local").show();
   } else {
-  $("obfs-local").hide();
+    $("obfs-local").hide();
   }
   if ($("#plugin").val() == "GoQuiet") { 
-  $("GoQuiet").show();
+    $("GoQuiet").show();
   } else {
-  $("GoQuiet").hide();
+    $("GoQuiet").hide();
   }
   if ($("#plugin").val() == "kcptun") { 
-  $("kcptun").show();
+    $("kcptun").show();
   } else {
-  $("kcptun").hide();
+    $("kcptun").hide();
   }
   }
   </script>		
@@ -375,13 +397,13 @@ if (binary_status("ss-local")) {
   //if ($('#udp').prop('checked')) $("#gost").show();
   $("#udp").change(function(){
   if ($("#gost").css("display")=="none"){
-  $("#gost").show();
+    $("#gost").show();
   } else {
-  $("#gost").hide();
+    $("#gost").hide();
   }
   });
   $("#plugin").change(function(){
-  setplugin();
+    setplugin();
   });
   </script>
   
@@ -414,18 +436,12 @@ if (binary_status("ss-local")) {
   
   <script type="text/javascript">
   $("#server_toast").tap(function(){
-  $("#server_toast").hide();
-  $("#server").show();
+    $("#server_toast").hide();
+    $("#server").show();
   });
   $("#server").blur(function(){
-  $("#server").hide();
-  $("#server_toast").show();
-  });
-  </script>
-  
-  <script type="text/javascript">
-  $("#todo").click(function(){
-  $("#loading").show();
+    $("#server").hide();
+    $("#server_toast").show();
   });
   </script>
   
@@ -496,7 +512,20 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   </script>  
 
 <!-- 读取配置显示结尾 -->
-
+<script type="text/javascript">		
+  (function() {
+    var record = 0;
+    var origin_l;
+    $('.ui-tab-nav').eq(0).find('li').on('click', function() {
+        $(this).parent().find('li').removeClass('current');
+        $(this).addClass('current');
+        $('.ui-tab-content').eq(0).css({
+            'transform': 'translate3d(-' + ($(this).index() * $('.ui-tab-content li').offset().width) + 'px,0,0)',
+            'transition': 'transform 0.5s linear'
+        })
+    });
+})(window, undefined)
+</script>		
 </body>
 </html>
 

@@ -17,7 +17,7 @@ function network_traffic($interface) {
     foreach (explode(PHP_EOL, file_get_contents('/proc/net/dev')) as $key) {
          $dev = explode(':', $key);
          if (trim($dev[0]) == $interface) {
-            preg_match_all('/[0-9]{3,}/', $dev[1], $flow);
+            preg_match_all('/[0-9]{4,}/', $dev[1], $flow);
             return array(
                 $flow[0][0],
                 $flow[0][1],

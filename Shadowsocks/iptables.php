@@ -1,5 +1,4 @@
 <?php
-require '../Admin/main.class.php';
 
 $mangle = array(
     //mangle表
@@ -109,89 +108,82 @@ $status_iptables = array(
 );
 
 $status_binary = array(
-    "ss-local",
-    "obfs-local",
     "overture",
     "gost",
     "redsocks2",
     "tproxy",
     "GoQuiet",
-    "kcptun"
+    "kcptun",
+    "obfs-local",
+    "ss-local"
 );
 
-function iptables_start($mangle, $nat, $filter, $stop_iptables, $status_binary, $server, $udp) {
-    $tmp_file = sys_get_temp_dir()."/iptables_add.sh";
+function file_chmod($tmp_file) { 
+  if (chmod($tmp_file, 0700)) { 
+      exec("su -c $tmp_file", $output, $return_val);
+      foreach ($output as $val) {
+          echo "$val<br>";
+      }
+      if ($return_val != 0) { 
+        //die('执行命令失败！返回状态码: '.$return_val);
+        }
+      } else {
+        die('设置文件权限失败！');
+      }
+}
+
+function iptables_start($mangle, $nat, $filter, $server, $udp) {
+    //写出执行脚本
+    $tmp_file=sys_get_temp_dir().'/iptables_add.sh';
     if (file_exists($tmp_file)) { 
-    unlink("$tmp_file");
+      unlink($tmp_file);
     }
+    
     //支持tproxy吗？
-    if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets') , 'TPROXY')) { 
-    $tproxy = true;
+    if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets'),'TPROXY')) { 
+      $tproxy=true;
     }
+    
     //开启转发了吗？
-    if (stripos(shell_exec('su -c cat /proc/sys/net/ipv4/ip_forward') , '0')) { 
-    shell_exec('su -c echo 1 > /proc/sys/net/ipv4/ip_forward');
+    if (stripos(shell_exec('su -c cat /proc/sys/net/ipv4/ip_forward'),'0')) { 
+      shell_exec('su -c echo 1 > /proc/sys/net/ipv4/ip_forward');
     //sysctl -w net.ipv4.ip_forward=1
     }
-    //直接在脚本前面追加清除规则和关闭模块
-    iptables_stop($stop_iptables, $status_binary, false);    
-    //支持tproxy与开启udp
-    if ($tproxy and $udp) {
-        if (is_array($mangle) || is_object($mangle)) {
-            foreach ($mangle as $value) {
-                file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
-            }
-            if ($server) {
-             file_put_contents($tmp_file, "iptables -t mangle -A redsocks2_lan -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
-            }
-        }
+    
+    //先写入nat表
+    foreach ($nat as $val) { 
+      file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-    if (is_array($nat) || is_object($nat)) {
-        foreach ($nat as $value) {
-        /*
-            if (stripos($value, '$(id -u)')) {
-                //这里执行shell (id -u)有换行符，浏览器输出正常，就是iptables异常，差点气死人！！！
-                $value = str_replace('$(id -u)', shell_exec('id -u') , $value);
-                //这里去除换行符，就正常回来了。
-                $value = str_replace(PHP_EOL, '', $value);
-            }
-            */
-            file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
-        }
-        if (empty($udp) or empty($tproxy)) {
-        file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX); 
-        }
-        if ($server) {
-             file_put_contents($tmp_file, "iptables -t nat -I out_lan 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
-        }
+    file_put_contents($tmp_file, "iptables -t nat -I out_lan 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+    
+    //支持tproxy与开启了udp
+    if ($tproxy and $udp=='on') {
+      foreach ($mangle as $val) {
+        file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
+      }
+      file_put_contents($tmp_file, "iptables -t mangle -A redsocks2_lan -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
+    } else { 
+      file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-    foreach ($filter as $value) {
-        file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
+    
+    //写入filter表
+    foreach ($filter as $val) {
+      file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-        chmod($tmp_file, 0700);
-        shell_exec("su -c $tmp_file");
+    file_chmod($tmp_file);
 } //
 
 
 //停止规则和模块
-function iptables_stop($stop_iptables, $status_binary, $file_name) {
-    $pkill = toolbox_check()[1]." pkill";
-    $file_name ? $file='iptables_del.sh' : $file='iptables_add.sh';
-    $tmp_file = sys_get_temp_dir()."/$file";
-    if (file_exists($tmp_file) and $file_name === true) unlink("$tmp_file");
-    foreach ($status_binary as $value) {
-        file_put_contents($tmp_file, "$pkill $value". PHP_EOL, FILE_APPEND | LOCK_EX);
+function iptables_stop($stop_iptables) { 
+    $tmp_file = sys_get_temp_dir()."/iptables_del.sh";
+    if (file_exists($tmp_file)) { 
+      unlink($tmp_file);
     }
-    foreach ($stop_iptables as $value) {
-        file_put_contents($tmp_file, $value . PHP_EOL, FILE_APPEND | LOCK_EX);
+    foreach ($stop_iptables as $val) {
+        file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-    if (!is_executable($tmp_file) or file_exists($tmp_file) and $file_name === true)
-    {
-    chmod($tmp_file, 0700);
-    shell_exec("su -c $tmp_file");
-    } else {
-    die("没有写出删除脚本!");
-    }
+    file_chmod($tmp_file);
 }
 
 ?>

@@ -18,7 +18,7 @@ if (isset($_COOKIE['user_name']) && isset($_COOKIE['pass_word'])) {
 
 <body ontouchstart>
 
-<section class="ui-container"><section id="actionsheet"><div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('kq')">开启热点欢迎页</button>					<button onclick="iptables('cz')">写入用户表规则</button>     <button class="ui-actionsheet-del" onclick="iptables('gb')">关闭热点欢迎页</button>     <div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">菜单</button></div></section>
+<section class="ui-container"><section id="actionsheet"><div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('start')">开启热点欢迎页</button>					<button onclick="iptables('write')">写入用户表规则</button>     <button class="ui-actionsheet-del" onclick="iptables('stop')">关闭热点欢迎页</button>     <div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">菜单</button></div></section>
 <?php
     $user_file="user.json";
     $data=json_decode(file_get_contents($user_file), true);
@@ -31,7 +31,7 @@ if (isset($_COOKIE['user_name']) && isset($_COOKIE['pass_word'])) {
             $macaddress = $info['mac_address'];
             $status = $info['status'];
             $uptime = $info['up_time'];
-echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $uptime')\">$user</a></td><td>$macaddress<br><span onclick=\"activation('$macaddress')\" style=\"color:green\">激活</span>&nbsp&nbsp&nbsp<a href=\"javascript:block('$macaddress')\" class=\"ui-txt-highlight\">拉黑</a>&nbsp&nbsp&nbsp<a href=\"javascript:deleted('$macaddress')\" class=\"ui-txt-warning\">删除</a></td><td><a href=\"javascript:status('$status')\" class=\"ui-txt-feeds\">$status</a></td></tr>";
+            echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $uptime')\">$user</a></td><td>$macaddress<br><span onclick=\"activation('$macaddress')\" style=\"color:green\">激活</span>&nbsp&nbsp&nbsp<a href=\"javascript:block('$macaddress')\" class=\"ui-txt-highlight\">拉黑</a>&nbsp&nbsp&nbsp<a href=\"javascript:deleted('$macaddress')\" class=\"ui-txt-warning\">删除</a></td><td><a href=\"javascript:status('$status')\" class=\"ui-txt-feeds\">$status</a></td></tr>";
         }
     }
 ?>
@@ -41,12 +41,12 @@ echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $up
 <script src="../js/zepto.min.js"></script>    
 <script type="text/javascript">
 (function (doc, win) {
-     $("#btn1").click(function(){
-    		$('.ui-actionsheet').addClass('show');
-    	});
-    	$("#cancel").click(function(){
-    		$(".ui-actionsheet").removeClass("show");
-    	});
+   $("#btn1").click(function(){
+    	$('.ui-actionsheet').addClass('show');
+  	});
+  	$("#cancel").click(function(){
+   		$(".ui-actionsheet").removeClass("show");
+  	});
 })(document, window);
 function iptables(command) {
     var xhttp = new XMLHttpRequest();
@@ -59,35 +59,36 @@ function iptables(command) {
     };
     xhttp.open("POST", "portal.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  if (confirm("确认执行此操作？")==true) { 
-    xhttp.send("command="+command+"&number="+Math.random());
-  }
+    if (confirm("确认执行此操作？")==true) { 
+      xhttp.send("command="+command+"&number="+Math.random());
+    }
 }
 </script>
 <script type="text/javascript">
 function toast(tos) { 
-alert(tos); 
+  alert(tos); 
 }
 function status(status) { 
-if(status=='OK') alert("状态: 正常"); 
-if(status=='Block') alert("状态: 被墙");
+  if(status=='OK') { 
+    alert("状态: 正常"); 
+  } 
+  if(status=='Block') { 
+    alert("状态: 被墙");
+  } 
 }
 function activation(user) { 
-if (confirm("激活MAC地址: "+user)==true)
-  {
-  command("activation",user);
+  if (confirm("激活MAC地址: "+user)==true) { 
+    command("activation",user);
   }
 }
 function block(user) { 
-if (confirm("拉黑MAC地址: "+user)==true)
-  {
-  command("block",user);
+  if (confirm("拉黑MAC地址: "+user)==true) { 
+    command("block",user);
   }
 }
 function deleted(user) { 
-if (confirm("删除MAC地址: "+user)==true)
-  {
-  command("deleted",user);
+  if (confirm("删除MAC地址: "+user)==true) { 
+    command("deleted",user);
   }
 }
 </script> 

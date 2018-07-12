@@ -2,9 +2,6 @@
 if ($_POST['logout']=='logout') {
 setcookie("user_name", "", time()-2592000,'/');
 setcookie("pass_word", "", time()-2592000,'/');
-session_start();
-unset($_SESSION['from']);
-session_write_close();
 die(0);
 }
 if ($_POST['username'] && $_POST['password']) {

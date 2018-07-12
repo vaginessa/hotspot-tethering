@@ -1,8 +1,5 @@
-<?php
-session_start();
+<?php 
 require 'main.class.php';
-$_SESSION['from']='admin';
-session_write_close();
 $tor=sys_get_temp_dir().'/tor';
 $out=binary_status(array("aria2c","ss-local","koolproxy",$tor));
 if ($out) {

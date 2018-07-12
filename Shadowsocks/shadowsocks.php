@@ -223,7 +223,7 @@ $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值
 echo "<br />[页面执行时间：{$total} ]秒<br />";
 echo <<< EOF
-<a href="../Admin/">返回首页</a>
+<a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>
 </body>
 </html>
 EOF;

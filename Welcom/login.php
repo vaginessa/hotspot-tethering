@@ -26,7 +26,7 @@ if (isset($_GET['token'])) {
     }
 }
 require 'user.php';
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $user_ip = $_SERVER['REMOTE_ADDR'];
     $user_mac = get_mac($user_ip);
     $token = $_GET['token'];
@@ -44,7 +44,7 @@ if ($user_ip and $user_mac and $token) {
               die('你已经登录过了，如果无法上网请联系网络管理员！');
               $fhts='exist';
             }
-            if ($macaddress == $user_mac && $status == "Block") { 
+            if ($macaddress == $user_mac && $status == 'Block') { 
               die('你被网络管理员禁止登录！');
               $fhts='block';
             }

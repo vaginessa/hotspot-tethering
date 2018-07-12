@@ -369,7 +369,7 @@ if (binary_status("ss-local")) {
   <script src="../js/zepto.min.js"></script> 
   
   <script type="text/javascript">		
-  function setplugin(){
+function setplugin(){
   if ($("#plugin").val() == "off") { 
     $("plugin").hide();
   } else {
@@ -390,7 +390,7 @@ if (binary_status("ss-local")) {
   } else {
     $("kcptun").hide();
   }
-  }
+}
   </script>		
   
   <script type="text/javascript">		
@@ -434,13 +434,13 @@ if (binary_status("ss-local")) {
   });
   </script>
   
-  <script type="text/javascript">
+  <script type="text/javascript"> 
   $("#server_toast").tap(function(){
-    $("#server_toast").hide();
+    $(this).hide();
     $("#server").show();
   });
   $("#server").blur(function(){
-    $("#server").hide();
+    $(this).hide();
     $("#server_toast").show();
   });
   </script>
@@ -454,7 +454,7 @@ if (jbkg!=null && jbkg!="") {
    $('#shadowsocks').attr('checked', jbkg); 
    var div = document.getElementById('ts'); 
    div.className = 'demo-desc'; 
-   document.getElementById("ts").innerHTML="&nbsp;&nbsp;&nbsp服务已开启!";
+   div.innerHTML="&nbsp;&nbsp;&nbsp服务已开启!";
    }
   </script>		
   <script type="text/javascript">		
@@ -468,7 +468,7 @@ if ("<?php echo $my_ini['route']; ?>" != "") $("#route").val("<?php echo $my_ini
 if (udpkg!=null && udpkg!="") { 
   $('#udp').attr('checked', udp);
   $("#gost").show();
-     }
+  }
   $("#gost_server").val("<?php echo $my_ini['gost_server']; ?>");
   $("#gost_server_port").val("<?php echo $my_ini['gost_server_port']; ?>");
   $("#gost_username").val("<?php echo $my_ini['gost_username']; ?>");

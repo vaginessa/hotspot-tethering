@@ -126,10 +126,10 @@ function file_chmod($tmp_file) {
       }
       if ($return_val != 0) { 
         //die('执行命令失败！返回状态码: '.$return_val);
-        }
-      } else {
-        die('设置文件权限失败！');
       }
+  } else {
+    die('设置文件权限失败！');
+  }
 }
 
 function iptables_start($mangle, $nat, $filter, $server, $udp) {

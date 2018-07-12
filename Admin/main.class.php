@@ -11,11 +11,21 @@ $rzc = hash('sha512', U);
 $rzd = hash('sha512', P);
 if ($rza && $rzb) {
     if ($rza != $rzc || $rzb != $rzd) {
+        unset($_COOKIE['user_name']);
+        unset($_COOKIE['pass_word']);
         die('非法登录！');
     }
 } else {
     header('Location: ../Admin/login.php');
     die('需要登录认证才能访问!');
+}
+function set_token() {
+  $_SESSION['token'] = md5(microtime(true));
+}
+function valid_token() {
+  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
+  set_token();
+  return $return;
 }
 function geturlkeyvalue($url) {
     $result = array();

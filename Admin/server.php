@@ -222,8 +222,8 @@ echo "data: $SYS_Rate\n\n";
 
 echo "event: storage\n";
 echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
-clear_var();
-session_write_close();
+//clear_var();
 session_unset();
+session_write_close();
 die(0);
 ?>

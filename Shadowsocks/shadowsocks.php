@@ -12,6 +12,11 @@ echo <<< EOF
 EOF;
 require 'iptables.php';
 require '../Admin/main.class.php';
+session_start();
+if (!valid_token()) {
+  die('请勿重复提交表单!');
+}
+session_write_close();
 //命令查找
 $pkill = toolbox_check() [1] . ' pkill';
 //移动模块文件

@@ -11,29 +11,32 @@
 
 <?php
 require '../Admin/main.class.php';
-
-$pkill=toolbox_check()[1]." pkill";
+session_start();
+if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
+  set_token();
+}
+$pkill=toolbox_check()[1].' pkill';
 if (!file_exists('koolproxy')) { 
   die('程序主文件不见了');
-  }
+}
 if (!file_exists('rules/')) { 
   die('程序配置文件夹不见了');
-  }
-$binary_file = sys_get_temp_dir()."/koolproxy";
-if (!is_executable($binary_file) and file_exists('koolproxy')) {
-    copy('koolproxy', $binary_file);
-    chmod($binary_file, 0700);
 }
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $koolproxy = $_GET['koolproxy'];
-    $guolv = $_GET['guolv'];
-    $usergz = $_GET['usergz'];
-    if ($guolv == "all") {
-        $run_ipt = "80,443,8080";
-    } elseif ($guolv == "http") {
-        $run_ipt = "80,8080";
-    } elseif ($guolv == "video") {
-        $run_ipt = "80,8080";
+$binary_file = sys_get_temp_dir().'/koolproxy';
+if (!is_executable($binary_file) && file_exists('koolproxy')) {
+  copy('koolproxy', $binary_file);
+  chmod($binary_file, 0700);
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $koolproxy = $_POST['koolproxy'];
+    $guolv = $_POST['guolv'];
+    $usergz = $_POST['usergz'];
+    if ($guolv == 'all') {
+      $run_ipt = '80,443,8080';
+    } elseif ($guolv == 'http') {
+      $run_ipt = '80,8080';
+    } elseif ($guolv == 'video') {
+      $run_ipt = '80,8080';
     }
 }
 
@@ -43,34 +46,42 @@ if (isset($usergz)) {
 
 
 function zx_input($yxfile,$yx) {
-  if (file_exists($yxfile) or is_executable($yxfile)) unlink($yxfile);
-        file_put_contents($yxfile, $yx, LOCK_EX);
-        chmod($yxfile, 0700);
-        shell_exec("su -c $yxfile");
+  if (file_exists($yxfile) or is_executable($yxfile)) { 
+    unlink($yxfile); 
+  }
+  file_put_contents($yxfile, $yx, LOCK_EX);
+  chmod($yxfile, 0700);
+  shell_exec("su -c $yxfile");
 }
 
-$yxfile=sys_get_temp_dir()."/koolproxy.sh";
+$yxfile=sys_get_temp_dir().'/koolproxy.sh';
 
-$jsyx="$pkill koolproxy".PHP_EOL."iptables -t nat -F koolproxy_forward";
-
-if (isset($guolv)) {
-    if ($koolproxy == 'on') {
-        if ($guolv == "video") $e="-e";
-        $yx=$jsyx.PHP_EOL.$binary_file." -p 1029 -b ".dirname(__FILE__)." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
-        zx_input($yxfile,$yx);
-    }
-    if (empty($koolproxy) and $guolv) {
-        zx_input($yxfile,$jsyx);
-    }
-    sleep(1);
-    header('Location: ../Admin/');
-}
+$jsyx="$pkill koolproxy".PHP_EOL.'iptables -t nat -F koolproxy_forward';
 
 if (binary_status("koolproxy")) {
-    $status = true;
+  $status = true;
 } else {
-    $status = false;
+  $status = false;
 }
+if (isset($_POST['token'])) {
+  if (!valid_token()) {
+    die('请勿重复提交表单!');
+  }
+  if (isset($guolv)) { 
+    if ($koolproxy == 'on') { 
+      if ($guolv == 'video') { 
+        $e='-e';
+      }
+    $yx=$jsyx.PHP_EOL.$binary_file.' -p 1029 -b '.__DIR__." $e -d".PHP_EOL."iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
+    zx_input($yxfile,$yx);
+    }
+    if (empty($koolproxy) and $guolv) {
+      zx_input($yxfile,$jsyx);
+    }
+   sleep(1);
+   header('Location: ../Admin/');
+  }
+} else { 
 ?>
 
 
@@ -78,7 +89,7 @@ if (binary_status("koolproxy")) {
         
  <section id="tab">
     <div class="demo-item">
-        <p class="demo-desc"><?php echo "版本 ".shell_exec(sys_get_temp_dir()."/koolproxy -v"); ?></p>
+        <p class="demo-desc"><?php echo '版本 '.shell_exec(sys_get_temp_dir().'/koolproxy -v'); ?></p>
         <div class="demo-block">
             <div class="ui-tab">
                 <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
@@ -88,10 +99,10 @@ if (binary_status("koolproxy")) {
                 </ul>
                 <ul class="ui-tab-content" style="width:300%">
                     <li>
-                    <div class="ui-form ui-border-t"><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="form"><div class="ui-form-item ui-form-item-switch ui-border-b"><p><b>服务开关:</b></p><label class="ui-switch"><input type="checkbox" id="koolproxy" name="koolproxy"></label></div><div class="ui-form-item ui-border-b"><label><b>选择过滤模式:</b></label><div class="ui-select-group"><div class="ui-select"><select id="guolv" name="guolv"><option value="all">全局模式</option><option value="http" selected="">http模式</option><option value="video">视频模式</option></select></div></div></div><input type="hidden" name="token" value="<?php echo $_SESSION["token"]?>"><div class="ui-btn-wrap"><button onclick="tijiaoCookie()" class="ui-btn-lg ui-btn-primary">提交</button></div></form></div><br><ul class="ui-row"><li class="ui-col ui-col-25"><a onclick="update()"><p class="ui-txt-highlight">规则更新</p></a></li><li class="ui-col ui-col-25"><a href="https://github.com/koolproxy/koolproxy_rules"><p class="ui-txt-highlight">规则反馈</p></a></li><li class="ui-col ui-col-25"><a href="http://110.110.110.110"><p class="ui-txt-highlight">证书下载</p></a></li><li class="ui-col ui-col-25"><a href="http://koolshare.cn/thread-80430-1-1.html" target="_blank"><p class="ui-txt-highlight">过滤教程</p></a></li></ul>
+                    <div class="ui-form ui-border-t"><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="form"><div class="ui-form-item ui-form-item-switch ui-border-b"><p><b>服务开关:</b></p><label class="ui-switch"><input type="checkbox" id="koolproxy" name="koolproxy"></label></div><div class="ui-form-item ui-border-b"><label><b>选择过滤模式:</b></label><div class="ui-select-group"><div class="ui-select"><select id="guolv" name="guolv"><option value="all">全局模式</option><option value="http" selected="">http模式</option><option value="video">视频模式</option></select></div></div></div><input type="hidden" name="token" value="<?php echo $_SESSION['token']?>"><div class="ui-btn-wrap"><button onclick="tijiaoCookie()" class="ui-btn-lg ui-btn-primary">提交</button></div></form></div><br><ul class="ui-row"><li class="ui-col ui-col-25"><a onclick="update()"><p class="ui-txt-highlight">规则更新</p></a></li><li class="ui-col ui-col-25"><a href="https://github.com/koolproxy/koolproxy_rules"><p class="ui-txt-highlight">规则反馈</p></a></li><li class="ui-col ui-col-25"><a href="http://110.110.110.110"><p class="ui-txt-highlight">证书下载</p></a></li><li class="ui-col ui-col-25"><a href="http://koolshare.cn/thread-80430-1-1.html" target="_blank"><p class="ui-txt-highlight">过滤教程</p></a></li></ul>
                    </li>
                     <li>
-                    <textarea rows="25" style="width:99%" cols="40" name="usergz" form="form_user" placeholder="自定义广告规则"><?php echo file_get_contents('./rules/user.txt'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET" id="form_user"><input type="hidden" name="token" value="<?php echo $_SESSION["token"]?>"><button class="ui-btn-lg ui-btn-primary">保存规则</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+                    <textarea rows="25" style="width:99%" cols="40" name="usergz" form="form_user" placeholder="自定义广告规则"><?php echo file_get_contents('rules/user.txt'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="form_user"><input type="hidden" name="token" value="<?php echo $_SESSION["token"]?>"><button class="ui-btn-lg ui-btn-primary">保存规则</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
                     </li>
                     <li>
                     <p>1&nbsp;&nbsp;过滤https站点需要为相应设备安装证书，并启用“全局模式" 过滤！</p><p>2&nbsp;&nbsp;在路由器下的设备，不管是电脑，还是移动设备，都可以在浏览器中输入<u><font color="#66CCFF">110.110.110.110</font></u>来下载证书。</p><br><div class="ui-label-list"><label class="ui-label"><a href="//shang.qq.com/wpa/qunwpa?idkey=d6c8af54e6563126004324b5d8c58aa972e21e04ec6f007679458921587db9b0" target="_blank">加入QQ群①</a></label><label class="ui-label"><a href="https://jq.qq.com/?_wv=1027&k=49tpIKb" target="_blank">加入QQ群②&nbsp;&nbsp</a></label><label class="ui-label"><a href="https://t.me/joinchat/AAAAAD-tO7GPvfOU131_vg">加入电报群</a></label></div><br><br><font color="#ffcc00"><a href="http://www.koolshare.cn" target="_blank"></font>koolproxy工作有问题？请来我们的<font color="#ffcc00">论坛www.koolshare.cn</font>反应问题...
@@ -136,7 +147,7 @@ function checkCookie(){
 
 function tijiaoCookie() {
 var guolv=$("#guolv").val();
-setCookie("guolv",guolv,30);
+  setCookie("guolv",guolv,30);
 }
 
 (function() {
@@ -171,3 +182,4 @@ function update() {
 
 </body>
 </html>
+<?php session_write_close(); }?>

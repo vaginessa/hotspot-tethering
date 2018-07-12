@@ -5,34 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php
 session_start();
-if ($_SESSION['from'] != 'login') {
-    die('你无权访问本页面');
-}
 function set_token() {
-    $_SESSION['token'] = md5(microtime(true));
+  $_SESSION['token'] = md5(microtime(true));
 }
 function valid_token() {
-    $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
-    set_token();
-    return $return;
+  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
+  set_token();
+  return $return;
 }
 if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
-    set_token();
+  set_token();
+}
+if (isset($_GET['token'])) {
+  if (!valid_token()) {
+    die('请勿重复提交表单!');
+  }
 }
 session_write_close();
-if (isset($_GET['token'])) {
-    if (!valid_token()) {
-        die('请勿重复提交表单!');
-    }
-}
 require 'user.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $user_ip = $_SERVER['REMOTE_ADDR'];
-    $user_mac = get_mac($user_ip);
-    $token = $_GET['token'];
+  $user_ip = $_SERVER['REMOTE_ADDR'];
+  $user_mac = get_mac($user_ip);
+  $token = $_GET['token'];
 }
 if (empty($user_ip) or empty($user_mac)) {
-    die('获取用户信息失败！');
+  die('获取用户信息失败！');
 }
 
 if ($user_ip and $user_mac and $token) {

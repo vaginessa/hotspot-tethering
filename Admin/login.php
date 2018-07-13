@@ -1,12 +1,12 @@
 <?php
 if ($_POST['logout']=='logout') {
-setcookie("user_name", "", time()-2592000,'/');
-setcookie("pass_word", "", time()-2592000,'/');
+setcookie('user_name', '', time()-2592000,'/');
+setcookie('pass_word', '', time()-2592000,'/');
 die(0);
 }
 if ($_POST['username'] && $_POST['password']) {
-setcookie("user_name", hash('sha512', $_POST['username']), time()+2592000,'/');
-setcookie("pass_word", hash('sha512', $_POST['password']), time()+2592000,'/');
+setcookie('user_name', hash('sha512', $_POST['username']), time()+2592000,'/');
+setcookie('pass_word', hash('sha512', $_POST['password']), time()+2592000,'/');
 die(0);
 }
 ?>

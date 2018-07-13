@@ -171,6 +171,7 @@ function iptables_start($mangle, $nat, $filter, $server, $udp) {
       file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
     file_chmod($tmp_file);
+    return $tproxy;
 } //
 
 

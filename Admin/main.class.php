@@ -10,22 +10,12 @@ $rzb = $_COOKIE['pass_word'];
 $rzc = hash('sha512', U);
 $rzd = hash('sha512', P);
 if ($rza && $rzb) {
-    if ($rza != $rzc || $rzb != $rzd) {
-        unset($_COOKIE['user_name']);
-        unset($_COOKIE['pass_word']);
+    if ($rza != $rzc || $rzb != $rzd) { 
         die('非法登录！');
     }
 } else {
     header('Location: ../Admin/login.php');
     die('需要登录认证才能访问!');
-}
-function set_token() {
-  $_SESSION['token'] = md5(microtime(true));
-}
-function valid_token() {
-  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
-  set_token();
-  return $return;
 }
 function geturlkeyvalue($url) {
     $result = array();
@@ -89,7 +79,7 @@ function fast_ps() {
 }
 function binary_status($order) {
     $run = fast_ps();
-    exec("su -c ${run}", $output, $return_val);
+    exec("su -c $run", $output, $return_val);
     if ($return_val != 0) {
         die('执行命令失败！返回值: ' . $return_val);
     }
@@ -171,11 +161,12 @@ function Console($of) {
         );
         get_exec($command,'关机中…');
     }
-    function android_share_input($ss) {
-        if (stripos("$ss", 'plugin') !== false) {
+}
+function android_share_input($ss) {
+        if (stripos($ss, 'plugin') !== false) {
             die('暂不支持添加插件解析');
         }
-        if (stripos("$ss", '#') !== false) {
+        if (stripos($ss, '#') !== false) {
             $ss = explode('#', $ss);
             $name = urldecode($ss[1]);
             $ss = explode('@', $ss[0]);
@@ -207,11 +198,10 @@ function Console($of) {
                 $method
             );
         }
-    }
 }
 function share_input($ss) {
     $ss = str_replace('ss://', '', $ss);
-    if (stripos("$ss", '#') !== false) {
+    if (stripos($ss, '#') !== false) {
         $ss = explode('#', $ss);
         $name = urldecode($ss[1]);
         $ss = $ss[0];

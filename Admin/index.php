@@ -1,7 +1,7 @@
 <?php 
 require 'main.class.php';
 $tor=sys_get_temp_dir().'/tor';
-$out=binary_status(array("aria2c","ss-local","koolproxy",$tor));
+$out=binary_status(array('aria2c','ss-local','koolproxy',$tor));
 if ($out) {
   foreach ($out as $val) { 
     if ($val=='aria2c') {
@@ -18,7 +18,7 @@ if ($out) {
     }
   }
 }
-$receive=htmlspecialchars($_POST["receive"]);
+$receive=htmlspecialchars($_POST['receive']);
 if ($receive) { 
   Console($receive);
 }
@@ -290,7 +290,7 @@ if(c=='mobile'){
 function select(content) { 
   $("menu").empty();
   $("menu").html(content);
-  $('.ui-actionsheet').addClass('show');
+  $(".ui-actionsheet").addClass("show");
 }
 $("#actionsheet").click(function(){
   $(".ui-actionsheet").removeClass("show");

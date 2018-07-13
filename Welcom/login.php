@@ -18,7 +18,7 @@ if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
 }
 if (isset($_GET['token'])) {
   if (!valid_token()) {
-    die('请勿重复提交表单!');
+    //die('请勿重复提交表单!');
   }
 }
 session_write_close();

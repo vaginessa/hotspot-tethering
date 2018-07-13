@@ -1,9 +1,5 @@
 <?php
 require '../Admin/main.class.php';
-session_start();
-if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
-  set_token();
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $acl = $_POST['acl'];
   $hosts = $_POST['hosts'];    
@@ -346,7 +342,6 @@ if (file_exists('config.ini')) {
   <!-- 插件类结尾 -->
 
         <div class="ui-btn-wrap"> 
-         <input type="hidden" name="token" value="<?php echo $_SESSION['token'] ?>">
          <button id="todo" class="ui-btn-lg ui-btn-primary"> 提交 </button> 
         </div> 
         
@@ -532,4 +527,3 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
 </script>		
 </body>
 </html>
-<?php session_write_close(); ?>

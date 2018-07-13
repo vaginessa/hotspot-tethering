@@ -51,16 +51,16 @@ function memory() {
      foreach (explode('kB', $key[1]) as $value) {
      $value=trim($value);
          if ($value > 0) { 
-            if ($key[0]=="MemTotal") {
+            if ($key[0]=='MemTotal') {
             $MemTotal=$value;
             }
-            if ($key[0]=="MemFree") {
+            if ($key[0]=='MemFree') {
             $MemFree=$value;
             }
-            if ($key[0]=="Buffers") {
+            if ($key[0]=='Buffers') {
             $Buffers=$value;
             }
-            if ($key[0]=="Cached") {
+            if ($key[0]=='Cached') {
             $Cached=$value;
             }
          }

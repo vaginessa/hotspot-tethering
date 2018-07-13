@@ -1,4 +1,5 @@
 <?php
+session_start();
 $stime = microtime(true);
 echo <<< EOF
 <!DOCTYPE html>
@@ -12,11 +13,6 @@ echo <<< EOF
 EOF;
 require 'iptables.php';
 require '../Admin/main.class.php';
-session_start();
-if (!valid_token()) {
-  die('请勿重复提交表单!');
-}
-session_write_close();
 //命令查找
 $pkill = toolbox_check() [1] . ' pkill';
 //移动模块文件
@@ -66,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $kcpdscp = test_input($_GET['kcpdscp']);
 }
 //服务器是否ss://链接然后解析
-if (strpos($server, 'ss://')) {
-    if (stripos($server, '@')) {
+if (strpos($server, 'ss://') !== false) {
+    if (stripos($server, '@') !== false) {
         list($name, $server, $server_port, $password, $method) = android_share_input($server);
     } else {
         list($name, $server, $server_port, $password, $method) = share_input($server);
@@ -222,7 +218,12 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     //执行开启模块
     file_chmod($start_file);
     //执行开启iptables
-    iptables_start($mangle, $nat, $filter, $iserver, $udp);
+    $tp=iptables_start($mangle, $nat, $filter, $iserver, $udp);
+    if ($tp===true) {
+      echo "<br />[TPROXY：√ ]<br />";
+    } else { 
+      echo "<br />[TPROXY：× ]<br />";
+    }
 } //
 $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值

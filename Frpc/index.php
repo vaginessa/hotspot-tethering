@@ -2,7 +2,7 @@
 $config = $_POST['config'];
 if (isset($config)) {
     if (file_exists('frpc.ini')) { 
-    unlink('frpc.ini');
+        unlink('frpc.ini');
     }
     $file_config=explode(PHP_EOL, $config);
     for($i = 0; $i < count($file_config); $i++) { 

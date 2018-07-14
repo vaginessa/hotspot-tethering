@@ -84,82 +84,74 @@ if ($receive) {
 <span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
 </div>
 -->
-<div class="ui-grid-icon ">
+<br>
+<div class="ui-grid-icon">
           <ul>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
                 </div>
-                <h5>Shadowsocks</h5>
-                <p>一種基於Socks5代理方式的加密傳輸協定</p>
+                <h5 onclick='alert("一種基於Socks5代理方式的加密傳輸協定")'>Shadowsocks</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-welcom.png)" onclick='window.location.href="../Welcom/"'></span>
                 </div>
-                <h5>欢迎页</h5>
-                <p>热点欢迎页设置</p>
-
-              </li>
-          </ul>
-        </div>
-<div class="ui-grid-icon ">
-          <ul>
-              <li>
-                <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-tor.png)" id='tor'><?php echo $tor_status; ?></span>
-                </div>
-                <h5>Tor</h5>
-                <p>请戴“套”翻墻</p>
-
-              </li>
-              <li>
-                <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
-                </div>
-                <h5>KoolProxy</h5>
-                <p>用于去除网页静广告和视频广告，并且支持https！</p>
-
-              </li>
-          </ul>
-        </div>
-<div class="ui-grid-icon ">
-          <ul>
-              <li>
-                <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-aria2.png)" id="aria2"><?php echo $aria2_status; ?></span>
-                </div>
-                <h5>Aria2</h5>
-                <p>一个轻量级的多协议和多资源命令行下载工具</p>
-
-              </li>
-              <li>
-                <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-switch.png)" id="switch"></span>
-                </div>
-                <h5>开关控制</h5>
-                <p>手机数据连接关闭和开启等</p>
-
-              </li>
-          </ul>
-        </div>
-<div class="ui-grid-icon ">
-          <ul>
-              <li>
-                <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-mobile.png)" onclick='window.location.href="./mobile.php"'></span>
-                </div>
-                <h5>关于手机</h5>
-                <p>系统、电量、内存等详细信息</p>
+                <h5 onclick='alert("热点欢迎页设置")'>欢迎页</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-frpc.png)" id="frpc"><?php echo $frpc_status; ?></span>
                 </div>
-                <h5>Frp</h5>
-                <p>可用于内网穿透的高性能的反向代理</p>
+                <h5 onclick='alert("可用于内网穿透的高性能的反向代理")'>Frp</h5>
+
+              </li>
+          </ul>
+        </div>
+        <br>
+<div class="ui-grid-icon">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-tor.png)" id='tor'><?php echo $tor_status; ?></span>
+                </div>
+                <h5 onclick='alert("请戴“套”翻墻")'>Tor</h5>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
+                </div>
+                <h5 onclick='alert("用于去除网页静广告和视频广告，并且支持https！")'>KoolProxy</h5>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-aria2.png)" id="aria2"><?php echo $aria2_status; ?></span>
+                </div>
+                <h5 onclick='alert("一个轻量级的多协议和多资源命令行下载工具")'>Aria2</h5>
+
+              </li>
+          </ul>
+        </div>
+        <br>
+<div class="ui-grid-icon">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-mobile.png)" onclick='window.location.href="./mobile.php"'></span>
+                </div>
+                <h5 onclick='alert("系统、电量、内存等详细信息")'>关于手机</h5>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-switch.png)" id="switch"></span>
+                </div>
+                <h5 onclick='alert("手机数据连接关闭和开启等")'>开关控制</h5>
+                <p></p>
 
               </li>
               <li>
@@ -167,7 +159,6 @@ if ($receive) {
                   <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
                 </div>
                 <h5 class="admin"><?php echo U; ?></h5>
-                <p>注销登录</p>
 
               </li>
           </ul>
@@ -203,11 +194,10 @@ if ($receive) {
                     <p></p>
                 </div>
             </div>
-
+<br>
 <div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>
-
 <span class="demo-desc">CPU使用率: <b id="cpu1"></b></span>
 <div class="progress round-conner">
     <div class="curRate round-conner" id="cpu2"></div>
@@ -220,7 +210,6 @@ if ($receive) {
 <div class="progress round-conner">
     <div class="curRate round-conner" id="storage2"></div>
 </div>
-
 <section class="ui-container">
   <div class="index-wrap">
     <div class="footer">

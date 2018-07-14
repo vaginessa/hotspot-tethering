@@ -1,36 +1,189 @@
-2018/07/14 08:17:27 [I] [proxy_manager.go:300] proxy removed: []
-2018/07/14 08:17:27 [I] [proxy_manager.go:310] proxy added: [web01]
-2018/07/14 08:17:27 [I] [proxy_manager.go:333] visitor removed: []
-2018/07/14 08:17:27 [I] [proxy_manager.go:342] visitor added: []
-2018/07/14 08:17:28 [I] [control.go:246] [6a24cfe76ff40025] login to server success, get run id [6a24cfe76ff40025], server udp port [7001]
-2018/07/14 08:17:28 [I] [service.go:50] admin server listen on 127.0.0.1:7400
-2018/07/14 08:17:29 [I] [control.go:169] [6a24cfe76ff40025] [web01] start proxy success
-2018/07/14 08:31:25 [I] [proxy_manager.go:300] proxy removed: []
-2018/07/14 08:31:25 [I] [proxy_manager.go:310] proxy added: [web01]
-2018/07/14 08:31:25 [I] [proxy_manager.go:333] visitor removed: []
-2018/07/14 08:31:25 [I] [proxy_manager.go:342] visitor added: []
-2018/07/14 08:31:26 [I] [control.go:246] [8c5c8bb8b465d893] login to server success, get run id [8c5c8bb8b465d893], server udp port [7001]
-2018/07/14 08:31:26 [I] [service.go:50] admin server listen on 127.0.0.1:7400
-2018/07/14 08:31:26 [I] [control.go:169] [8c5c8bb8b465d893] [web01] start proxy success
-2018/07/14 08:35:57 [I] [proxy_manager.go:300] proxy removed: []
-2018/07/14 08:35:57 [I] [proxy_manager.go:310] proxy added: [web01]
-2018/07/14 08:35:57 [I] [proxy_manager.go:333] visitor removed: []
-2018/07/14 08:35:57 [I] [proxy_manager.go:342] visitor added: []
-2018/07/14 08:35:57 [I] [control.go:246] [fff3bc3679663389] login to server success, get run id [fff3bc3679663389], server udp port [7001]
-2018/07/14 08:35:57 [I] [service.go:50] admin server listen on 127.0.0.1:7400
-2018/07/14 08:35:57 [I] [control.go:169] [fff3bc3679663389] [web01] start proxy success
-2018/07/14 08:37:04 [I] [proxy_manager.go:300] proxy removed: []
-2018/07/14 08:37:04 [I] [proxy_manager.go:310] proxy added: [web01]
-2018/07/14 08:37:04 [I] [proxy_manager.go:333] visitor removed: []
-2018/07/14 08:37:04 [I] [proxy_manager.go:342] visitor added: []
-2018/07/14 08:37:04 [I] [control.go:246] [8794902a0c5ca19e] login to server success, get run id [8794902a0c5ca19e], server udp port [7001]
-2018/07/14 08:37:04 [I] [service.go:50] admin server listen on 127.0.0.1:7400
-2018/07/14 08:37:05 [W] [control.go:167] [8794902a0c5ca19e] [web01] start error: router config conflict
-2018/07/14 08:38:04 [I] [control.go:169] [8794902a0c5ca19e] [web01] start proxy success
-2018/07/14 08:41:37 [I] [proxy_manager.go:300] proxy removed: []
-2018/07/14 08:41:37 [I] [proxy_manager.go:310] proxy added: [web01]
-2018/07/14 08:41:37 [I] [proxy_manager.go:333] visitor removed: []
-2018/07/14 08:41:37 [I] [proxy_manager.go:342] visitor added: []
-2018/07/14 08:41:37 [I] [control.go:246] [54949604924e508c] login to server success, get run id [54949604924e508c], server udp port [7001]
-2018/07/14 08:41:37 [I] [service.go:50] admin server listen on 127.0.0.1:7400
-2018/07/14 08:41:37 [I] [control.go:169] [54949604924e508c] [web01] start proxy success
+2018/07/14 11:02:23 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 11:02:23 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 11:02:23 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 11:02:23 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 11:02:23 [I] [control.go:246] [0bc607eca8367656] login to server success, get run id [0bc607eca8367656], server udp port [7001]
+2018/07/14 11:02:23 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 11:02:24 [W] [control.go:167] [0bc607eca8367656] [web01] start error: router config conflict
+2018/07/14 11:02:54 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 11:02:54 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 11:02:54 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 11:02:54 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 11:02:54 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:02:54 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 11:02:54 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:25:07 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:07 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:07 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:07 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:25:07 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:07 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:07 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:25:08 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:25:08 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:25:47 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:47 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:25:47 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:47 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:47 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:47 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:25:47 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:25:48 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:25:48 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:27:58 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:27:58 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:27:58 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:27:58 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:27:58 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:27:58 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:27:58 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:28:08 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:28:09 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:28:20 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:28:22 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:28:32 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:28:36 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:28:46 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:28:54 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:29:04 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:29:20 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:29:30 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:29:50 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:30:00 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:30:20 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:30:30 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:30:50 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:30:50 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:30:50 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:31:30 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:31:30 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:31:30 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:31:30 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:31:30 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:31:30 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:31:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:31:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:31:41 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:31:51 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:31:53 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:31:53 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:31:53 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:42:09 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:42:09 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:42:09 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:42:09 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:42:09 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:42:09 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:42:09 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:42:19 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:42:20 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:42:30 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:42:32 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:42:42 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:42:46 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:42:56 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:43:04 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:43:14 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:43:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:43:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:44:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:44:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:44:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:44:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:45:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:45:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:45:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:45:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:46:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:46:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:46:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:46:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:47:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:47:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:47:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:47:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:48:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:48:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:48:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:48:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:49:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:49:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:49:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:49:40 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:50:00 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:50:10 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:50:30 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:50:36 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:50:36 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 11:51:40 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:51:40 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:51:40 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 11:51:40 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:51:40 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:51:40 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:51:40 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 11:51:50 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:51:51 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:52:01 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:52:03 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:52:13 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:52:17 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:52:27 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:52:35 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:52:45 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:53:01 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:53:11 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:53:31 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:53:41 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:54:01 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:54:11 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: i/o deadline reached
+2018/07/14 11:54:31 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 11:54:32 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 11:54:32 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 12:08:51 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:08:51 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:08:51 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:08:51 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 12:08:51 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:08:51 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:08:51 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:08:52 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 12:08:54 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 12:13:38 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:13:38 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 12:13:38 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:13:38 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:13:38 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:13:38 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:13:38 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:13:39 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 12:13:39 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 12:18:53 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 12:18:53 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:18:53 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:18:53 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:18:53 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:18:53 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:18:53 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:18:53 [I] [control.go:246] [cd234b40ffc544be] login to server success, get run id [cd234b40ffc544be], server udp port [7001]
+2018/07/14 12:18:53 [I] [control.go:169] [cd234b40ffc544be] [web01] start proxy success
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [I] [control.go:308] [cd234b40ffc544be] control writer is closing
+2018/07/14 12:38:45 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [E] [control.go:152] [cd234b40ffc544be] work connection closed, EOF
+2018/07/14 12:38:45 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: net.DialUDP: dial udp 96.8.118.245:7000: connect: network is unreachable
+2018/07/14 12:38:46 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:38:46 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: net.DialUDP: dial udp 96.8.118.245:7000: connect: network is unreachable
+2018/07/14 12:38:48 [I] [control.go:407] [cd234b40ffc544be] try to reconnect to server...
+2018/07/14 12:38:48 [W] [control.go:410] [cd234b40ffc544be] reconnect to server error: net.DialUDP: dial udp 96.8.118.245:7000: connect: network is unreachable
+2018/07/14 13:56:04 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 13:56:04 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 13:56:04 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 13:56:04 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 13:56:04 [I] [control.go:246] [a66cd7bdc5f6c586] login to server success, get run id [a66cd7bdc5f6c586], server udp port [7001]
+2018/07/14 13:56:04 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 13:56:05 [I] [control.go:169] [a66cd7bdc5f6c586] [web01] start proxy success

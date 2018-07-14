@@ -1,0 +1,36 @@
+2018/07/14 08:17:27 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 08:17:27 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 08:17:27 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 08:17:27 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 08:17:28 [I] [control.go:246] [6a24cfe76ff40025] login to server success, get run id [6a24cfe76ff40025], server udp port [7001]
+2018/07/14 08:17:28 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 08:17:29 [I] [control.go:169] [6a24cfe76ff40025] [web01] start proxy success
+2018/07/14 08:31:25 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 08:31:25 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 08:31:25 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 08:31:25 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 08:31:26 [I] [control.go:246] [8c5c8bb8b465d893] login to server success, get run id [8c5c8bb8b465d893], server udp port [7001]
+2018/07/14 08:31:26 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 08:31:26 [I] [control.go:169] [8c5c8bb8b465d893] [web01] start proxy success
+2018/07/14 08:35:57 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 08:35:57 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 08:35:57 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 08:35:57 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 08:35:57 [I] [control.go:246] [fff3bc3679663389] login to server success, get run id [fff3bc3679663389], server udp port [7001]
+2018/07/14 08:35:57 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 08:35:57 [I] [control.go:169] [fff3bc3679663389] [web01] start proxy success
+2018/07/14 08:37:04 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 08:37:04 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 08:37:04 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 08:37:04 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 08:37:04 [I] [control.go:246] [8794902a0c5ca19e] login to server success, get run id [8794902a0c5ca19e], server udp port [7001]
+2018/07/14 08:37:04 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 08:37:05 [W] [control.go:167] [8794902a0c5ca19e] [web01] start error: router config conflict
+2018/07/14 08:38:04 [I] [control.go:169] [8794902a0c5ca19e] [web01] start proxy success
+2018/07/14 08:41:37 [I] [proxy_manager.go:300] proxy removed: []
+2018/07/14 08:41:37 [I] [proxy_manager.go:310] proxy added: [web01]
+2018/07/14 08:41:37 [I] [proxy_manager.go:333] visitor removed: []
+2018/07/14 08:41:37 [I] [proxy_manager.go:342] visitor added: []
+2018/07/14 08:41:37 [I] [control.go:246] [54949604924e508c] login to server success, get run id [54949604924e508c], server udp port [7001]
+2018/07/14 08:41:37 [I] [service.go:50] admin server listen on 127.0.0.1:7400
+2018/07/14 08:41:37 [I] [control.go:169] [54949604924e508c] [web01] start proxy success

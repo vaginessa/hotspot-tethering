@@ -1,7 +1,7 @@
 <?php 
 require 'main.class.php';
 $tor=sys_get_temp_dir().'/tor';
-$out=binary_status(array('aria2c','ss-local','koolproxy',$tor));
+$out=binary_status(array('aria2c','ss-local','koolproxy',$tor,'frpc'));
 if ($out) {
   foreach ($out as $val) { 
     if ($val=='aria2c') {
@@ -15,6 +15,9 @@ if ($out) {
     }
     if ($val==$tor) {
       $tor_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
+    }
+    if ($val=='frpc') {
+      $frpc_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
     }
   }
 }
@@ -152,6 +155,14 @@ if ($receive) {
 
               </li>
               <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-frpc.png)" id="frpc"><?php echo $frpc_status; ?></span>
+                </div>
+                <h5>Frp</h5>
+                <p>可用于内网穿透的高性能的反向代理</p>
+
+              </li>
+              <li>
                 <div class="ui-img-icon" onclick='if (confirm("要退出登录吗？")==true) Refresh("login.php","logout=logout","logout");'>
                   <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
                 </div>
@@ -258,6 +269,7 @@ xhttp.onreadystatechange=function() {
     if (c=='mobile') alert(xhttp.responseText);
     if (c=='aria2') alert(xhttp.responseText);
     if (c=='tor') alert(xhttp.responseText);
+    if (c=='frpc') alert(xhttp.responseText);
     if (c=='refresh') alert("已帮你刷新了流量信息!");
     if (c=='logout') window.location.href="";
   }
@@ -305,9 +317,14 @@ $("#aria2").click(function(){
   select(content1);
 });
 
-var content2="\n<button onclick='Refresh(\"../Orbot/\",\"receive=start\",\"tor\")'>打开</button>\n<button onclick='Refresh(\"../Orbot/\",\"receive=stop\",\"tor\")' class=\"ui-actionsheet-del\">关闭</button>\n<hr>\n<button onclick='window.open(\"https://check.torproject.org/?lang=zh_CN\")'>网络检测</button>\n";
+var content2="\n<button onclick='Refresh(\"../Orbot/\",\"receive=start\",\"tor\")'>启动tor</button>\n<button onclick='Refresh(\"../Orbot/\",\"receive=stop\",\"tor\")' class=\"ui-actionsheet-del\">关闭tor</button>\n<hr>\n<button onclick='window.open(\"https://check.torproject.org/?lang=zh_CN\")'>网络检测</button>\n";
 $("#tor").click(function(){
   select(content2);
+});
+
+var content3="\n<button onclick='Refresh(\"../Frpc/\",\"receive=start\",\"frpc\")'>启动frp</button>\n<button onclick='Refresh(\"../Frpc/\",\"receive=stop\",\"frpc\")' class=\"ui-actionsheet-del\">关闭frp</button>\n<hr>\n<button onclick='window.open(\"../Frpc/\")'>编辑/查看配置</button>\n";
+$("#frpc").click(function(){
+  select(content3);
 });
 
 function Toast(a,b,c) { 

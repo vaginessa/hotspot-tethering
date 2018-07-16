@@ -43,9 +43,6 @@ if (file_exists('config.ini')) {
                 <ul class="ui-tab-content" style="width:300%">
 <!-- Shadowsocks配置开始 -->                
                     <li>
-    <!--
-   <a href="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>"><h1 style="background-color:#78909c;width: 100%;height:60px;text-align:center;">Shadowsocks</h1></a> 
-   -->
      <div class="ui-form ui-border-t"> 
       <form action="shadowsocks.php" method="GET" id="usrform"> 
       
@@ -127,11 +124,6 @@ if (file_exists('config.ini')) {
            </div> 
           </div> 
           
-          <!--
-          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
-           <p><b>IPV6路由</b></p> 
-           <label class="ui-switch"><input type="checkbox" id="ipv6" name="ipv6" /></label> 
-          </div> --> 
           <udp>
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p><b>UDP over TCP</b></p>
@@ -139,10 +131,6 @@ if (file_exists('config.ini')) {
            <label class="ui-switch"><input type="checkbox" id="udp" name="udp" /></label> 
           </div> 
           </udp>
-          
-          </div> 
-         </div> 
-        </div> 
           
           <div class="demo-item" id="gost" style="display:none"> 
            <p class="demo-desc">gost</p> 
@@ -178,6 +166,7 @@ if (file_exists('config.ini')) {
            <p class="demo-desc">插件</p> 
            <div class="demo-block"> 
             <div class="ui-form ui-border-t"> 
+            
              <div class="ui-form-item ui-border-b"> 
               <label><b>插件</b></label> 
               <div class="ui-select-group"> 
@@ -325,28 +314,24 @@ if (file_exists('config.ini')) {
              <label> <b>dscp:</b> </label> 
               <input type="text" placeholder="default: 0" id="kcpdscp" name="kcpdscp" class="ui-searchbar-text ui-txt-highlight" /> 
              </div>
-             <!--
-            <textarea rows="4" style="width:99%" cols="50" name="kcptunpeizhi" form="usrform" placeholder="请在此处输入配置...
-以 ; 号 分割开"></textarea>
-               -->
             </kcptun>
-             
-             
-             
-             </plugin>
+                          
+           </plugin>
              
             </div> 
            </div> 
-          </div> 
+          </div>
+         </div> 
+        </div> 
+       </div>   
           
   <!-- 插件类结尾 -->
 
         <div class="ui-btn-wrap"> 
          <button id="todo" class="ui-btn-lg ui-btn-primary"> 提交 </button> 
-        </div> 
-        
-      </form> 
-     </div> 
+        </div>         
+       </form> 
+      </div> 
             </li>
 <!-- Shadowsocks配置结束 -->     
 

@@ -92,6 +92,14 @@ function config_json($server, $server_port, $password, $method, $acl_file, $plug
         $arr = json_encode($config);
         file_put_contents('shadowsocks.conf', $arr, LOCK_EX);
 }
+function ping($a,$b,$c) {
+    $data=exec("ping -c $a -w $b -n $c", $output, $return_val);
+    if ($return_val == 0) {
+        return explode('/', end($output))[4];
+    } else { 
+        die('Error !');
+    }
+}
 //关闭shadowsocks
 if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $method) {
     //创建停止运行脚本
@@ -220,14 +228,15 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     //执行开启iptables
     $tp=iptables_start($mangle, $nat, $filter, $iserver, $udp);
     if ($tp===true) {
-      echo "<br />[TPROXY：√ ]<br />";
+      echo "[TPROXY：√ ]<br />";
     } else { 
-      echo "<br />[TPROXY：× ]<br />";
+      echo "[TPROXY：× ]<br />";
     }
+    echo '[平均延时: '.ping('1','5',$iserver).'] ms<br />';
 } //
 $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值
-echo "<br />[页面执行时间：{$total} ]秒<br />";
+echo "[页面执行时间：{$total} ] 秒<br />";
 echo <<< EOF
 <a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>
 </body>

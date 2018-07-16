@@ -139,6 +139,15 @@ if ($receive) {
         <br>
 <div class="ui-grid-icon">
           <ul>
+          <!--
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-fileadmin.png)" onclick='window.location.href="../Fileadmin/"'></span>
+                </div>
+                <h5 onclick='alert("致力于提供简单、快捷的网站文件管理方案")'>爱特文管</h5>
+
+              </li>
+              -->
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-mobile.png)" onclick='window.location.href="./mobile.php"'></span>

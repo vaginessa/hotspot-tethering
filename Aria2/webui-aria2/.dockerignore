@@ -6,5 +6,3 @@ docker-compose.yml
 LICENCE
 README.md
 webui-aria2.spec
-app.json
-static.json

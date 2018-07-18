@@ -28,6 +28,17 @@ $receive=htmlspecialchars($_POST['receive']);
 if ($receive) { 
   Console($receive);
 }
+function get_image() { 
+    $file_arr=glob("../background/*");
+    for($i = 0; $i < count($file_arr); $i++) { 
+        $from=substr(strrchr($file_arr[$i], '.'), 1);
+        if ($from=='jpg' or $from=='png') {
+            $data[]=$file_arr[$i];
+        }
+    }
+   $rand_keys = array_rand($data, 1);
+   return $data[$rand_keys];
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,6 +52,61 @@ if ($receive) {
 </head>
 <body ontouchstart="">
 <style type="text/css">
+body {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  background-color: black;
+}
+body::after {
+  content: "";
+  background-image: url(<?php echo get_image(); ?>);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed;
+  opacity: 0.7;
+  filter: alpha(opacity=70); /* For IE8 and earlier */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+.header { 
+	height: 135px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: center;
+	-webkit-box-pack: center
+	overflow:hidden;
+}
+.traffic { 
+   background-color:#dec48f;
+   width: 100%;
+   height:25%;
+   text-align:center;
+   opacity: 0.9;
+   margin:10px 0px 5px 0px;
+   overflow:hidden;
+   border-radius:25px;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   opacity: 0.9;
+   background-color: #f7f7f7;
+   text-align: center;
+   overflow:hidden;
+}
+
+h5 { 
+  color: white;
+}
 .admin {
 	font-style: italic;
 	background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%,#CCCCFF 40%,#00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
@@ -71,122 +137,126 @@ if ($receive) {
   height: 10px;
   border-radius: 5px;
 }
+.app-menu {
+  width: 100%;
+  height: 330px;
+  overflow-x: scroll;
+  overflow-y: auto;
+  white-space: nowrap;
+}
 </style>
+
 <div class="demo-block">
-            <div class="ui-tooltips ui-tooltips-warn ui-tooltips-hignlight" id="notification" style="display:none" onclick="this.parentElement.style.display='none';">
-                <div class="ui-tooltips-cnt ui-tooltips-cnt-link ui-border-b">
-                    <i></i><notification2>无法连接服务器，请检查你的网络设置。</notification2>
+            <div class="ui-poptips ui-poptips-info" id="notification" style="top:2px;display:none" onclick="this.parentElement.style.display='none';">
+                <div class="ui-poptips-cnt">
+                    <i></i><notification2></notification2>
                 </div>
             </div>
         </div>
-<section class="ui-container">
-  <div class="index-wrap">
-    <div style="background-color:#0F7884" class="header">
-      <a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1 style="color:white"><?php system("getprop ro.product.model"); ?></h1></a>
+<div class="header">
+   <a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1 style="color:white"><?php system("getprop ro.product.model"); ?></h1></a>
     <h2 style="color:#eeeeee"><?php system("getprop gsm.network.type"); ?></h2>
-      </div>
-    </div>
-</section>
-
+</div>
 <!--
 <div style="display:none;background-color: white;border-style: dotted;width: 98%;padding: 1px;border-radius:25px;">
 <img style="display: inline-block;vertical-align: middle;height:18px;" src="../img/icon-notification.png">
 <span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
 </div>
 -->
-<br>
+<div class="app-menu">
 <div class="ui-grid-icon">
           <ul>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-shadowsocks.png)" onclick='window.location.href="../Shadowsocks/"'><?php echo $ss_status; ?></span>
                 </div>
-                <h5 onclick='notification("一種基於Socks5代理方式的加密傳輸協定",1200)'>Shadowsocks</h5>
+                <h5 onclick='notification("一種基於Socks5代理方式的加密傳輸協定",2100)'>Shadowsocks</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-welcom.png)" onclick='window.location.href="../Welcom/"'></span>
                 </div>
-                <h5 onclick='notification("热点欢迎页设置",1200)'>欢迎页</h5>
+                <h5 onclick='notification("热点欢迎页设置",2100)'>欢迎页</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-frpc.png)" id="frpc"><?php echo $frpc_status; ?></span>
                 </div>
-                <h5 onclick='notification("可用于内网穿透的高性能的反向代理",1200)'>Frp</h5>
+                <h5 onclick='notification("可用于内网穿透的高性能的反向代理",2100)'>Frp</h5>
 
               </li>
           </ul>
         </div>
-        <br>
+       <br />
+        
 <div class="ui-grid-icon">
           <ul>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-tor.png)" id='tor'><?php echo $tor_status; ?></span>
                 </div>
-                <h5 onclick='notification("请戴“套”翻墻",1200)'>Tor</h5>
+                <h5 onclick='notification("请戴“套”翻墻",2100)'>Tor</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-koolproxy.png)" onclick='window.location.href="../KoolProxy/"'><?php echo $kool_status; ?></span>
                 </div>
-                <h5 onclick='notification("用于去除网页静广告和视频广告，并且支持https！",1200)'>KoolProxy</h5>
+                <h5 onclick='notification("用于去除网页静广告和视频广告，并且支持https！",2100)'>KoolProxy</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-aria2.png)" id="aria2"><?php echo $aria2_status; ?></span>
                 </div>
-                <h5 onclick='notification("一个轻量级的多协议和多资源命令行下载工具",1200)'>Aria2</h5>
+                <h5 onclick='notification("一个轻量级的多协议和多资源命令行下载工具",2100)'>Aria2</h5>
 
               </li>
           </ul>
         </div>
-        <br>
+        <br />
 <div class="ui-grid-icon">
           <ul>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-fileadmin.png)" onclick='window.open("../Fileadmin/")'></span>
                 </div>
-                <h5 onclick='notification("致力于提供简单、快捷的网站文件管理方案",1200)'>爱特文管</h5>
+                <h5 onclick='notification("致力于提供简单、快捷的网站文件管理方案",2100)'>爱特文管</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-verysync.jpg" id="verysync"><?php echo $verysync_status; ?></span>
                 </div>
-                <h5 onclick='notification("一款高效的数据传输工具",1200)'>微力同步</h5>
+                <h5 onclick='notification("一款高效的数据传输工具",2100)'>微力同步</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-twitter.png" onclick='window.open("https://mobile.twitter.com/QXGFW")'></span>
                 </div>
-                <h5 onclick='notification("访问我的Twitter",1200)'>Twitter</h5>
+                <h5 onclick='notification("访问我的Twitter",2100)'>Twitter</h5>
 
               </li>
           </ul>
         </div>
-        <br>
+        <br />
 <div class="ui-grid-icon">
           <ul>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-mobile.png)" onclick='window.open("./mobile.php")'></span>
                 </div>
-                <h5 onclick='notification("系统、电量、内存等详细信息",1200)'>关于手机</h5>
+                <h5 onclick='notification("系统、电量、内存等详细信息",2100)'>关于手机</h5>
 
               </li>
               <li>
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-switch.png)" id="switch"></span>
                 </div>
-                <h5 onclick='notification("手机数据连接关闭和开启等",1200)'>开关控制</h5>
+                <h5 onclick='notification("手机数据连接关闭和开启等",2100)'>开关控制</h5>
                 <p></p>
 
               </li>
@@ -199,7 +269,7 @@ if ($receive) {
               </li>
           </ul>
         </div>
-
+      </div>
 <div class="ui-actionsheet" id="actionsheet">
    <div class="ui-actionsheet-cnt am-actionsheet-down">
         <menu>
@@ -230,29 +300,27 @@ if ($receive) {
                     <p></p>
                 </div>
             </div>
-<br>
-<div style="background-color:#dec48f;width: 100%;height:25%;text-align:center;" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
- <span id="traffic" style="color:white">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
-</div>
-<span class="demo-desc">CPU使用率: <b id="cpu1"></b></span>
+
+        <br />
+<span style="color: white">CPU使用率: <b id="cpu1"></b></span>
 <div class="progress round-conner">
     <div class="curRate round-conner" id="cpu2"></div>
 </div>
-<span class="demo-desc">剩余内存(RAM):  <b id="ram1">0</b> / <b id="ram2">0</b>&nbspMB</span>
+<span style="color: white">剩余内存(RAM):  <b id="ram1">0</b> / <b id="ram2">0</b>&nbspMB</span>
 <div class="progress round-conner">
     <div class="curRate round-conner" id="ram3"></div>
 </div>
-<span class="demo-desc">剩余存储:  <b id="storage1"></b></span>
+<span style="color: white">剩余存储:  <b id="storage1"></b></span>
 <div class="progress round-conner">
     <div class="curRate round-conner" id="storage2"></div>
 </div>
-<section class="ui-container">
-  <div class="index-wrap">
+<div class="traffic" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
+ <span id="traffic" style="color:white;">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
+</div>
+        <br />
     <div class="footer">
       <a href="" id="footer"></a>
     </div>
-  </div>
-</section>
 
 <script src="../js/zepto.min.js"></script>
 <script src="../js/footer.js"></script>
@@ -273,15 +341,6 @@ function loading(a) {
   },10000);
 }
 
-//https://blog.csdn.net/lee_magnum/article/details/11555981
-function isArrayFn(value){
-	if (typeof Array.isArray === "function") {
-		return Array.isArray(value);    
-	}else{
-		return Object.prototype.toString.call(value) === "[object Array]";    
-	}
-}
-
 function Refresh(a,b,c) { 
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
@@ -289,13 +348,14 @@ xhttp.onreadystatechange=function() {
     if (c=='mobile'||c=='aria2'||c=='tor') {
       $("#loading").hide();
     }
-    if (c=='mobile') notification(xhttp.responseText,3000);
-    if (c=='aria2') notification(xhttp.responseText,1200);
-    if (c=='tor') notification(xhttp.responseText,1200);
-    if (c=='frpc') notification(xhttp.responseText,1200);
-    if (c=='verysync') notification(xhttp.responseText,1200);
-    if (c=='refresh') notification("已帮你刷新了流量信息!",1200);
-    if (c=='logout') window.location.href="";
+    if (c=='refresh') { 
+      notification("已帮你刷新了流量信息!",2100);
+    } else if (c=='logout') { 
+      window.location.href="";
+    } else {
+      obj = JSON.parse(xhttp.responseText);
+      notification(obj.a,2100,obj.b);
+    }
   }
 };
 xhttp.open("POST",a,true);
@@ -365,14 +425,25 @@ function Toast(a,b,c) {
 $("#dialog .ui-dialog-ft .btn-recommand").click(function(){
   $("#dialog").removeClass("show");
 });
-function notification(text,timeout) { 
+function notification(text,timeout,ret) { 
+    switch (ret) {
+    case 0:
+        ret = "ui-poptips ui-poptips-success";
+        break;
+    case 1:
+        ret = "ui-poptips ui-poptips-warn";
+        break;
+    default:
+        ret = "ui-poptips ui-poptips-info";
+    }
+    $("#notification").attr('class', ret);
     $("notification2").text(text);
     if ($("#notification").css("display") == "none"){ 
         $("#notification").show();
     }
     if (timeout > 0){ 
         setTimeout(function(){
-            $("#notification").hide();
+            $("#notification").hide('blind', {}, 500);
         },timeout);
     }
 }

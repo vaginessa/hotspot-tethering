@@ -11,7 +11,7 @@ $binary_file = sys_get_temp_dir() . '/tor';
 $tor_info = explode(PHP_EOL, file_get_contents('torrc'));
 foreach ($mk as $val) {
     if (!file_exists($val)) {
-        die("缺失 $val 文件");
+        die("{\"a\": \"缺失 $val 文件！\",\"b\": 1}");
     }
 }
 if (!is_executable($binary_file) and file_exists('tor')) {
@@ -26,9 +26,9 @@ function zx_input($yxfile, $yx, $lx) {
     chmod($yxfile, 0700);
     exec("su -c $yxfile", $output, $return_val);
     if ($return_val != 0) {
-        die('运行失败！返回值: ' . $return_val);
+        die("{\"a\": \"iptables运行失败！返回值: $return_val\",\"b\": 1}");
     } else {
-        echo $lx . '成功！';
+        die("{\"a\": \"$lx 成功\",\"b\": 0}");
     }
 }
 if (isset($receive) and $receive == 'start') {
@@ -50,10 +50,10 @@ if (isset($receive) and $receive == 'start') {
     $run = 'export HOME=' . sys_get_temp_dir() . PHP_EOL . $binary_file . ' -f ' . dirname(__FILE__) . '/torrc';
     exec($run, $output, $return_val);
     if ($return_val != 0) {
-        die('启动失败！返回值: ' . $return_val);
+        die("{\"a\": \"tor启动失败！返回值: $return_val\",\"b\": 1}");
     } else {
         $yx = 'iptables -t nat -F out_forward' . PHP_EOL . 'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 9040' . PHP_EOL . 'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 5400' . PHP_EOL;
-        zx_input($yxfile, $yx, '启动');
+        zx_input($yxfile, $yx, 'tor启动');
     }
 }
 if (isset($receive) and $receive == 'stop') {
@@ -61,14 +61,14 @@ if (isset($receive) and $receive == 'stop') {
         $pid = file_get_contents('tor.pid');
         unlink('tor.pid');
     } else {
-        die('缺少pid文件');
+        die("{\"a\": \"缺少pid文件！\",\"b\": 1}");
     }
     exec("kill $pid", $output, $return_val);
     if ($return_val != 0) {
-        die('停止失败！返回值: ' . $return_val);
+        die("{\"a\": \"tor停止失败！返回值:  $return_val\",\"b\": 1}");
     } else {
         $yx = 'iptables -t nat -F out_forward' . PHP_EOL . 'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024' . PHP_EOL . 'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053' . PHP_EOL;
-        zx_input($yxfile, $yx, '停止');
+        zx_input($yxfile, $yx, 'tor停止');
     }
 }
 ?>

@@ -4,10 +4,10 @@ require '../Admin/main.class.php';
 //不要谢我！:)
 clearstatcache();
 if (!is_file('aria2c')) {
-    die('程序主文件不见了');
+    die("{\"a\": \"程序主文件不见了！\",\"b\": 1}");
 }
 if (!is_file('aria2.conf')) {
-    die('程序配置文件不见了');
+    die("{\"a\": \"程序配置文件不见了！\",\"b\": 1}");
 }
 if (!is_dir('Download')) {
     mkdir('Download');
@@ -35,17 +35,17 @@ if (!is_executable($binary) and file_exists('aria2c')) {
 if ($receive == 'start') {
     exec($run, $output, $return_val);
     if ($return_val == 0) {
-        die('运行成功！');
+        die("{\"a\": \"aria2运行成功\",\"b\": 0}");
     } else {
-        die('运行失败！返回值: ' . $return_val);
+        die("{\"a\": \"aria2运行失败！返回值: $return_val\",\"b\": 1}");
     }
 }
 if ($receive == 'stop') {
     exec($pkill, $output, $return_val);
     if ($return_val == 0) {
-        die('停止运行成功！');
+        die("{\"a\": \"aria2停止运行成功\",\"b\": 0}");
     } else {
-        die('停止运行失败！返回值: ' . $return_val);
+        die("{\"a\": \"aria2停止运行失败！返回值: $return_val\",\"b\": 1}");
     }
 }
 if ($receive == 'update') {
@@ -55,7 +55,7 @@ function update() {
     //https://m.jb51.net/article/26604.htm
     $data = GET('https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt');
     if (empty($data)) {
-        die('下载文件失败');
+        die("{\"a\": \"下载文件更新列表失败！\",\"b\": 1}");
     }
     $data = str_replace('announce', 'announce,', explode(PHP_EOL, $data));
     $tmp_file = tmpfile();
@@ -76,6 +76,6 @@ function update() {
         }
     }
     fclose($tmp_file);
-    die('trackers已经更新完成！请重启aria2。');
+    die("{\"a\": \"trackers已经更新完成！可能需要重启aria2。\",\"b\": 0}");
 }
 ?>

@@ -125,11 +125,9 @@ function get_exec($shell,$toast) {
     foreach ($shell as $key) { 
       exec('su -c ' . $key, $output, $return_var);
          if(empty($output) && $return_var == 0) { 
-           echo $toast;
-           die(0);
+           die("{\"a\": \"$toast\",\"b\": 0}");
          } elseif ($return_var != 0) {
-           echo '失败！';
-           die(1);
+           die("{\"a\": \"失败！\",\"b\": 1}");
          }
     }
 }

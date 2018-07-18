@@ -16,20 +16,20 @@ if (!is_executable($binary_file) && file_exists('frpc')) {
     copy('frpc', $binary_file);
     chmod($binary_file, 0700);
 }
-function _exec($f,$d) { 
+function _exec($f,$d,$p) { 
     exec("$f $d > /dev/null 2>&1 &", $output, $return_val);
     if ($return_val == 0) { 
-        die('成功');
+        die("{\"a\": \"$p 成功\",\"b\": 0}");
     } else { 
-        die('失败！返回值: '.$return_val);
+        die("{\"a\": \"$p 失败！返回值: $return_val\",\"b\": 1}");
     }
 }
 $x = $_POST['receive'];
 if (isset($x)) { 
     if ($x == 'start') { 
-        _exec("$binary_file -c ",__DIR__.'/frpc.ini');
+        _exec("$binary_file -c ",__DIR__.'/frpc.ini','frpc启动');
     } elseif ($x == 'stop') { 
-        _exec('pkill ','frpc');
+        _exec('pkill ','frpc','frpc停止');
     }
 }
 ?>

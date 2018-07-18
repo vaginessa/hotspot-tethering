@@ -54,7 +54,7 @@ function get_image() {
 <style type="text/css">
 body {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   position: relative;
   background-color: black;

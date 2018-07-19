@@ -162,12 +162,9 @@ body::after {
 }
 .traffic { 
    background-color:#dec48f;
-   width: 100%;
-   height:25%;
    text-align:center;
-   opacity: 0.9;
-   margin:10px 0px 5px 0px;
-   overflow:hidden;
+   opacity:0.9;
+   margin:5px;
    border-radius:25px;
 }
 .footer {
@@ -407,6 +404,7 @@ h5 {
 <div class="progress round-conner">
     <div class="curRate round-conner" id="storage2"></div>
 </div>
+<br />
 <div class="traffic" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white;">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>
@@ -427,6 +425,7 @@ h5 {
 
 <script src="../js/zepto.min.js"></script>
 <script type="text/javascript">
+$('body').css('height', $(window).height()+'px'); //屏幕高
 function loading(a) { 
     if (a==""||a==null) {
         var a="请稍候…";
@@ -474,7 +473,7 @@ xhttp.onreadystatechange=function() {
     } else if (c=='test') { 
       obj = JSON.parse(xhttp.responseText);
       if(b=='test=ping'&&obj.b==0) {
-        $('#ping').html("服务器延时: <i class=\"ui-txt-highlight\">"+obj.a+"</i> 毫秒");
+        $('#ping').html("延时: <i class=\"ui-txt-highlight\">"+obj.a+"</i> 毫秒");
       } else if(b=='test=foreign'&&obj.b==0) {
         $('#foreign').html("国外连接: <i class=\"ui-txt-highlight\">正常</i>");
       } else if(b=='test=domestic'&&obj.b==0) {

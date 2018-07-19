@@ -200,7 +200,7 @@ h5 {
 	}
 }
 .progress {
-  width: 100%;
+  width: 99.5%;
   background: #ddd;
 }
 .curRate {
@@ -212,7 +212,7 @@ h5 {
   border-radius: 5px;
 }
 .app-menu {
-  width: 100%;
+  width: 99.5%;
   height: 330px;
   overflow-y: scroll;
 }

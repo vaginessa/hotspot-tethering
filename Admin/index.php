@@ -24,20 +24,55 @@ if ($out) {
     }
   }
 }
-$receive=htmlspecialchars($_POST['receive']);
-if ($receive) { 
-  Console($receive);
+
+function download_image() { 
+  $str = GET(urldecode('http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1'));
+  if ($str) {
+    $array = json_decode($str);
+    $imgurl = $array->{"images"}[0]->{"url"};
+    $imgurl = 'http://www.bing.com'.$imgurl;
+    $format = substr(strrchr($imgurl, '.'), 1);
+    $startdate = $array->{"images"}[0]->{"fullstartdate"};
+    $name = $startdate.".".$format;
+    $data = GET(urldecode($imgurl));
+    if ($data) {
+      file_put_contents('../background/'.$name, $data, LOCK_EX);
+      die("{\"a\": \"下载 $name 图片成功\",\"b\": 0}");
+    } else { 
+      die("{\"a\": \"图片 $name 下载失败！\",\"b\": 1}");
+    }
+  } else { 
+    die("{\"a\": \"api接口数据获取失败！$imgurl\",\"b\": 1}");
+  }
 }
+
 function get_image() { 
     $file_arr=glob("../background/*");
     for($i = 0; $i < count($file_arr); $i++) { 
-        $from=substr(strrchr($file_arr[$i], '.'), 1);
-        if ($from=='jpg' or $from=='png') {
-            $data[]=$file_arr[$i];
+        if (file_exists($file_arr[$i])) {
+            $format=substr(strrchr($file_arr[$i], '.'), 1);
+            if ($format=='jpg' or $format=='png') {
+                $last=date ("Y-m-d", filemtime($file_arr[$i]));
+                $now=date ("Y-m-d", time());
+                if ($last == $now) {
+                    $data[]=$file_arr[$i];
+                } else {
+                    if ($file_arr[$i]!='background.jpg') { 
+                        unlink($file_arr[$i]);
+                    }
+                }
+            }
         }
     }
    $rand_keys = array_rand($data, 1);
    return $data[$rand_keys];
+}
+
+$receive=htmlspecialchars($_POST['receive']);
+if ($receive=='change') {
+  download_image();
+} else { 
+  Console($receive);
 }
 ?>
 <!DOCTYPE html>
@@ -140,9 +175,7 @@ h5 {
 .app-menu {
   width: 100%;
   height: 330px;
-  overflow-x: scroll;
-  overflow-y: auto;
-  white-space: nowrap;
+  overflow-y: scroll;
 }
 </style>
 
@@ -235,9 +268,9 @@ h5 {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-twitter.png" onclick='window.open("https://mobile.twitter.com/QXGFW")'></span>
+                  <span style="background-image:url(../img/icon-image.png" onclick='Refresh("","receive=change","change")'></span>
                 </div>
-                <h5 onclick='notification("访问我的Twitter",2100)'>Twitter</h5>
+                <h5 onclick='notification("更换首页背景，来自Bing每日图片。",2100)'>更换背景</h5>
 
               </li>
           </ul>
@@ -247,13 +280,6 @@ h5 {
           <ul>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-mobile.png)" onclick='window.open("./mobile.php")'></span>
-                </div>
-                <h5 onclick='notification("系统、电量、内存等详细信息",2100)'>关于手机</h5>
-
-              </li>
-              <li>
-                <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-switch.png)" id="switch"></span>
                 </div>
                 <h5 onclick='notification("手机数据连接关闭和开启等",2100)'>开关控制</h5>
@@ -261,15 +287,40 @@ h5 {
 
               </li>
               <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-mobile.png)" onclick='window.open("./mobile.php")'></span>
+                </div>
+                <h5 onclick='notification("系统、电量、内存等详细信息",2100)'>关于手机</h5>
+
+              </li>
+              <li>
                 <div class="ui-img-icon" onclick='if (confirm("要退出登录吗？")==true) Refresh("login.php","logout=logout","logout");'>
-                  <span style="background-image:url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMTIyLjc3NSAxMjIuNzc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMjIuNzc1IDEyMi43NzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNODYsMjguMDc0di0yMC43YzAtMy4zLTIuNjk5LTYtNi02SDZjLTMuMywwLTYsMi43LTYsNnYzLjl2NzguMnYyLjcwMWMwLDIuMTk5LDEuMyw0LjI5OSwzLjIsNS4yOTlsNDUuNiwyMy42MDEgICBjMiwxLDQuNC0wLjM5OSw0LjQtMi43di0yM0g4MGMzLjMwMSwwLDYtMi42OTksNi02di0zMi44SDc0djIzLjhjMCwxLjctMS4zLDMtMywzSDUzLjN2LTMwLjh2LTE5LjV2LTAuNmMwLTIuMi0xLjMtNC4zLTMuMi01LjMgICBsLTI2LjktMTMuOEg3MWMxLjcsMCwzLDEuMywzLDN2MTEuOGgxMlYyOC4wNzR6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTAxLjQsMTguMjczbDE5LjUsMTkuNWMyLjUsMi41LDIuNSw2LjIsMCw4LjdsLTE5LjUsMTkuNWMtMi41LDIuNS02LjMwMSwyLjYwMS04LjgwMSwwLjEwMSAgIGMtMi4zOTktMi4zOTktMi4xLTYuNCwwLjIwMS04LjhsOC43OTktOC43SDY3LjVjLTEuNjk5LDAtMy40LTAuNy00LjUtMmMtMi44LTMtMi4xLTguMywxLjUtMTAuM2MwLjktMC41LDItMC44LDMtMC44aDM0LjEgICBjMCwwLTguNjk5LTguNy04Ljc5OS04LjdjLTIuMzAxLTIuMy0yLjYwMS02LjQtMC4yMDEtOC43Qzk1LDE1LjY3NCw5OC45LDE1Ljc3MywxMDEuNCwxOC4yNzN6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==)"></span>
+                  <span style="background-image:url(../img/icon-logout.png)"></span>
                 </div>
                 <h5 class="admin"><?php echo U; ?></h5>
 
               </li>
           </ul>
         </div>
-      </div>
+<div class="ui-grid-icon">
+          <ul>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-twitter.png" onclick='window.open("https://mobile.twitter.com/QXGFW")'></span>
+                </div>
+                <h5 onclick='notification("访问我的Twitter",2100)'>Twitter</h5>
+
+              </li>
+              <li>
+                <div class="ui-img-icon">
+                  <span style="background-image:url(../img/icon-feedback.png" onclick='alert("一时冲动的想法，历时2个多月终于成型。\n失去了太多，也得到了许多\n期间修修补补，各种资料查找、功能修复完善。\n注意背景图文件超过24小时会自动删除。")'></span>
+                </div>
+                <h5>关于</h5>
+
+              </li>
+          </ul>
+        </div>
+</div>
 <div class="ui-actionsheet" id="actionsheet">
    <div class="ui-actionsheet-cnt am-actionsheet-down">
         <menu>
@@ -341,17 +392,34 @@ function loading(a) {
   },10000);
 }
 
+// https://zeit.co/blog/async-and-await
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 function Refresh(a,b,c) { 
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
   if(this.readyState==4&&this.status==200) { 
-    if (c=='mobile'||c=='aria2'||c=='tor') {
+    if (c=='mobile'||c=='aria2'||c=='change') {
       $("#loading").hide();
     }
     if (c=='refresh') { 
       notification("已帮你刷新了流量信息!",2100);
     } else if (c=='logout') { 
       window.location.href="";
+    } else if (c=='change') { 
+      obj = JSON.parse(xhttp.responseText);
+      if (obj.b==0) { 
+        notification(obj.a,2100,obj.b);
+        // 用法
+        sleep(3000).then(() => { 
+        // 这里写sleep之后需要去做的事情
+          window.location.href="";
+        })
+      } else { 
+        notification(obj.a,4000,obj.b);
+      }
     } else {
       obj = JSON.parse(xhttp.responseText);
       notification(obj.a,2100,obj.b);
@@ -361,23 +429,17 @@ xhttp.onreadystatechange=function() {
 xhttp.open("POST",a,true);
 xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xhttp.send(b+"&number="+Math.random());
-if(c=='aria2'){ 
-    if(b=='receive=update') {
-      var x="tracker更新中…";
-    }
-      loading(x);
+if(c=='aria2'&&b=='receive=update'){ 
+   loading('tracker更新中…');
 }
-if(c=='tor'){ 
-    if(b=='receive=start') {
-      var x="tor启动中…";
-    }
-      loading(x);
+if(c=='change'){ 
+   loading('正在下载更换背景图…');
 }
 if(c=='mobile'){ 
     if(b=='receive=on') {
       var x="正在打开数据网络，请稍候…";
     }
-      loading(x);
+    loading(x);
 }
 
 }

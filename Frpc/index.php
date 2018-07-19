@@ -42,6 +42,14 @@ if (isset($x)) {
     <link rel="stylesheet" href="../css/frozenui.css">
     <link rel="stylesheet" href="../css/style.css">    
 </head>
+<title>关于手机</title>
+<style type="text/css">
+ li {
+    height:100%;
+    padding-right: 1px;
+    overflow-y: scroll;
+ }
+</style>
 <body ontouchstart>
 <section id="tab">
    <div class="demo-item">
@@ -78,7 +86,7 @@ if (isset($x)) {
                     ?>
                    </li>
                     <li>
-                    <textarea rows="25" style="width:99%" cols="40" name="config" form="form_config" placeholder="自定义"><?php if (file_exists('frpc.ini')) echo file_get_contents('frpc.ini'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="form_config"><button class="ui-btn-lg ui-btn-primary">保存配置</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+                    <textarea rows="35" style="width:99%" cols="40" name="config" form="form_config" placeholder="自定义"><?php if (file_exists('frpc.ini')) echo file_get_contents('frpc.ini'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="form_config"><button class="ui-btn-lg ui-btn-primary">保存配置</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
                     </li>
                     <li>
                     <?php 
@@ -100,6 +108,7 @@ if (isset($x)) {
 </section>
 <script src="../js/zepto.min.js"></script>    
 <script type="text/javascript">
+$('.ui-tab-content').css('height', $(window).height()+'px'); //屏幕高
 (function() {
     var record = 0;
     var origin_l;

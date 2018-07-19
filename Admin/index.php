@@ -127,7 +127,6 @@ switch (true){
   <link rel="stylesheet" href="../css/frozenui.css" />
   <link rel="stylesheet" href="../css/style.css" />
 </head>
-<body ontouchstart="">
 <style type="text/css">
 body {
   width: 100%;
@@ -164,7 +163,9 @@ body::after {
    background-color:#dec48f;
    text-align:center;
    opacity:0.9;
-   margin:5px;
+   margin: 8px;
+   padding-top: 4px;
+   padding-bottom 4px;
    border-radius:25px;
 }
 .footer {
@@ -217,6 +218,7 @@ h5 {
   overflow-y: scroll;
 }
 </style>
+<body ontouchstart="">
 
 <div class="demo-block">
             <div class="ui-poptips ui-poptips-info" id="notification" style="top:2px;display:none" onclick="this.parentElement.style.display='none';">
@@ -225,16 +227,12 @@ h5 {
                 </div>
             </div>
         </div>
+        
 <div class="header">
    <a href="https://github.com/yiguihai/hotspot-tethering" target="_blank"><h1 style="color:white"><?php system("getprop ro.product.model"); ?></h1></a>
     <h2 style="color:#eeeeee"><?php system("getprop gsm.network.type"); ?></h2>
 </div>
-<!--
-<div style="display:none;background-color: white;border-style: dotted;width: 98%;padding: 1px;border-radius:25px;">
-<img style="display: inline-block;vertical-align: middle;height:18px;" src="../img/icon-notification.png">
-<span style="display: inline-block;color: gray;font-size:14px;" id="notification"></span>
-</div>
--->
+
 <div class="app-menu">
 <div class="ui-grid-icon">
           <ul>
@@ -404,7 +402,6 @@ h5 {
 <div class="progress round-conner">
     <div class="curRate round-conner" id="storage2"></div>
 </div>
-<br />
 <div class="traffic" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
  <span id="traffic" style="color:white;">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>

@@ -57,6 +57,7 @@ www.quanben.io##amp-ad
 @@pan.baidu.com
 @@tieba.baidu.com
 @@zhidao.baidu.com
+@@www.baidu.com
 |http://*.baidu.com$r@http://*.baidu.com/*@http://www.google.com@
 |https://*.baidu.com$r@https://*.baidu.com/*@https://www.google.com@
 |http://yaohuo.me$r@http://yaohuo.me/*@http://yaohw.com@

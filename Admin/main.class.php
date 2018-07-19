@@ -121,6 +121,21 @@ function GET($url) {
     curl_close($ch);
     return $data;
 }
+function http_code($url,$timeout) {
+  if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
+    return false;
+  } else {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HEADER, true);    // we want headers
+    curl_setopt($ch, CURLOPT_NOBODY, true);    // we don't need body
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_TIMEOUT,$timeout);
+    $output = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $httpcode;
+  }
+}
 function get_exec($shell,$toast) {
     foreach ($shell as $key) { 
       exec('su -c ' . $key, $output, $return_var);

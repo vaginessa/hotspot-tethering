@@ -48,31 +48,73 @@ function download_image() {
 
 function get_image() { 
     $file_arr=glob("../background/*");
-    for($i = 0; $i < count($file_arr); $i++) { 
-        if (file_exists($file_arr[$i])) {
-            $format=substr(strrchr($file_arr[$i], '.'), 1);
+    $default='../background/background.jpg';
+    $num=count($file_arr);
+    for($i = 0; $i < $num; $i++) { 
+        $file=$file_arr[$i];
+            $format=substr(strrchr($file, '.'), 1);
             if ($format=='jpg' or $format=='png') {
-                $last=date ("Y-m-d", filemtime($file_arr[$i]));
+                $last=date ("Y-m-d", filemtime($file));
                 $now=date ("Y-m-d", time());
-                if ($last == $now) {
-                    $data[]=$file_arr[$i];
+                if ($num>1&&$file==$default) { 
+                    unset($file);
+                }
+                if ($last==$now&&$file) {
+                    $data[]=$file;
                 } else {
-                    if ($file_arr[$i]!='background.jpg') { 
-                        unlink($file_arr[$i]);
+                    if (file_exists($file)&&$file!=$default) { 
+                        unlink($file);
                     }
                 }
             }
         }
-    }
    $rand_keys = array_rand($data, 1);
    return $data[$rand_keys];
 }
-
 $receive=htmlspecialchars($_POST['receive']);
 if ($receive=='change') {
   download_image();
 } else { 
   Console($receive);
+}
+function ping($a,$b,$c) {
+    $data=exec("ping -c $a -w $b -n $c", $output, $return_val);
+    if ($return_val == 0) {
+        return explode('/', end($output))[4];
+    }
+}
+$test=htmlspecialchars($_POST['test']);
+switch (true){
+   case stristr($test,'ping'):
+      $file='../Shadowsocks/config.ini';
+      if (file_exists($file)) { 
+        $server=parse_ini_file($file)['server'];
+        $ms=ping('1','5',$server);
+        if ($ms>0) {
+          die("{\"a\": \"$ms\",\"b\": 0}");
+        } else {
+          die("{\"a\": \"ping $server 失败！\",\"b\": 1}");
+        }
+      } else { 
+        die("{\"a\": \"配置文件 $file 不存在！\",\"b\": 1}");
+      }
+      break;
+   case stristr($test,'foreign'):
+      $code=http_code('http://www.google.com.tw',8);
+      if ($code==200) { 
+        die("{\"a\": \"$code\",\"b\": 0}");
+      } else { 
+        die("{\"a\": \"连接到Google服务器失败！返回状态码: $code\",\"b\": 1}");
+      }      
+      break;
+   case stristr($test,'domestic'):
+      $code=http_code('http://www.baidu.com',8);
+      if ($code==200) { 
+        die("{\"a\": \"$code\",\"b\": 0}");
+      } else { 
+        die("{\"a\": \"连接到百毒服务器失败！返回状态码: $code\",\"b\": 1}");
+      }
+      break;
 }
 ?>
 <!DOCTYPE html>
@@ -270,7 +312,7 @@ h5 {
                 <div class="ui-img-icon">
                   <span style="background-image:url(../img/icon-image.png" onclick='Refresh("","receive=change","change")'></span>
                 </div>
-                <h5 onclick='notification("更换首页背景，来自Bing每日图片。",2100)'>更换背景</h5>
+                <h5 onclick='notification("更换首页背景，来自Bing每日图片。(超过24小时会自动删除)",2100)'>更换背景</h5>
 
               </li>
           </ul>
@@ -313,7 +355,7 @@ h5 {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-feedback.png" onclick='alert("一时冲动的想法，历时2个多月终于成型。\n失去了太多，也得到了许多\n期间修修补补，各种资料查找、功能修复完善。\n注意背景图文件超过24小时会自动删除。")'></span>
+                  <span style="background-image:url(../img/icon-feedback.png" onclick='alert("一时冲动的想法，历时2个多月终于成型。\n失去了太多，也得到了许多\n期间修修补补，各种资料查找、功能修复完善。\n你体会不到当我看到监控进度条动起来时候的心情\n")'></span>
                 </div>
                 <h5>关于</h5>
 
@@ -370,11 +412,20 @@ h5 {
 </div>
         <br />
     <div class="footer">
-      <a href="" id="footer"></a>
+      <ul class="ui-row">
+       <li class="ui-col ui-col-33" onclick='Refresh("","test=ping","test")'>
+       <p class="ui-txt-white" id="ping">测试延迟</p>
+       </li>
+       <li class="ui-col ui-col-33" onclick='Refresh("","test=foreign","test")'>
+       <p class="ui-txt-white" id="foreign">国外连接</p>
+       </li>
+       <li class="ui-col ui-col-33" onclick='Refresh("","test=domestic","test")'>
+       <p class="ui-txt-white" id="domestic">国内连接</p>
+       </li>
+      </ul>
     </div>
 
 <script src="../js/zepto.min.js"></script>
-<script src="../js/footer.js"></script>
 <script type="text/javascript">
 function loading(a) { 
     if (a==""||a==null) {
@@ -401,7 +452,7 @@ function Refresh(a,b,c) {
 var xhttp=new XMLHttpRequest();
 xhttp.onreadystatechange=function() { 
   if(this.readyState==4&&this.status==200) { 
-    if (c=='mobile'||c=='aria2'||c=='change') {
+    if (c=='mobile'||c=='aria2'||c=='change'||c=='test') {
       $("#loading").hide();
     }
     if (c=='refresh') { 
@@ -420,6 +471,16 @@ xhttp.onreadystatechange=function() {
       } else { 
         notification(obj.a,4000,obj.b);
       }
+    } else if (c=='test') { 
+      obj = JSON.parse(xhttp.responseText);
+      if(b=='test=ping'&&obj.b==0) {
+        $('#ping').html("服务器延时: <i class=\"ui-txt-highlight\">"+obj.a+"</i> 毫秒");
+      } else if(b=='test=foreign'&&obj.b==0) {
+        $('#foreign').html("国外连接: <i class=\"ui-txt-highlight\">正常</i>");
+      } else if(b=='test=domestic'&&obj.b==0) {
+        $('#domestic').html("国内连接: <i class=\"ui-txt-highlight\">正常</i>");
+      }
+      notification(obj.a,2500,obj.b);
     } else {
       obj = JSON.parse(xhttp.responseText);
       notification(obj.a,2100,obj.b);
@@ -434,6 +495,9 @@ if(c=='aria2'&&b=='receive=update'){
 }
 if(c=='change'){ 
    loading('正在下载更换背景图…');
+}
+if(c=='test'){ 
+   loading('测试中…');
 }
 if(c=='mobile'){ 
     if(b=='receive=on') {

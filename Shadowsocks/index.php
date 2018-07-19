@@ -46,8 +46,9 @@ if (file_exists('config.ini')) {
                   <li class="current"><span>Shadowsocks</span></li>
                   <li><span>自定义规则</span></li>
                   <li><span>hosts编辑</span></li>
+                  <li><span id="shared">二维码分享</span></li>
                 </ul>
-                <ul class="ui-tab-content" style="width:300%">
+                <ul class="ui-tab-content" style="width:400%">
 <!-- Shadowsocks配置开始 -->                
                     <li>
      <div class="ui-form ui-border-t"> 
@@ -353,11 +354,21 @@ if (file_exists('config.ini')) {
             <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
 <!-- 自定义hosts结束 -->                     
+            <li>
+            <div id="qrcode" style="margin-top:15px;margin-bottom:25px"></div>
+            <div style="width:95%;text-align:left;word-wrap:break-word;"><a id="copylink" href=""></a></div> 
+            <br />
+            <button class="ui-btn-lg" id="clip">
+                    复制到剪辑板
+                </button>
+            </li>
             </ul>
            </div>
             
             
-  <script src="../js/zepto.min.js"></script> 
+  <script src="../js/zepto.min.js"></script>
+  <script type="text/javascript" src="../js/qrcode.min.js">/*引入二维码库 https://github.com/davidshimjs/qrcodejs */ </script>
+  <script src="../js/clipboard.min.js">/*引入剪辑板库 https://github.com/zenorocha/clipboard.js*/</script>
   
   <script type="text/javascript">		
 $('.ui-tab-content').css('height', $(window).height()+'px'); //屏幕高
@@ -436,7 +447,6 @@ function setplugin(){
     $("#server_toast").show();
   });
   </script>
-  
   
   <!-- 读取配置显示 -->
   
@@ -518,5 +528,50 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
     });
 })(window, undefined)
 </script>		
+
+  <!-- 二维码显示 -->  
+  <script type="text/javascript">		
+  qrw=$(window).width()-15;
+  qrh=$(window).height()/2;
+  var qrcode = new QRCode(document.getElementById("qrcode"), {
+   	width : qrw,
+   	height : qrh
+ 	}); //实例化类
+ 	function copyc (sslink) {		
+ 	if (!sslink) {
+  		alert("ss链接输入为空");
+  		return;
+  	}
+ 	var clipboard = new ClipboardJS('#clip', {
+        text: function() {
+            return sslink;
+        }
+    });
+    clipboard.on('success', function(e) {
+        alert("复制到剪辑板成功");
+    });
+    clipboard.on('error', function(e) {
+        alert("复制到剪辑板失败！");
+    });
+  }
+ function makeCode (sslink) {		
+  	if (!sslink) {
+  		alert("ss链接输入为空");
+  		return;
+  	}
+	   qrcode.makeCode(sslink); //
+	}
+  $("#shared").tap(function(){  //点触分享二维码时
+    encodedData = window.btoa($("#method").val()+':'+$("#password").val());
+    sslink = 'ss://'+encodedData+'@'+$("#server").val()+':'+$("#server_port").val()+'#'+$("#name").val();
+    $("#copylink").attr('href',sslink);
+    $("#copylink").text(sslink);
+    makeCode(sslink);
+  });
+  $("#clip").click(function(){
+    copyc(sslink);
+  });
+  </script>
+
 </body>
 </html>

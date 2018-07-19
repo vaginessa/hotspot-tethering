@@ -47,6 +47,7 @@
 !  ******************************************************************************************
 
 |yaohw.com##.adsbygoogle,#aswift_0,ins
+|http://yaohw.com/tupian/XY380.png
 |t66y.com##.tpc_icon fl, .sptable_do_not_remove f_one, .line tpc_line, .sptable_do_not_remove
 |http://music.163.com/upload/
 |http://static.ads-twitter.com

@@ -344,13 +344,13 @@ if (file_exists('config.ini')) {
 
 <!-- 自定义规则编辑 -->            
             <li>
-            <textarea rows="40" style="width:99%" cols="50" name="acl" form="acl" placeholder="自定义acl规则"><?php echo file_get_contents('custom.acl'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="acl"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            <textarea rows="35" style="width:99%" cols="40" name="acl" form="acl" placeholder="自定义acl规则"><?php echo file_get_contents('custom.acl'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="acl"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
 <!-- 自定义规则结束 -->                        
 
 <!-- 自定义hosts编辑 -->         
             <li>
-            <textarea rows="40" style="width:99%" cols="50" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
 <!-- 自定义hosts结束 -->                     
             </ul>

@@ -171,7 +171,7 @@ body::after {
    position: fixed;
    left: 0;
    bottom: 0;
-   width: 100%;
+   width: 99.5%;
    opacity: 0.9;
    background-color: #f7f7f7;
    text-align: center;

@@ -21,6 +21,16 @@ if ($url) {
   <link rel="stylesheet" href="../css/style.css" />
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no" />
   <title>关于手机</title>
+  <style type="text/css">
+ .ui-tab-content { 
+   width:600%;
+ }
+ li {
+    height:100%;
+    padding-right: 1px;
+    overflow-y: scroll;
+ }
+  </style>
  </head>
  <body ontouchstart="">
  <section id="tab">
@@ -33,7 +43,7 @@ if ($url) {
                   <li><span>电池信息</span></li>
                   <li><span>内存信息</span></li>
                 </ul>
-                <ul class="ui-tab-content" style="width:600%">
+                <ul class="ui-tab-content">
                     <li>
                   <?php
                   $tor=sys_get_temp_dir().'/tor';
@@ -206,6 +216,7 @@ if ($url) {
 </section>
 <script src="../js/zepto.min.js"></script>
 <script type="text/javascript">
+$('.ui-tab-content').css('height', $(window).height()+'px'); //屏幕高
 (function() {
     var record = 0;
     var origin_l;

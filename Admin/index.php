@@ -59,6 +59,9 @@ function get_image() {
                 if ($num>1&&$file==$default) { 
                     unset($file);
                 }
+                if ($num==1&&$file==$default) { 
+                    $data[]=$file;
+                }
                 if ($last==$now&&$file) {
                     $data[]=$file;
                 } else {

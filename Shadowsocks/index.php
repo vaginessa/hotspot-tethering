@@ -530,39 +530,39 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
 </script>		
 
   <!-- 二维码显示 -->  
-  <script type="text/javascript">		
-  qrw=$(window).width()-15;
-  qrh=$(window).height()/2;
-  var qrcode = new QRCode(document.getElementById("qrcode"), {
-   	width : qrw,
-   	height : qrh
- 	 }); //实例化类
- function makeCode (sslink) {		
-  	if (!sslink) {
-  		alert("ss链接输入为空");
-  		return;
-  	}
-	   qrcode.makeCode(sslink); //
-	}
-	var clipboard = new ClipboardJS('#clip', {
-       text: function() {
-           return sslink;
-       }
-   });
-    clipboard.on('success', function(e) {
-        alert("复制到剪辑板成功");
-    });
-    clipboard.on('error', function(e) {
-        alert("复制到剪辑板失败！");
-    });
-  $("#shared").tap(function(){  //点触分享二维码时
-    encodedData = window.btoa($("#method").val()+':'+$("#password").val());
-    sslink = 'ss://'+encodedData+'@'+$("#server").val()+':'+$("#server_port").val()+'#'+$("#name").val();
-    $("#copylink").attr('href',sslink);
+<script type="text/javascript">		
+qrw = $(window).width() - 15;
+qrh = $(window).height() / 2;
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+    width: qrw,
+    height: qrh
+}); //实例化类
+function makeCode(sslink) {
+    if (!sslink) {
+        alert("ss链接输入为空");
+        return;
+    }
+    qrcode.makeCode(sslink); //
+}
+var clipboard = new ClipboardJS('#clip', {
+    text: function() {
+        return sslink;
+    }
+});
+clipboard.on('success', function(e) {
+    alert("复制到剪辑板成功");
+});
+clipboard.on('error', function(e) {
+    alert("复制到剪辑板失败！");
+});
+$("#shared").tap(function() { //点触分享二维码时
+    encodedData = window.btoa($("#method").val() + ':' + $("#password").val());
+    sslink = 'ss://' + encodedData + '@' + $("#server").val() + ':' + $("#server_port").val() + '#' + $("#name").val();
+    $("#copylink").attr('href', sslink);
     $("#copylink").text(sslink);
     makeCode(sslink);
-  });
-  </script>
+});
+</script>
 
 </body>
 </html>

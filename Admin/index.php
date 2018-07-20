@@ -353,7 +353,7 @@ h5 {
               </li>
               <li>
                 <div class="ui-img-icon">
-                  <span style="background-image:url(../img/icon-feedback.png" onclick='alert("一时冲动的想法，历时2个多月终于成型。\n失去了太多，也得到了许多\n期间修修补补，各种资料查找、功能修复完善。\n你体会不到当我看到监控进度条动起来时候的心情\n")'></span>
+                  <span style="background-image:url(../img/icon-feedback.png" onclick='alert("一时冲动的想法，历时2个多月终于成型。\n失去了太多，也得到了许多\n期间修修补补，各种资料查找、功能修复完善。\n当看到进度条动起来的时候就像我赋予了它生命一样，那种成就感满满地！\n")'></span>
                 </div>
                 <h5>关于</h5>
 

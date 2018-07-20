@@ -425,7 +425,6 @@ h5 {
 
 <script src="../js/zepto.min.js"></script>
 <script type="text/javascript">
-$('body').css('height', $(window).height()+'px'); //屏幕高
 function loading(a) { 
     if (a==""||a==null) {
         var a="请稍候…";
@@ -670,6 +669,7 @@ if(typeof(EventSource) !== "undefined") {
 } else {
     alert("Sorry, your browser does not support server-sent events...");
 }
+$('body').delay(2000).css('height', $(window).height()+'px'); //屏幕高
 </script>
 
 </body>

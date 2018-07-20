@@ -533,10 +533,6 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   <script type="text/javascript">		
   qrw=$(window).width()-15;
   qrh=$(window).height()/2;
-  var qrcode = new QRCode(document.getElementById("qrcode"), {
-   	width : qrw,
-   	height : qrh
- 	}); //实例化类
  	function copyc (sslink) {		
  	if (!sslink) {
   		alert("ss链接输入为空");
@@ -559,6 +555,10 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   		alert("ss链接输入为空");
   		return;
   	}
+  	var qrcode = new QRCode(document.getElementById("qrcode"), {
+   	width : qrw,
+   	height : qrh
+ 	 }); //实例化类
 	   qrcode.makeCode(sslink); //
 	}
   $("#shared").tap(function(){  //点触分享二维码时

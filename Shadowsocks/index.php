@@ -533,16 +533,27 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   <script type="text/javascript">		
   qrw=$(window).width()-15;
   qrh=$(window).height()/2;
- 	function copyc (sslink) {		
+  var qrcode = new QRCode(document.getElementById("qrcode"), {
+   	width : qrw,
+   	height : qrh
+ 	 }); //实例化类
+ function makeCode (sslink) {		
+  	if (!sslink) {
+  		alert("ss链接输入为空");
+  		return;
+  	}
+	   qrcode.makeCode(sslink); //
+	}
+	function copyc (sslink) {		
  	if (!sslink) {
   		alert("ss链接输入为空");
   		return;
   	}
- 	var clipboard = new ClipboardJS('#clip', {
-        text: function() {
-            return sslink;
-        }
-    });
+  	var clipboard = new ClipboardJS('#clip', {
+       text: function() {
+           return sslink;
+       }
+   });
     clipboard.on('success', function(e) {
         alert("复制到剪辑板成功");
     });
@@ -550,17 +561,6 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
         alert("复制到剪辑板失败！");
     });
   }
- function makeCode (sslink) {		
-  	if (!sslink) {
-  		alert("ss链接输入为空");
-  		return;
-  	}
-  	var qrcode = new QRCode(document.getElementById("qrcode"), {
-   	width : qrw,
-   	height : qrh
- 	 }); //实例化类
-	   qrcode.makeCode(sslink); //
-	}
   $("#shared").tap(function(){  //点触分享二维码时
     encodedData = window.btoa($("#method").val()+':'+$("#password").val());
     sslink = 'ss://'+encodedData+'@'+$("#server").val()+':'+$("#server_port").val()+'#'+$("#name").val();

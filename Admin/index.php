@@ -53,7 +53,7 @@ function get_image() {
     for($i = 0; $i < $num; $i++) { 
         $file=$file_arr[$i];
             $format=substr(strrchr($file, '.'), 1);
-            if ($format=='jpg' or $format=='png') {
+            if ($format=='jpg'||$format=='png') {
                 $last=date ("Y-m-d", filemtime($file));
                 $now=date ("Y-m-d", time());
                 if ($num>1&&$file==$default) { 
@@ -87,6 +87,7 @@ function ping($a,$b,$c) {
     }
 }
 $test=htmlspecialchars($_POST['test']);
+if (isset($test)) { 
 switch (true){
    case stristr($test,'ping'):
       $file='../Shadowsocks/config.ini';
@@ -118,6 +119,7 @@ switch (true){
         die("{\"a\": \"连接到百毒服务器失败！返回状态码: $code\",\"b\": 1}");
       }
       break;
+}
 }
 ?>
 <!DOCTYPE html>
@@ -224,7 +226,7 @@ h5 {
 <body ontouchstart="">
 
 <div class="demo-block">
-            <div class="ui-poptips ui-poptips-info" id="notification" style="top:2px;display:none" onclick="this.parentElement.style.display='none';">
+            <div class="ui-poptips ui-poptips-info" id="notification" style="top:2px;display:none">
                 <div class="ui-poptips-cnt">
                     <i></i><notification2></notification2>
                 </div>
@@ -669,7 +671,7 @@ if(typeof(EventSource) !== "undefined") {
 } else {
     alert("Sorry, your browser does not support server-sent events...");
 }
-$('body').delay(1000).css('height', $(window).height()+'px'); //屏幕高
+$('body').css('height', $(window).height()+'px')
 </script>
 
 </body>

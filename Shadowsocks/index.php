@@ -544,12 +544,7 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   	}
 	   qrcode.makeCode(sslink); //
 	}
-	function copyc (sslink) {		
- 	if (!sslink) {
-  		alert("ss链接输入为空");
-  		return;
-  	}
-  	var clipboard = new ClipboardJS('#clip', {
+	var clipboard = new ClipboardJS('#clip', {
        text: function() {
            return sslink;
        }
@@ -560,16 +555,12 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
     clipboard.on('error', function(e) {
         alert("复制到剪辑板失败！");
     });
-  }
   $("#shared").tap(function(){  //点触分享二维码时
     encodedData = window.btoa($("#method").val()+':'+$("#password").val());
     sslink = 'ss://'+encodedData+'@'+$("#server").val()+':'+$("#server_port").val()+'#'+$("#name").val();
     $("#copylink").attr('href',sslink);
     $("#copylink").text(sslink);
     makeCode(sslink);
-  });
-  $("#clip").click(function(){
-    copyc(sslink);
   });
   </script>
 

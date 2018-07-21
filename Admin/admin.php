@@ -1,4 +1,4 @@
 <?php
-define("U","admin");
-define("P","admin");
+define('U','admin');
+define('P','admin');
 ?>

@@ -107,51 +107,6 @@ function size_unit()
     }
 }
 
-function clear_var()
-{
-  $clear=array(
-    $interface_name, 
-    $local_address, 
-    $Receive_bytes, 
-    $Receive_packets, 
-    $Transmit_bytes, 
-    $Transmit_packets, 
-    $New_Rb, 
-    $New_Tb, 
-    $Download, 
-    $Upload, 
-    $Rb_Size, 
-    $Tb_Size, 
-    $ram_free, 
-    $ram_rate, 
-    $mem_total, 
-    $Total_1, 
-    $SYS_IDLE_1, 
-    $Total_2, 
-    $SYS_IDLE_2, 
-    $Total, 
-    $SYS_USAGE, 
-    $SYS_Rate, 
-    $tcp_conntrack, 
-    $storage_dir, 
-    $st, 
-    $storage_total, 
-    $sf, 
-    $storage_free, 
-    $storage_rate, 
-    $_SESSION['download_speed'], 
-    $_SESSION['upload_speed']    
-  );
-  foreach ($clear as $key) {
-    unset($key);
-  }
-}
-
-//刷新流量信息
-if ($_POST['Refresh']=='refresh') {
-  clear_var();
-}
-
 //读取网卡信息
 list($interface_name, $local_address) = network_interface_card();
 
@@ -222,7 +177,6 @@ echo "data: $SYS_Rate\n\n";
 
 echo "event: storage\n";
 echo "data: {\"storage_dir\": \"$storage_dir\",\"storage_total\": \"$storage_total\",\"storage_free\": \"$storage_free\",\"storage_rate\": \"$storage_rate\"}\n\n";
-//clear_var();
 session_write_close();
 session_unset();
 die(0);

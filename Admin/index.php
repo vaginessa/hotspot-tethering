@@ -407,7 +407,7 @@ h5 {
 <div class="progress round-conner">
     <div class="curRate round-conner" id="storage2"></div>
 </div>
-<div class="traffic" onclick='Refresh("server.php","Refresh=refresh","refresh")'>
+<div class="traffic">
  <span id="traffic" style="color:white;">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>
         <br />
@@ -455,9 +455,7 @@ xhttp.onreadystatechange=function() {
     if (c=='mobile'||c=='aria2'||c=='change'||c=='test') {
       $("#loading").hide();
     }
-    if (c=='refresh') { 
-      notification("已帮你刷新了流量信息!",2100);
-    } else if (c=='logout') { 
+    if (c=='logout') { 
       window.location.href="";
     } else if (c=='change') { 
       obj = JSON.parse(xhttp.responseText);

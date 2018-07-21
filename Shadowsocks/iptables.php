@@ -115,7 +115,8 @@ $status_binary = array(
     "GoQuiet",
     "kcptun",
     "obfs-local",
-    "ss-local"
+    "ss-local",
+    "libproxychains4.so"
 );
 
 function file_chmod($tmp_file) { 

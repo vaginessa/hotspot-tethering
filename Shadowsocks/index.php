@@ -38,6 +38,13 @@ if (file_exists('config.ini')) {
     padding-right: 1px;
     overflow-y: scroll;
  }
+ .plugin_help {
+     margin:5px;
+     width: 95%;
+     word-wrap:break-word;
+     text-align:center;
+     color: #ee82ee;
+ }
 </style>
  <body ontouchstart="">
 
@@ -175,6 +182,13 @@ if (file_exists('config.ini')) {
            <div class="demo-block"> 
             <div class="ui-form ui-border-t"> 
             
+            <h4 class="plugin_help">GO语言实现的安全隧道
+            <nav>
+            <a href="https://github.com/ginuerzh/gost" target="_blank">项目地址</a> |
+            <a href="https://github.com/yiguihai/gost_install" target="_blank">搭建脚本</a>
+            <nav>
+            </h4>
+            
              <div class="ui-form-item ui-border-b"> 
               <label>服务器:</label> 
               <input type="text" placeholder="" id="gost_server" name="gost_server" /> 
@@ -219,6 +233,7 @@ if (file_exists('config.ini')) {
                 <option value="obfs-local">Simple obfuscation</option>
                 <option value="GoQuiet">GoQuiet</option>
                 <option value="kcptun">kcptun</option> 
+                <option value="proxychains-ng">proxychains-ng</option> 
                 </select> 
                </div> 
               </div> 
@@ -227,6 +242,12 @@ if (file_exists('config.ini')) {
            <plugin style="display:none">
            
             <obfs-local>
+            <h4 class="plugin_help">Simple-obfs is a simple obfusacting tool, designed as plugin server of shadowsocks. (obfs流量混淆插件)
+            <nav>
+            <a href="https://github.com/shadowsocks/simple-obfs-android" target="_blank">项目地址</a> |
+            <a href="https://teddysun.com/486.html" target="_blank">搭建教程</a>
+            <nav>
+            </h4>
              <div class="ui-form-item ui-border-b"> 
               <label>Obfuscation wrapper</label> 
               <div class="ui-select-group"> 
@@ -244,6 +265,11 @@ if (file_exists('config.ini')) {
              </obfs-local>
              
              <GoQuiet>
+            <h4 class="plugin_help">GoQuiet是一个shadowsocks的混淆插件，基本原理为模拟TLS的流量同时将服务器伪装成一个正常的网站服务器
+            <nav>
+            <a href="https://github.com/cbeuw/GoQuiet" target="_blank">项目地址</a>
+            <nav>
+            </h4>
              <div class="ui-form-item ui-border-b"> 
              <label>remoteHost:</label> 
               <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" /> 
@@ -277,6 +303,13 @@ if (file_exists('config.ini')) {
             </GoQuiet>
             
             <kcptun>
+            <h4 class="plugin_help"><p>A Fast & Secure Tunnel Based On KCP with N:M Multiplexing</p> 
+            Kcptun 是一个非常简单和快速的，基于 KCP 协议的 UDP 隧道，它可以将 TCP 流转换为 KCP+UDP 流。而 KCP 是一个快速可靠协议，能以比 TCP 浪费10%-20%的带宽的代价，换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。
+            <nav>
+            <a href="https://github.com/xtaci/kcptun" target="_blank">项目地址</a> |
+            <a href="https://blog.kuoruan.com/110.html" target="_blank">搭建教程</a>
+            <nav>
+            </h4>
             <div class="ui-form-item ui-border-b"> 
              <label>remoteaddr:</label> 
               <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" /> 
@@ -358,6 +391,41 @@ if (file_exists('config.ini')) {
               <input type="number" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
              </div>
             </kcptun>
+            
+            <proxychains-ng>  
+            <h4 class="plugin_help">添加一个前置代理中转Shadowsocks流量。提取自ShadowsocksR安卓版。
+            <nav>
+            <a href="https://github.com/shadowsocks/proxychains-ng" target="_blank">项目地址</a>
+            <nav>
+            </h4>
+            <div class="ui-form-item ui-border-b"> 
+              <label>类型</label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="proxychains-ng_type" id="proxychains-ng_type" class="ui-txt-feeds" > 
+                <option value="http" selected="">http</option> 
+                <option value="socks4">socks4</option> 
+                <option value="socks5">socks5</option> </select> 
+               </div> 
+              </div> 
+             </div> 
+             <div class="ui-form-item ui-border-b"> 
+             <label>地址:</label> 
+              <input type="text" placeholder="地址" id="proxychains-ng_address" name="proxychains-ng_address" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label>端口:</label> 
+              <input type="number" min="1" max="65535" placeholder="端口" id="proxychains-ng_port" name="proxychains-ng_port" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label>用户名:</label> 
+              <input type="text" placeholder="用户名" id="proxychains-ng_username" name="proxychains-ng_username" /> 
+             </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label>密码:</label> 
+              <input type="password" placeholder="密码" id="proxychains-ng_password" name="proxychains-ng_password" autocomplete="off" /> 
+             </div>
+            </proxychains-ng>
                           
            </plugin>
              
@@ -425,6 +493,11 @@ function setplugin(){
     $("kcptun").show();
   } else {
     $("kcptun").hide();
+  }
+  if ($("#plugin").val() == "proxychains-ng") { 
+    $("proxychains-ng").show();
+  } else {
+    $("proxychains-ng").hide();
   }
 }
   </script>		

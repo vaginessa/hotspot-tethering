@@ -535,7 +535,7 @@ $("#frpc").click(function(){
   select(content3);
 });
 
-var content4="\n<button onclick='Refresh(\"../Verysync/\",\"receive=start\",\"verysync\")'>启动</button>\n<button onclick='Refresh(\"../Verysync/\",\"receive=stop\",\"verysync\")' class=\"ui-actionsheet-del\">关闭</button>\n<hr>\n<button onclick='window.open(\"<?php echo "http://".$_SERVER['SERVER_ADDR'].":8886" ?>\")'>进入主界面</button>\n";
+var content4="\n<h4>启动需要一点时间如果主界面刷新不出来多刷新几次</h4>\n<button onclick='Refresh(\"../Verysync/\",\"receive=start\",\"verysync\")'>启动</button>\n<button onclick='Refresh(\"../Verysync/\",\"receive=stop\",\"verysync\")' class=\"ui-actionsheet-del\">关闭</button>\n<hr>\n<button onclick='window.open(\"<?php echo "http://".$_SERVER['SERVER_ADDR'].":8886" ?>\")'>进入主界面</button>\n";
 $("#verysync").click(function(){
   select(content4);
 });

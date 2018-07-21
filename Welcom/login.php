@@ -4,35 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php
-session_start();
-function set_token() {
-  $_SESSION['token'] = md5(microtime(true));
-}
-function valid_token() {
-  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
-  set_token();
-  return $return;
-}
-if (!isset($_SESSION['token']) || $_SESSION['token'] == '') {
-  set_token();
-}
-if (isset($_GET['token'])) {
-  if (!valid_token()) {
-    //die('请勿重复提交表单!');
-  }
-}
-session_write_close();
 require 'user.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
   $user_mac = get_mac($user_ip);
-  $token = $_GET['token'];
+  $login = $_GET['login'];
 }
 if (empty($user_ip) or empty($user_mac)) {
   die('获取用户信息失败！');
 }
 
-if ($user_ip and $user_mac and $token) {
+if ($user_ip and $user_mac and $login) {
     foreach ($data as $key => $value) {
         foreach ($value as $user => $info) {
             $macaddress = $info['mac_address'];
@@ -49,21 +31,10 @@ if ($user_ip and $user_mac and $token) {
     }
 }
 
-if (empty($fhts) and $user_ip and $user_mac and $token) {
-//file_put_contents('user.json', json_encode(user_del($data,'','',$user_mac)), LOCK_EX);
+if (empty($fhts) and $user_ip and $user_mac and $login) {
 file_put_contents('user.json', json_encode(user_add($data, $user_count, $date, $user_ip, $user_mac)), LOCK_EX);
-/*
-$command_file=sys_get_temp_dir()."/user.sh";
-$command_run="iptables -t nat -D user_portal -p tcp -s $user_ip -m mac --mac-source $user_mac -j RETURN".PHP_EOL."iptables -t nat -I user_portal -p tcp -m tcp -s $user_ip -m mac --mac-source $user_mac -j RETURN";
-file_put_contents($command_file, $command_run, LOCK_EX);
-if (!is_executable($command_file) and file_exists($command_file)) {
-    chmod($command_file, 0700);
-}
-shell_exec("su -c $command_file");
-*/
-$command_run="iptables -t nat -I user_portal -p tcp -s $user_ip -m mac --mac-source $user_mac -j RETURN";
+$command_run="iptables -t nat -I user_portal -s $user_ip -m mac --mac-source $user_mac -j RETURN";
 shell_exec("su -c $command_run");
-unset($_SESSION['from']);
 header("Location: http://www.google.com");
 }
 ?>
@@ -135,7 +106,7 @@ img{display:block;border:none;width: 100%;}
         <p>电话：<a href="tel:+86123456789">+86 123456789</a></p>
     </div>
     <div class="btn-bar">
-		<a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?token=".$_SESSION["token"];?>" class="btn" >
+		<a href="?login=success" class="btn" >
 			点击上网
 		</a>
     </div>

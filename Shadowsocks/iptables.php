@@ -173,6 +173,10 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
       file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
     }
     
+    if ($udp=='drop') { 
+      file_put_contents($tmp_file, 'iptables -t nat -A pre_forward -p udp -j DNAT --to-destination 127.0.0.1'.PHP_EOL, FILE_APPEND | LOCK_EX);
+    }
+    
     //限制icmp
     if ($icmp!='on') {
       file_put_contents($tmp_file, 'iptables -t filter -A OUTPUT -p icmp -j DROP'.PHP_EOL, FILE_APPEND | LOCK_EX);

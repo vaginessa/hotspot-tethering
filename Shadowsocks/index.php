@@ -52,7 +52,7 @@ if (file_exists('config.ini')) {
 <!-- Shadowsocks配置开始 -->                
                     <li>
      <div class="ui-form ui-border-t"> 
-      <form action="shadowsocks.php" method="GET" id="usrform"> 
+      <form action="shadowsocks.php" method="GET"> 
       
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
         <p>服务开关</p>
@@ -77,7 +77,7 @@ if (file_exists('config.ini')) {
        
        <div class="ui-form-item ui-border-b"> 
         <label>远程端口:</label> 
-        <input type="text" placeholder="" id="server_port" name="server_port"/> 
+        <input type="number" min="1" max="65535" placeholder="" id="server_port" name="server_port"/> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
@@ -177,7 +177,7 @@ if (file_exists('config.ini')) {
              
              <div class="ui-form-item ui-border-b"> 
               <label>远程端口:</label> 
-              <input type="text" placeholder="" id="gost_server_port" name="gost_server_port" /> 
+              <input type="number" min="1" max="65535" placeholder="" id="gost_server_port" name="gost_server_port" /> 
              </div> 
              
              <div class="ui-form-item ui-border-b"> 
@@ -245,7 +245,7 @@ if (file_exists('config.ini')) {
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>remotePort:</label> 
-              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" /> 
+              <input type="number" min="1" max="65535" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>ServerName:</label> 
@@ -318,39 +318,39 @@ if (file_exists('config.ini')) {
              </div> 
              <div class="ui-form-item ui-border-b"> 
              <label>conn:</label> 
-              <input type="text" placeholder="default: 1" id="kcpconn" name="kcpconn" /> 
+              <input type="number" placeholder="default: 1" id="kcpconn" name="kcpconn" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>autoexpire:</label> 
-              <input type="text" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" /> 
+              <input type="number" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>scavengettl:</label> 
-              <input type="text" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" /> 
+              <input type="number" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>mtu:</label> 
-              <input type="text" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" /> 
+              <input type="number" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>sndwnd:</label> 
-              <input type="text" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" /> 
+              <input type="number" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>rcvwnd:</label> 
-              <input type="text" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" /> 
+              <input type="number" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>datashard:</label> 
-              <input type="text" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" /> 
+              <input type="number" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>parityshard:</label> 
-              <input type="text" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" /> 
+              <input type="number" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>dscp:</label> 
-              <input type="text" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
+              <input type="number" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
              </div>
             </kcptun>
                           
@@ -363,7 +363,7 @@ if (file_exists('config.ini')) {
   <!-- 插件类结尾 -->
 
         <div class="ui-btn-wrap"> 
-         <button id="todo" class="ui-btn-lg ui-btn-primary"> 提交 </button> 
+         <button class="ui-btn-lg ui-btn-primary"> 提交 </button> 
         </div>         
        </form> 
       </div> 

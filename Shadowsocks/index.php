@@ -52,7 +52,7 @@ if (file_exists('config.ini')) {
 <!-- Shadowsocks配置开始 -->                
                     <li>
      <div class="ui-form ui-border-t"> 
-      <form action="shadowsocks.php" method="GET"> 
+      <form action="shadowsocks.php" method="GET" autocomplete="on"> 
       
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
         <p>服务开关</p>
@@ -64,12 +64,12 @@ if (file_exists('config.ini')) {
        
        <div class="ui-form-item ui-border-b"> 
         <label>配置名称:</label> 
-        <input type="text" placeholder="" id="name" name="name" /> 
+        <input type="text" placeholder="" id="name" name="name" autofocus required/> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
        <label>服务器:</label> 
-       <input type="text" id="server" name="server" style="display:none"/> 
+       <input type="text" id="server" name="server" style="display:none" required/> 
        <div id="server_toast" style="padding-left: 10%;text-align:center;font-size: smaller;">
        <p class="ui-txt-white" style="background:#000">点击查看和编辑地址(支持直接输入ss://链接和域名地址解析)</p>
        </div>
@@ -77,12 +77,17 @@ if (file_exists('config.ini')) {
        
        <div class="ui-form-item ui-border-b"> 
         <label>远程端口:</label> 
-        <input type="number" min="1" max="65535" placeholder="" id="server_port" name="server_port"/> 
+        <input type="number" id="server_port" list="server_port_list" min="1" max="65535" name="server_port" placeholder="" required/> 
+        <datalist id="server_port_list" >
+        <option value="80">
+        <option value="443">
+        <option value="8080">
+        </datalist>
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
         <label>密码:</label> 
-        <input type="password" placeholder="" id="password" name="password" /> 
+        <input type="password" placeholder="" id="password" name="password" autocomplete="off" required/> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
@@ -187,7 +192,7 @@ if (file_exists('config.ini')) {
              
              <div class="ui-form-item ui-border-b"> 
               <label>密码:</label> 
-              <input type="password" placeholder="可选" id="gost_password" name="gost_password" /> 
+              <input type="password" placeholder="可选" id="gost_password" name="gost_password" autocomplete="off" /> 
              </div> 
              
             </div> 
@@ -253,7 +258,7 @@ if (file_exists('config.ini')) {
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>Key:</label> 
-              <input type="password" placeholder="密钥" id="Key" name="Key" /> 
+              <input type="password" placeholder="密钥" id="Key" name="Key" autocomplete="off" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>TicketTimeHint:</label> 
@@ -278,7 +283,7 @@ if (file_exists('config.ini')) {
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>key:</label> 
-              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" /> 
+              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" autocomplete="off" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>crypt</label> 

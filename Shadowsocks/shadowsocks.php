@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $password = test_input($_GET['password']);
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
+    $wifi = test_input($_GET['wifi']);
+    $icmp = test_input($_GET['icmp']);
     $udp = test_input($_GET['udp']);
     $gost_server = test_input($_GET['gost_server']);
     $gost_server_port = test_input($_GET['gost_server_port']);
@@ -138,7 +140,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
         $gost_server = $server;
     }
     //写出记录配置
-    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcpremoteaddr=$kcpremoteaddr" . PHP_EOL . "kcpkey=$kcpkey" . PHP_EOL . "kcpcrypt=$kcpcrypt" . PHP_EOL . "kcpmode=$kcpmode" . PHP_EOL . "kcpconn=$kcpconn" . PHP_EOL . "kcpautoexpire=$kcpautoexpire" . PHP_EOL . "kcpscavengettl=$kcpscavengettl" . PHP_EOL . "kcpmtu=$kcpmtu" . PHP_EOL . "kcpsndwnd=$kcpsndwnd" . PHP_EOL . "kcprcvwnd=$kcprcvwnd" . PHP_EOL . "kcpdatashard=$kcpdatashard" . PHP_EOL . "kcpparityshard=$kcpparityshard" . PHP_EOL . "kcpdscp=$kcpdscp";
+    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcpremoteaddr=$kcpremoteaddr" . PHP_EOL . "kcpkey=$kcpkey" . PHP_EOL . "kcpcrypt=$kcpcrypt" . PHP_EOL . "kcpmode=$kcpmode" . PHP_EOL . "kcpconn=$kcpconn" . PHP_EOL . "kcpautoexpire=$kcpautoexpire" . PHP_EOL . "kcpscavengettl=$kcpscavengettl" . PHP_EOL . "kcpmtu=$kcpmtu" . PHP_EOL . "kcpsndwnd=$kcpsndwnd" . PHP_EOL . "kcprcvwnd=$kcprcvwnd" . PHP_EOL . "kcpdatashard=$kcpdatashard" . PHP_EOL . "kcpparityshard=$kcpparityshard" . PHP_EOL . "kcpdscp=$kcpdscp";
     file_put_contents('config.ini', $data, LOCK_EX);
     //tproxy配置
     $binary = sys_get_temp_dir() . '/tproxy';
@@ -219,11 +221,9 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     //执行开启模块
     file_chmod($start_file);
     //执行开启iptables
-    $tp=iptables_start($mangle, $nat, $filter, $iserver, $udp);
+    $tp=iptables_start($mangle, $nat, $filter, $iserver, $wifi, $icmp, $udp);
     if ($tp===true) {
       echo "[TPROXY]：√ <br />";
-    } else { 
-      echo "[TPROXY]：× <br />";
     }
 } //
 $etime = microtime(true); //获取程序执行结束的时间

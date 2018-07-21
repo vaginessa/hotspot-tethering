@@ -55,34 +55,38 @@ if (file_exists('config.ini')) {
       <form action="shadowsocks.php" method="GET" id="usrform"> 
       
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
-        <p><b>服务开关</b></p> 
-        <p class="ui-txt-warning ui-reddot" id="ts">&nbsp;&nbsp;服务没有开启!</p>
+        <p>服务开关</p>
+        <div style="padding-left: 25%;font-size: smaller;">
+          <p class="ui-txt-warning" id="ts" >服务没有开启!</p>    
+        </div>
         <label class="ui-switch"><input type="checkbox" id="shadowsocks" name="shadowsocks" /></label> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
-        <label> <b>配置名称:</b> </label> 
-        <input type="text" placeholder="" id="name" name="name" class="ui-searchbar-text ui-txt-highlight" /> 
+        <label>配置名称:</label> 
+        <input type="text" placeholder="" id="name" name="name" /> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
-        <label> <b>服务器:</b> </label> 
-        <input type="text" id="server" name="server" style="display:none" class="ui-searchbar-text ui-txt-highlight" /> 
-        <p id="server_toast">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp点击查看和编辑地址(支持ss://和域名解析)</p>
+       <label>服务器:</label> 
+       <input type="text" id="server" name="server" style="display:none"/> 
+       <div id="server_toast" style="padding-left: 10%;text-align:center;font-size: smaller;">
+       <p class="ui-txt-white" style="background:#000">点击查看和编辑地址(支持直接输入ss://链接和域名地址解析)</p>
+       </div>
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
-        <label> <b>远程端口:</b> </label> 
-        <input type="text" placeholder="" id="server_port" name="server_port" class="ui-searchbar-text ui-txt-highlight" /> 
+        <label>远程端口:</label> 
+        <input type="text" placeholder="" id="server_port" name="server_port"/> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
-        <label> <b>密码:</b> </label> 
-        <input type="password" placeholder="" id="password" name="password" class="ui-searchbar-text ui-txt-highlight" /> 
+        <label>密码:</label> 
+        <input type="password" placeholder="" id="password" name="password" /> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
-        <label><b>加密方式</b></label> 
+        <label>加密方式</label> 
         <div class="ui-select-group"> 
          <div class="ui-select"> 
           <select name="method" id="method" class="ui-txt-feeds"> 
@@ -116,7 +120,7 @@ if (file_exists('config.ini')) {
          <div class="ui-form ui-border-t"> 
          
           <div class="ui-form-item ui-border-b"> 
-           <label><b>路由</b></label> 
+           <label>路由</label> 
            <div class="ui-select-group"> 
             <div class="ui-select"> 
              <select name="route" id="route" class="ui-txt-feeds" > 
@@ -132,42 +136,68 @@ if (file_exists('config.ini')) {
            </div> 
           </div> 
           
-          <udp>
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
-           <p><b>UDP over TCP</b></p>
-           <p class="ui-txt-muted">&nbsp;&nbsp;&nbsp;需要配置好gost和内核支持TPROXY</p> 
-           <label class="ui-switch"><input type="checkbox" id="udp" name="udp" /></label> 
+           <p>WIFI放行</p>
+           <div style="padding-left: 25%;font-size: smaller;">
+           <p class="ui-txt-muted">当使用wifi网络时不走代理</p> 
+           </div>
+           <label class="ui-switch"><input type="checkbox" id="wifi" name="wifi" /></label> 
           </div> 
-          </udp>
+          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
+           <p>ICMP放行</p>
+           <div style="padding-left: 25%;font-size: smaller;">
+           <p class="ui-txt-muted">icmp协议是否放行</p> 
+           </div>
+           <label class="ui-switch"><input type="checkbox" id="icmp" name="icmp" /></label> 
+          </div> 
           
-          <div class="demo-item" id="gost" style="display:none"> 
+          <div class="ui-form-item ui-border-b"> 
+           <label>UDP控制</label> 
+           <div class="ui-select-group"> 
+            <div class="ui-select"> 
+             <select name="udp" id="udp" class="ui-txt-feeds" > 
+             <option value="accept" selected="">放行</option> 
+             <option value="udp_over_tcp">UDP over TCP</option> 
+             <option value="drop">禁用</option> 
+             </select> 
+            </div> 
+           </div> 
+          </div> 
+          
+         <gost style="display:none">
+          <div class="demo-item"> 
            <p class="demo-desc">gost</p> 
            <div class="demo-block"> 
             <div class="ui-form ui-border-t"> 
             
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>服务器:</b> </label> 
-              <input type="text" placeholder="" id="gost_server" name="gost_server" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>服务器:</label> 
+              <input type="text" placeholder="" id="gost_server" name="gost_server" /> 
              </div> 
              
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>远程端口:</b> </label> 
-              <input type="text" placeholder="" id="gost_server_port" name="gost_server_port" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>远程端口:</label> 
+              <input type="text" placeholder="" id="gost_server_port" name="gost_server_port" /> 
              </div> 
              
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>用户名:</b> </label> 
-              <input type="text" placeholder="可选" id="gost_username" name="gost_username" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>用户名:</label> 
+              <input type="text" placeholder="可选" id="gost_username" name="gost_username" /> 
              </div> 
              
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>密码:</b> </label> 
-              <input type="password" placeholder="可选" id="gost_password" name="gost_password" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>密码:</label> 
+              <input type="password" placeholder="可选" id="gost_password" name="gost_password" /> 
              </div> 
              
             </div> 
            </div> 
-          </div> 
+          </div>
+         </gost>
+          
+         </div> 
+        </div> 
+       </div>
           
   <!--- 插件类 -->
           <div class="demo-item"> 
@@ -176,7 +206,7 @@ if (file_exists('config.ini')) {
             <div class="ui-form ui-border-t"> 
             
              <div class="ui-form-item ui-border-b"> 
-              <label><b>插件</b></label> 
+              <label>插件</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="plugin" id="plugin" class="ui-txt-feeds"> 
@@ -191,9 +221,9 @@ if (file_exists('config.ini')) {
              
            <plugin style="display:none">
            
-             <obfs-local>
+            <obfs-local>
              <div class="ui-form-item ui-border-b"> 
-              <label><b>Obfuscation wrapper</b></label> 
+              <label>Obfuscation wrapper</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="obfs" id="obfs" class="ui-txt-feeds" > 
@@ -203,34 +233,34 @@ if (file_exists('config.ini')) {
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>Obfuscation hostname:</b> </label> 
-              <input type="text" placeholder="wap.10010.com" id="obfs_host" name="obfs_host" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>Obfuscation hostname:</label> 
+              <input type="text" placeholder="wap.10010.com" id="obfs_host" name="obfs_host" /> 
              </div> 
              </obfs-local>
              
              <GoQuiet>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>remoteHost:</b> </label> 
-              <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>remoteHost:</label> 
+              <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>remotePort:</b> </label> 
-              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>remotePort:</label> 
+              <input type="text" placeholder="远程代理端口，默认443" id="remotePort" name="remotePort" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>ServerName:</b> </label> 
-              <input type="text" placeholder="你想让GFW认为你在访问的域名" id="ServerName" name="ServerName" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>ServerName:</label> 
+              <input type="text" placeholder="你想让GFW认为你在访问的域名" id="ServerName" name="ServerName" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>Key:</b> </label> 
-              <input type="password" placeholder="密钥" id="Key" name="Key" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>Key:</label> 
+              <input type="password" placeholder="密钥" id="Key" name="Key" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label> <b>TicketTimeHint:</b> </label> 
-              <input type="text" placeholder="3600 (session ticket过期的时间)" id="TicketTimeHint" name="TicketTimeHint" class="ui-searchbar-text ui-txt-highlight" /> 
+              <label>TicketTimeHint:</label> 
+              <input type="text" placeholder="3600 (session ticket过期的时间)" id="TicketTimeHint" name="TicketTimeHint" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label><b>Browser</b></label> 
+              <label>Browser</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="Browser" id="Browser" class="ui-txt-feeds" > 
@@ -243,15 +273,15 @@ if (file_exists('config.ini')) {
             
             <kcptun>
             <div class="ui-form-item ui-border-b"> 
-             <label> <b>remoteaddr:</b> </label> 
-              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>remoteaddr:</label> 
+              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>key:</b> </label> 
-              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>key:</label> 
+              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-              <label><b>crypt</b></label> 
+              <label>crypt</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="kcpcrypt" id="kcpcrypt" class="ui-txt-feeds" > 
@@ -273,7 +303,7 @@ if (file_exists('config.ini')) {
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
-              <label><b>mode</b></label> 
+              <label>mode</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="kcpmode" id="kcpmode" class="ui-txt-feeds" > 
@@ -287,40 +317,40 @@ if (file_exists('config.ini')) {
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>conn:</b> </label> 
-              <input type="text" placeholder="default: 1" id="kcpconn" name="kcpconn" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>conn:</label> 
+              <input type="text" placeholder="default: 1" id="kcpconn" name="kcpconn" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>autoexpire:</b> </label> 
-              <input type="text" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>autoexpire:</label> 
+              <input type="text" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>scavengettl:</b> </label> 
-              <input type="text" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>scavengettl:</label> 
+              <input type="text" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>mtu:</b> </label> 
-              <input type="text" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>mtu:</label> 
+              <input type="text" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>sndwnd:</b> </label> 
-              <input type="text" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>sndwnd:</label> 
+              <input type="text" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>rcvwnd:</b> </label> 
-              <input type="text" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>rcvwnd:</label> 
+              <input type="text" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>datashard:</b> </label> 
-              <input type="text" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>datashard:</label> 
+              <input type="text" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>parityshard:</b> </label> 
-              <input type="text" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>parityshard:</label> 
+              <input type="text" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
-             <label> <b>dscp:</b> </label> 
-              <input type="text" placeholder="default: 0" id="kcpdscp" name="kcpdscp" class="ui-searchbar-text ui-txt-highlight" /> 
+             <label>dscp:</label> 
+              <input type="text" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
              </div>
             </kcptun>
                           
@@ -329,9 +359,6 @@ if (file_exists('config.ini')) {
             </div> 
            </div> 
           </div>
-         </div> 
-        </div> 
-       </div>   
           
   <!-- 插件类结尾 -->
 
@@ -354,14 +381,15 @@ if (file_exists('config.ini')) {
             <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
 <!-- 自定义hosts结束 -->                     
+
+<!-- 二维码分享 -->         
             <li>
             <div id="qrcode" style="margin-top:15px;margin-bottom:25px"></div>
             <div style="width:95%;text-align:left;word-wrap:break-word;"><a id="copylink" href=""></a></div> 
             <br />
-            <button class="ui-btn-lg" id="clip">
-                    复制到剪辑板
-                </button>
+            <button class="ui-btn-lg" id="clip">复制到剪辑板</button>
             </li>
+<!-- 二维码分享结束 -->                     
             </ul>
            </div>
             
@@ -398,12 +426,12 @@ function setplugin(){
   
   <script type="text/javascript">		
   //if ($('#udp').prop('checked')) $("#gost").show();
-  $("#udp").change(function(){
-  if ($("#gost").css("display")=="none"){
-    $("#gost").show();
-  } else {
-    $("#gost").hide();
-  }
+ $("#udp").change(function(){
+    if($(this).val()=="udp_over_tcp") { 
+        $("gost").show();
+      } else { 
+        $("gost").hide();
+      }
   });
   $("#plugin").change(function(){
     setplugin();
@@ -439,68 +467,74 @@ function setplugin(){
   
   <script type="text/javascript"> 
   $("#server_toast").tap(function(){
-    $(this).hide();
+    $(this).remove();
     $("#server").show();
-  });
-  $("#server").blur(function(){
-    $(this).hide();
-    $("#server_toast").show();
   });
   </script>
   
   <!-- 读取配置显示 -->
   
  <script type="text/javascript">		
-   var jbkg = "<?php echo $status; ?>";
-if (jbkg!=null && jbkg!="") { 
-   $('#shadowsocks').attr('checked', jbkg); 
-   var div = document.getElementById('ts'); 
-   div.className = 'demo-desc'; 
-   div.innerHTML="&nbsp;&nbsp;&nbsp服务已开启!";
+   if (<?php echo $status; ?>) { 
+     $('#shadowsocks').prop('checked', true); 
+     $('#ts').html('<p class="ui-txt-feeds">服务已开启!</p>');
    }
   </script>		
-  <script type="text/javascript">		
+  
+
+<script type="text/javascript">		
   $("#name").val("<?php echo $my_ini['name']; ?>");
   $("#server").val("<?php echo $my_ini['server']; ?>");
   $("#server_port").val("<?php echo $my_ini['server_port']; ?>");
   $("#password").val("<?php echo $my_ini['password']; ?>");
-if ("<?php echo $my_ini['method']; ?>" != "") $("#method").val("<?php echo $my_ini['method']; ?>");
-if ("<?php echo $my_ini['route']; ?>" != "") $("#route").val("<?php echo $my_ini['route']; ?>");
-  var udpkg = "<?php echo $my_ini['udp']; ?>";
-if (udpkg!=null && udpkg!="") { 
-  $('#udp').attr('checked', udp);
-  $("#gost").show();
+if ("<?php echo $my_ini['method']; ?>" != "") { 
+  $("#method").val("<?php echo $my_ini['method']; ?>");
+}
+if ("<?php echo $my_ini['route']; ?>" != "") { 
+  $("#route").val("<?php echo $my_ini['route']; ?>");
+}  
+if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
+  $('#wifi').prop('checked', true); 
+}
+if ("<?php echo $my_ini['icmp']; ?>" == 1) { 
+  $('#icmp').prop('checked', true); 
+}
+var udpkz = "<?php echo $my_ini['udp']; ?>";
+if (udpkz!=null && udpkz!="") { 
+  if(udpkz=="udp_over_tcp") { 
+    $("gost").show();
   }
+  $("#udp").val(udpkz);
+}
   $("#gost_server").val("<?php echo $my_ini['gost_server']; ?>");
   $("#gost_server_port").val("<?php echo $my_ini['gost_server_port']; ?>");
   $("#gost_username").val("<?php echo $my_ini['gost_username']; ?>");
   $("#gost_password").val("<?php echo $my_ini['gost_password']; ?>");
-  var plugin = "<?php echo $my_ini['plugin']; ?>";
-if (plugin!=null && plugin!="") {
-  $("#plugin").val(plugin);
+if ("<?php echo $my_ini['plugin']; ?>" != "") {
+  $("#plugin").val("<?php echo $my_ini['plugin']; ?>");
   $("plugin").show();
   setplugin();
-  } else {
-  $("#plugin").val("off");
-  $("plugin").hide();
-  }
-if ("<?php echo $my_ini['obfs']; ?>" != "") $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
+}
+if ("<?php echo $my_ini['obfs']; ?>" != "") { 
+  $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
+}
   $("#obfs_host").val("<?php echo $my_ini['obfs_host']; ?>");
   $("#remotePort").val("<?php echo $my_ini['remotePort']; ?>");
   $("#remoteHost").val("<?php echo $my_ini['remoteHost']; ?>");
   $("#ServerName").val("<?php echo $my_ini['ServerName']; ?>");
   $("#Key").val("<?php echo $my_ini['Key']; ?>");
   $("#TicketTimeHint").val("<?php echo $my_ini['TicketTimeHint']; ?>");
-if ("<?php echo $my_ini['Browser']; ?>" != "") $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
+if ("<?php echo $my_ini['Browser']; ?>" != "") { 
+  $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
+}
   $("#kcpremoteaddr").val("<?php echo $my_ini['kcpremoteaddr']; ?>");
   $("#kcpkey").val("<?php echo $my_ini['kcpkey']; ?>");
-  var crypt="<?php echo $my_ini['kcpcrypt']; ?>";
-if (crypt != null && crypt != "") { 
+if ("<?php echo $my_ini['kcpcrypt']; ?>" != "") { 
   $("#kcpcrypt").val("<?php echo $my_ini['kcpcrypt']; ?>");
-  } else {
-  $("#kcpcrypt").val('none');
-  }
-if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my_ini['kcpmode']; ?>");
+}
+if ("<?php echo $my_ini['kcpmode']; ?>" != "") { 
+  $("#kcpmode").val("<?php echo $my_ini['kcpmode']; ?>");
+}
   $("#kcpconn").val("<?php echo $my_ini['kcpconn']; ?>");
   $("#kcpscavengettl").val("<?php echo $my_ini['kcpscavengettl']; ?>");
   $("#kcpautoexpire").val("<?php echo $my_ini['kcpautoexpire']; ?>");
@@ -511,9 +545,11 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") $("#kcpmode").val("<?php echo $my
   $("#kcpparityshard").val("<?php echo $my_ini['kcpparityshard']; ?>");
   $("#kcpdscp").val("<?php echo $my_ini['kcpdscp']; ?>");
   $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
-  </script>  
+</script>  
 
 <!-- 读取配置显示结尾 -->
+
+
 <script type="text/javascript">		
   (function() {
     var record = 0;

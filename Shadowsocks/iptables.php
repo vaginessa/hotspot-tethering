@@ -34,7 +34,6 @@ $nat = array(
     "iptables -t nat -N koolproxy_forward",
     //本机发出同意
     "iptables -t nat -A out_lan -d 127/8 -j ACCEPT",
-    "iptables -t nat -A out_lan -p tcp -d 192.168/16 -j ACCEPT",
     "iptables -t nat -A out_lan -m owner --uid-owner 3004 -j ACCEPT",
     //"iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner $(id -u) -j koolproxy_forward",
     "iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner 0 -j koolproxy_forward",
@@ -83,7 +82,8 @@ $stop_iptables = array(
     "iptables -t nat -X out_forward",
     "iptables -t filter -D INPUT -j user_block",
     "iptables -t filter -F user_block",
-    "iptables -t filter -X user_block"
+    "iptables -t filter -X user_block",
+    "iptables -t filter -D OUTPUT -p icmp -j DROP"
 );
 
 $status_iptables = array(
@@ -132,7 +132,7 @@ function file_chmod($tmp_file) {
   }
 }
 
-function iptables_start($mangle, $nat, $filter, $server, $udp) {
+function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
     //写出执行脚本
     $tmp_file=sys_get_temp_dir().'/iptables_add.sh';
     if (file_exists($tmp_file)) { 
@@ -140,8 +140,10 @@ function iptables_start($mangle, $nat, $filter, $server, $udp) {
     }
     
     //支持tproxy吗？
-    if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets'),'TPROXY')) { 
-      $tproxy=true;
+    if ($udp=='udp_over_tcp') { 
+      if (stripos(shell_exec('su -c cat /proc/net/ip_tables_targets'),'TPROXY')) { 
+        $tproxy=true;
+      }
     }
     
     //开启转发了吗？
@@ -150,20 +152,41 @@ function iptables_start($mangle, $nat, $filter, $server, $udp) {
     //sysctl -w net.ipv4.ip_forward=1
     }
     
-    //先写入nat表
-    foreach ($nat as $val) { 
+    //先修改压入数据
+    for ($i = 0; $i < count($nat); $i++) { 
+        $natr[]=$nat[$i];
+        if ($i==5) { //从第五个开始吧
+           $natr[]="iptables -t nat -A out_lan -d $server -j ACCEPT";
+           if ($udp=='drop') { 
+             $natr[]='iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1';
+           }
+           if ($wifi=='on') {
+             $natr[]='iptables -t nat -A out_lan -s 192.168.0.0/16 -j ACCEPT';
+             $natr[]='iptables -t nat -A out_lan -d 192.168.0.0/16 -j ACCEPT';
+           } else { 
+             $natr[]='iptables -t nat -A out_lan -p tcp -d 192.168.0.0/16 -j ACCEPT';
+           }
+        }
+    }
+    //写入nat表
+    foreach ($natr as $val) { 
       file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
     }
-    file_put_contents($tmp_file, "iptables -t nat -I out_lan 3 -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
     
-    //支持tproxy与开启了udp
-    if ($tproxy and $udp=='on') {
+    //限制icmp
+    if ($icmp!='on') {
+      file_put_contents($tmp_file, 'iptables -t filter -A OUTPUT -p icmp -j DROP'.PHP_EOL, FILE_APPEND | LOCK_EX);
+    }
+    
+    //支持tproxy与开启了udp over tcp
+   if (isset($tproxy)) {
       foreach ($mangle as $val) {
         file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
       }
       file_put_contents($tmp_file, "iptables -t mangle -A redsocks2_lan -d $server -j ACCEPT".PHP_EOL, FILE_APPEND | LOCK_EX);
-    } else { 
-      file_put_contents($tmp_file, "iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1".PHP_EOL, FILE_APPEND | LOCK_EX);
+      if ($wifi=='on') {
+        file_put_contents($tmp_file, 'iptables -t mangle -I redsocks2_lan 6 -s 192.168.0.0/16 -j ACCEPT'.PHP_EOL, FILE_APPEND | LOCK_EX);
+      }
     }
     
     //写入filter表

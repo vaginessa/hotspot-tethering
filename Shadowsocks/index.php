@@ -600,7 +600,6 @@ if (udpkz!=null && udpkz!="") {
   $("#gost_password").val("<?php echo $my_ini['gost_password']; ?>");
 if ("<?php echo $my_ini['plugin']; ?>" != "") {
   $("#plugin").val("<?php echo $my_ini['plugin']; ?>");
-  $("plugin").show();
   setplugin();
 }
 if ("<?php echo $my_ini['obfs']; ?>" != "") { 

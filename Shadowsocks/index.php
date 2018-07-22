@@ -45,6 +45,12 @@ if (file_exists('config.ini')) {
      text-align:center;
      color: #ee82ee;
  }
+ .server_toast {
+     padding-left: 10%;
+     text-align:center;
+     overflow:hidden;
+     white-space:nowrap;
+ }
 </style>
  <body ontouchstart="">
 
@@ -77,8 +83,8 @@ if (file_exists('config.ini')) {
        <div class="ui-form-item ui-border-b"> 
        <label>服务器:</label> 
        <input type="text" id="server" name="server" style="display:none" required/> 
-       <div id="server_toast" style="padding-left: 10%;text-align:center;font-size: smaller;">
-       <p class="ui-txt-white" style="background:#000">点击查看和编辑地址(支持直接输入ss://链接和域名地址解析)</p>
+       <div class="server_toast">
+       <p class="ui-txt-white" style="background:#000;">点击查看和编辑地址(支持直接输入ss://链接和域名地址解析)</p>
        </div>
        </div> 
        
@@ -180,15 +186,13 @@ if (file_exists('config.ini')) {
           <div class="demo-item"> 
            <p class="demo-desc">gost</p> 
            <div class="demo-block"> 
-            <div class="ui-form ui-border-t"> 
-            
+            <div class="ui-form ui-border-t">
             <h4 class="plugin_help">GO语言实现的安全隧道
             <nav>
             <a href="https://github.com/ginuerzh/gost" target="_blank">项目地址</a> |
             <a href="https://github.com/yiguihai/gost_install" target="_blank">搭建脚本</a>
             <nav>
-            </h4>
-            
+            </h4>            
              <div class="ui-form-item ui-border-b"> 
               <label>服务器:</label> 
               <input type="text" placeholder="" id="gost_server" name="gost_server" /> 
@@ -233,7 +237,7 @@ if (file_exists('config.ini')) {
                 <option value="obfs-local">Simple obfuscation</option>
                 <option value="GoQuiet">GoQuiet</option>
                 <option value="kcptun">kcptun</option> 
-                <option value="proxychains-ng">proxychains-ng</option> 
+                <option value="proxychains">proxychains</option> 
                 </select> 
                </div> 
               </div> 
@@ -242,7 +246,8 @@ if (file_exists('config.ini')) {
            <plugin style="display:none">
            
             <obfs-local>
-            <h4 class="plugin_help">Simple-obfs is a simple obfusacting tool, designed as plugin server of shadowsocks. (obfs流量混淆插件)
+            <h4 class="plugin_help"><p>Simple-obfs is a simple obfusacting tool, designed as plugin server of shadowsocks.</p>
+             obfs流量混淆插件，搭建选择libev版
             <nav>
             <a href="https://github.com/shadowsocks/simple-obfs-android" target="_blank">项目地址</a> |
             <a href="https://teddysun.com/486.html" target="_blank">搭建教程</a>
@@ -392,8 +397,8 @@ if (file_exists('config.ini')) {
              </div>
             </kcptun>
             
-            <proxychains-ng>  
-            <h4 class="plugin_help">添加一个前置代理中转Shadowsocks流量。提取自ShadowsocksR安卓版。
+            <proxychains>  
+            <h4 class="plugin_help"><p>添加一个前置代理中转Shadowsocks流量。(<span>注意: Shadowsocks端口必须为 <b style="color:red">443</b> 才能联网</span>)</p>提取自ShadowsocksR安卓版。
             <nav>
             <a href="https://github.com/shadowsocks/proxychains-ng" target="_blank">项目地址</a>
             <nav>
@@ -402,7 +407,7 @@ if (file_exists('config.ini')) {
               <label>类型</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
-                <select name="proxychains-ng_type" id="proxychains-ng_type" class="ui-txt-feeds" > 
+                <select name="proxychains_type" id="proxychains_type" class="ui-txt-feeds" > 
                 <option value="http" selected="">http</option> 
                 <option value="socks4">socks4</option> 
                 <option value="socks5">socks5</option> </select> 
@@ -411,21 +416,21 @@ if (file_exists('config.ini')) {
              </div> 
              <div class="ui-form-item ui-border-b"> 
              <label>地址:</label> 
-              <input type="text" placeholder="地址" id="proxychains-ng_address" name="proxychains-ng_address" /> 
+              <input type="text" placeholder="" id="proxychains_address" name="proxychains_address" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>端口:</label> 
-              <input type="number" min="1" max="65535" placeholder="端口" id="proxychains-ng_port" name="proxychains-ng_port" /> 
+              <input type="number" min="1" max="65535" placeholder="" id="proxychains_port" name="proxychains_port" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>用户名:</label> 
-              <input type="text" placeholder="用户名" id="proxychains-ng_username" name="proxychains-ng_username" /> 
+              <input type="text" placeholder="可选" id="proxychains_username" name="proxychains_username" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>密码:</label> 
-              <input type="password" placeholder="密码" id="proxychains-ng_password" name="proxychains-ng_password" autocomplete="off" /> 
+              <input type="password" placeholder="可选" id="proxychains_password" name="proxychains_password" autocomplete="off" /> 
              </div>
-            </proxychains-ng>
+            </proxychains>
                           
            </plugin>
              
@@ -494,27 +499,14 @@ function setplugin(){
   } else {
     $("kcptun").hide();
   }
-  if ($("#plugin").val() == "proxychains-ng") { 
-    $("proxychains-ng").show();
+  if ($("#plugin").val() == "proxychains") { 
+    $("proxychains").show();
   } else {
-    $("proxychains-ng").hide();
+    $("proxychains").hide();
   }
 }
   </script>		
-  
-  <script type="text/javascript">		
- $("#udp").change(function(){
-    if($(this).val()=="udp_over_tcp") { 
-        $("gost").show();
-      } else { 
-        $("gost").hide();
-      }
-  });
-  $("#plugin").change(function(){
-    setplugin();
-  });
-  </script>
-  
+   
   <script type="text/javascript">
   $("#password").focus(function(){
     $(this).attr('type','text');
@@ -540,10 +532,29 @@ function setplugin(){
   $("#kcpkey").blur(function(){
     $(this).attr('type','password');
   });
+  $("#proxychains_password").focus(function(){
+    $(this).attr('type','text');
+  });
+  $("#proxychains_password").blur(function(){
+    $(this).attr('type','password');
+  });
+  </script>
+  
+  <script type="text/javascript">		
+ $("#udp").change(function(){
+    if($(this).val()=="udp_over_tcp") { 
+        $("gost").show();
+      } else { 
+        $("gost").hide();
+      }
+  });
+  $("#plugin").change(function(){
+    setplugin();
+  });
   </script>
   
   <script type="text/javascript"> 
-  $("#server_toast").tap(function(){
+  $(".server_toast").tap(function(){
     $(this).remove();
     $("#server").show();
   });
@@ -622,6 +633,13 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") {
   $("#kcpparityshard").val("<?php echo $my_ini['kcpparityshard']; ?>");
   $("#kcpdscp").val("<?php echo $my_ini['kcpdscp']; ?>");
   $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
+if ("<?php echo $my_ini['proxychains_type']; ?>" != "") { 
+  $("#proxychains_type").val("<?php echo $my_ini['proxychains_type']; ?>");
+}
+  $("#proxychains_address").val("<?php echo $my_ini['proxychains_address']; ?>");
+  $("#proxychains_port").val("<?php echo $my_ini['proxychains_port']; ?>");
+  $("#proxychains_username").val("<?php echo $my_ini['proxychains_username']; ?>");
+  $("#proxychains_password").val("<?php echo $my_ini['proxychains_password']; ?>");
 </script>  
 
 <!-- 读取配置显示结尾 -->

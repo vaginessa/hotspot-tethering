@@ -669,7 +669,7 @@ if(typeof(EventSource) !== "undefined") {
 } else {
     alert("Sorry, your browser does not support server-sent events...");
 }
-$('body').css('height', $(window).height()+'px')
+$('body').css('height', $(window).height()+'px');
 </script>
 
 </body>

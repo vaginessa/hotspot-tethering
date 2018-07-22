@@ -1,9 +1,4 @@
-<?php
-if(!isset($_SERVER['HTTP_REFERER'])){
-    // redirect them to your desired location
-    header('location: ../Admin');
-    exit(1);
-}
+<?php 
 session_start();
 $stime = microtime(true);
 echo <<< EOF
@@ -119,6 +114,7 @@ if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $
     file_chmod($stop_file);
     //执行关闭iptables规则
     iptables_stop($stop_iptables);
+    echo "关闭Shadowsocks<br />";
 }
 //启动shadowsocks
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
@@ -236,6 +232,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     if ($tp===true) {
       echo "[TPROXY]：√ <br />";
     }
+    echo "开启Shadowsocks<br />";
 } //
 $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值

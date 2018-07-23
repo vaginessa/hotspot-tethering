@@ -157,7 +157,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
     //gost配置运行
-    if ($udp == 'on') {
+    if ($udp == 'udp_over_tcp') {
     $binary = sys_get_temp_dir() . '/gost';
       if ($gost_username and $gost_password) {
         $config = "$gost_username:$gost_password@$gost_server:$gost_server_port";
@@ -220,7 +220,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
       file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
     //redsocks2配置运行
-    if ($udp == 'on' && $gost_server and $gost_server_port) {
+    if ($udp == 'udp_over_tcp' && $gost_server and $gost_server_port) {
         $binary = sys_get_temp_dir() . '/redsocks2';
         $config = __DIR__ . '/redsocks2.json';
         file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);

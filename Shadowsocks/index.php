@@ -398,7 +398,7 @@ if (file_exists('config.ini')) {
             </kcptun>
             
             <proxychains>  
-            <h4 class="plugin_help"><p>添加一个前置代理中转Shadowsocks流量。(<span>注意: Shadowsocks端口必须为 <b style="color:red">443</b> 才能联网</span>)</p>提取自ShadowsocksR安卓版。
+            <h4 class="plugin_help"><p>添加一个前置代理中转Shadowsocks流量。(<span>注意: Shadowsocks端口必须为 <b style="color:red">443</b> 代理支持 http tunnel 才能联网转发数据</span>)</p>提取自ShadowsocksR安卓版。
             <nav>
             <a href="https://github.com/shadowsocks/proxychains-ng" target="_blank">项目地址</a>
             <nav>

@@ -156,6 +156,10 @@ if (file_exists('config.ini')) {
           </div> 
           
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
+           <p>TCP Fast Open</p>
+           <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
+          </div> 
+          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>WIFI放行</p>
            <div style="padding-left: 25%;font-size: smaller;">
            <p class="ui-txt-muted">当使用wifi网络时不走代理</p> 
@@ -169,7 +173,7 @@ if (file_exists('config.ini')) {
            </div>
            <label class="ui-switch"><input type="checkbox" id="icmp" name="icmp" /></label> 
           </div> 
-          
+                    
           <div class="ui-form-item ui-border-b"> 
            <label>UDP控制</label> 
            <div class="ui-select-group"> 
@@ -582,6 +586,9 @@ if ("<?php echo $my_ini['method']; ?>" != "") {
 if ("<?php echo $my_ini['route']; ?>" != "") { 
   $("#route").val("<?php echo $my_ini['route']; ?>");
 }  
+if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
+  $('#tcp_fast_open').prop('checked', true); 
+}
 if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
   $('#wifi').prop('checked', true); 
 }

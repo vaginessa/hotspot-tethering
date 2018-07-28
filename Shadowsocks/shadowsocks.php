@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $password = test_input($_GET['password']);
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
+    $tcp_fast_open = test_input($_GET['tcp_fast_open']);
     $wifi = test_input($_GET['wifi']);
     $icmp = test_input($_GET['icmp']);
     $udp = test_input($_GET['udp']);
@@ -164,7 +165,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
       } else {
         $config = "$gost_server:$gost_server_port";
       }
-      file_put_contents($start_file, "$binary -L=socks://127.0.0.1:1028 -F=socks://127.0.0.1:1025 -F=socks://$config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($start_file, "$binary -L socks5://127.0.0.1:1028 -F socks5://127.0.0.1:1025 -F socks5://$config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
     //kcptun插件
     if ($plugin == 'kcptun' and $kcpremoteaddr) {
@@ -231,6 +232,14 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $tp=iptables_start($mangle, $nat, $filter, $iserver, $wifi, $icmp, $udp);
     if ($tp===true) {
       echo "[TPROXY]：√ <br />";
+    }
+    $fs=@file_get_contents('/proc/sys/net/ipv4/tcp_fastopen');
+    if ($tcp_fast_open=='on'&&$fs<=0) {
+      shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=3');
+      echo "[TCP Fast Open]：√ <br />";
+    } elseif ($tcp_fast_open!='on'&&$fs>0) {
+      shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
+      echo "[TCP Fast Open]：× <br />";
     }
     echo "开启Shadowsocks<br />";
 } //

@@ -214,7 +214,7 @@ h5 {
   background: #f30;
 }
 .round-conner {
-  height: 10px;
+  height: 15px;
   border-radius: 5px;
 }
 .app-menu {

@@ -67,3 +67,5 @@ www.quanben.io##amp-ad
 |https://s.ip-cdn.com/img/a_hb.jpg
 |https://s.ip-cdn.com/img/ali_hb.jpg
 |https://adservice.google.com
+|http://m.tool.chinaz.com
+|https://m.tool.chinaz.com

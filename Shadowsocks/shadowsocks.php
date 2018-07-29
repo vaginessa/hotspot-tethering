@@ -101,6 +101,16 @@ function config_json($server, $server_port, $password, $method, $acl_file, $plug
         $arr = json_encode($config);
         file_put_contents('shadowsocks.conf', $arr, LOCK_EX);
 }
+
+$fs=@file_get_contents('/proc/sys/net/ipv4/tcp_fastopen');
+if ($tcp_fast_open=='on'&&$fs<=0) {
+  shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=3');
+  echo "[TCP Fast Open]：√ <br />";
+} elseif ($tcp_fast_open!='on'&&$fs>0) {
+  shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
+  echo "[TCP Fast Open]：× <br />";
+}
+
 //关闭shadowsocks
 if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $method) {
     //创建停止运行脚本
@@ -232,14 +242,6 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $tp=iptables_start($mangle, $nat, $filter, $iserver, $wifi, $icmp, $udp);
     if ($tp===true) {
       echo "[TPROXY]：√ <br />";
-    }
-    $fs=@file_get_contents('/proc/sys/net/ipv4/tcp_fastopen');
-    if ($tcp_fast_open=='on'&&$fs<=0) {
-      shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=3');
-      echo "[TCP Fast Open]：√ <br />";
-    } elseif ($tcp_fast_open!='on'&&$fs>0) {
-      shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
-      echo "[TCP Fast Open]：× <br />";
     }
     echo "开启Shadowsocks<br />";
 } //

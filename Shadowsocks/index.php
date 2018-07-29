@@ -157,7 +157,17 @@ if (file_exists('config.ini')) {
           
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>TCP Fast Open</p>
+           <div style="padding-left: 25%;font-size: smaller;">
+           <p class="ui-txt-muted" onclick='alert("客户端可能需要Android5.0+\n服务端 Linux kernel > 3.7.0. 并且开启支持。\nTCP快速打开（英语：TCP Fast Open，简称TFO）是对计算机网络中传输控制协议（TCP）连接的一种简化握手手续的拓展，用于提高两端点间连接的打开速度")'>点击我显示介绍</p> 
+           </div>
            <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
+          </div> 
+          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
+           <p>TCP NODELAY</p>
+           <div style="padding-left: 25%;font-size: smaller;">
+           <p class="ui-txt-muted" onclick='alert("TCP无延迟(Nagle算法)\n这种模式下用户进程能快速的得到数据，但是软中断的时间长，造成TCP吞吐量下降。")'>点击我显示介绍</p> 
+           </div>
+           <label class="ui-switch"><input type="checkbox" id="tcp_nodelay" name="tcp_nodelay" /></label> 
           </div> 
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>WIFI放行</p>
@@ -588,6 +598,9 @@ if ("<?php echo $my_ini['route']; ?>" != "") {
 }  
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
+}
+if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_low_latency'); ?> > 0) { 
+  $('#tcp_nodelay').prop('checked', true); 
 }
 if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
   $('#wifi').prop('checked', true); 

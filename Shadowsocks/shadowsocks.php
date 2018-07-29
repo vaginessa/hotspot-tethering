@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
     $tcp_fast_open = test_input($_GET['tcp_fast_open']);
+    $tcp_nodelay = test_input($_GET['tcp_nodelay']);
     $wifi = test_input($_GET['wifi']);
     $icmp = test_input($_GET['icmp']);
     $udp = test_input($_GET['udp']);
@@ -109,6 +110,14 @@ if ($tcp_fast_open=='on'&&$fs<=0) {
 } elseif ($tcp_fast_open!='on'&&$fs>0) {
   shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
   echo "[TCP Fast Open]：× <br />";
+}
+$tnd=@file_get_contents('/proc/sys/net/ipv4/tcp_low_latency');
+if ($tcp_nodelay=='on'&&$tnd<=0) {
+  shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=1');
+  echo "[TCP NODELAY]：√ <br />";
+} elseif ($tcp_nodelay!='on'&&$tnd>0) {
+  shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=0');
+  echo "[TCP NODELAY]：× <br />";
 }
 
 //关闭shadowsocks

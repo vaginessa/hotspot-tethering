@@ -148,7 +148,7 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
     }
     
     //开启转发了吗？
-    if (stripos(@file_get_contents('/proc/sys/net/ipv4/ip_forward'),'0')) { 
+    if (file_get_contents('/proc/sys/net/ipv4/ip_forward') <= 0) { 
       shell_exec('su -c sysctl -w net.ipv4.ip_forward=1');
     }
     

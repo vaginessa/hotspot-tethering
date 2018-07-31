@@ -344,7 +344,7 @@ if (file_exists('config.ini')) {
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="kcpcrypt" id="kcpcrypt" class="ui-txt-feeds" > 
-                <option value="aes" selected="">aes</option> 
+                <option value="aes">aes</option> 
                 <option value="aes-128">aes-128</option>
                 <option value="aes-192">aes-192</option>
                 <option value="salsa20">salsa20</option>
@@ -356,7 +356,7 @@ if (file_exists('config.ini')) {
                 <option value="xtea">xtea</option>
                 <option value="xor">xor</option>
                 <option value="sm4">sm4</option>
-                <option value="none">none</option>
+                <option value="none" selected="">none</option>
                 </select> 
                </div> 
               </div> 

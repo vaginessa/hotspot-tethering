@@ -158,7 +158,7 @@ if (file_exists('config.ini')) {
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>TCP Fast Open</p>
            <div style="padding-left: 25%;font-size: smaller;">
-           <p class="ui-txt-muted" onclick='alert("客户端可能需要Android5.0+\n服务端 Linux kernel > 3.7.0. 开启支持。\nTCP快速打开（英语：TCP Fast Open，简称TFO）是对计算机网络中传输控制协议（TCP）连接的一种简化握手手续的拓展，用于提高两端点间连接的打开速度")'>点击我显示介绍</p> 
+           <p class="ui-txt-muted" onclick='alert("客户端可能需要Android5.0+\n服务端 Linux kernel > 3.7.0. 并且开启支持。\nTCP快速打开（英语：TCP Fast Open，简称TFO）是对计算机网络中传输控制协议（TCP）连接的一种简化握手手续的拓展，用于提高两端点间连接的打开速度")'>点击我显示介绍</p> 
            </div>
            <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
           </div> 
@@ -287,7 +287,8 @@ if (file_exists('config.ini')) {
              <GoQuiet>
             <h4 class="plugin_help">GoQuiet是一个shadowsocks的混淆插件，基本原理为模拟TLS的流量同时将服务器伪装成一个正常的网站服务器
             <nav>
-            <a href="https://github.com/cbeuw/GoQuiet" target="_blank">项目地址</a>
+            <a href="https://github.com/cbeuw/GoQuiet" target="_blank">项目地址</a> |
+            <a href="https://github.com/yiguihai/goquiet" target="_blank">搭建脚本</a>            
             <nav>
             </h4>
              <div class="ui-form-item ui-border-b"> 

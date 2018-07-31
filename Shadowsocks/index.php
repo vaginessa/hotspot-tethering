@@ -288,7 +288,7 @@ if (file_exists('config.ini')) {
             <h4 class="plugin_help">GoQuiet是一个shadowsocks的混淆插件，基本原理为模拟TLS的流量同时将服务器伪装成一个正常的网站服务器
             <nav>
             <a href="https://github.com/cbeuw/GoQuiet" target="_blank">项目地址</a> |
-            <a href="https://github.com/yiguihai/goquiet" target="_blank">搭建脚本</a>            
+            <a href="https://github.com/yiguihai/GoQuiet" target="_blank">搭建脚本</a>            
             <nav>
             </h4>
              <div class="ui-form-item ui-border-b"> 

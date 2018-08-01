@@ -685,7 +685,7 @@ $(".traffic").click(function() {
     color=null;
     notification('已关闭服务器推送状态消息: '+source.readyState,3500,1);
     $("status").remove();
-    $('.app-menu').css('height', $(window).height() - 50+'px');
+    $('.app-menu').css('height', $(window).height() / 2+'px');
     source=null;
   }
 });

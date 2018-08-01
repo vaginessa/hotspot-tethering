@@ -670,6 +670,7 @@ if(typeof(EventSource) !== "undefined") {
     alert("Sorry, your browser does not support server-sent events...");
 }
 $(".traffic").click(function() { 
+  if(source.readyState==0) {
     source.close();
     traffic=null;
     obj=null;
@@ -682,6 +683,7 @@ $(".traffic").click(function() {
     color=null;
     notification('已关闭服务器推送状态消息: '+source.readyState,3500,1);
     source=null;
+  }
 });
 $('body').css('height', $(window).height()+'px');
 $('.app-menu').css('height', $(window).height() / 3+'px');

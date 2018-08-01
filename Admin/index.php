@@ -669,6 +669,20 @@ if(typeof(EventSource) !== "undefined") {
 } else {
     alert("Sorry, your browser does not support server-sent events...");
 }
+$(".traffic").click(function() { 
+    source.close();
+    traffic=null;
+    obj=null;
+    down=null;
+    down_unit=null;
+    download_all=null;
+    up=null;
+    up_unit=null;
+    upload_all=null;
+    color=null;
+    notification('已关闭服务器推送状态消息: '+source.readyState,3500,1);
+    source=null;
+});
 $('body').css('height', $(window).height()+'px');
 $('.app-menu').css('height', $(window).height() / 3+'px');
 </script>

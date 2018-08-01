@@ -395,6 +395,7 @@ h5 {
             </div>
 
         <br />
+<status>
 <span style="color: white">CPU使用率: <b id="cpu1"></b></span>
 <div class="progress round-conner">
     <div class="curRate round-conner" id="cpu2"></div>
@@ -410,6 +411,7 @@ h5 {
 <div class="traffic">
  <span id="traffic" style="color:white;">网卡: <b style="color:#8558ef;" id="traffic1"></b> 内网: <b style="color:#8558ef;" id="traffic2"></b> 连接数: <b style="color:#8558ef;" id="traffic3"></b><br><span id="download_all">下载</span>: <b style="font-size: 20px;color:#ee82ee;" id="traffic4"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit1"></unit>&nbsp数据包数量: <b id="traffic5"></b><br><span id="upload_all">上传</span>: <b style="font-size: 20px;color:#66ccff;" id="traffic6"></b>&nbsp<unit style="font-size: 18px;color: black;" id="unit2"></unit>&nbsp数据包数量: <b id="traffic7"></b></span>
 </div>
+</status>
         <br />
     <div class="footer">
       <ul class="ui-row">
@@ -682,6 +684,8 @@ $(".traffic").click(function() {
     upload_all=null;
     color=null;
     notification('已关闭服务器推送状态消息: '+source.readyState,3500,1);
+    $("status").remove();
+    $('.app-menu').css('height', $(window).height() - 50+'px');
     source=null;
   }
 });

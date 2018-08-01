@@ -235,7 +235,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     }
     config_json($server, $server_port, $password, $method, $route, $plugin, $plugin_opts);
     if ($plugin == 'proxychains') { //配置代理链
-      file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > ".__DIR__."/proxychains.log 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
       file_put_contents('proxychains.conf', 'strict_chain'.PHP_EOL.'[ProxyList]'.PHP_EOL.$proxychains_type.' '.$proxychains_address.' '.$proxychains_port.' '.$proxychains_username.' '.$proxychains_password.PHP_EOL, LOCK_EX);
     } else {
       file_put_contents($start_file, "$binary -c $config > ".__DIR__."/proxychains.log 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);

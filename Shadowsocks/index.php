@@ -411,6 +411,17 @@ if (file_exists('config.ini')) {
              <label>dscp:</label> 
               <input type="number" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
              </div>
+             <div class="ui-form-item ui-border-b"> 
+              <label>数据压缩</label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="nocomp" id="kcpnocomp" class="ui-txt-feeds" > 
+                <option value="" selected="">开</option>
+                <option value="--nocomp">关</option>                 
+                </select> 
+               </div> 
+              </div> 
+             </div>
             </kcptun>
             
             <proxychains>  
@@ -647,13 +658,14 @@ if ("<?php echo $my_ini['kcpmode']; ?>" != "") {
   $("#kcpconn").val("<?php echo $my_ini['kcpconn']; ?>");
   $("#kcpscavengettl").val("<?php echo $my_ini['kcpscavengettl']; ?>");
   $("#kcpautoexpire").val("<?php echo $my_ini['kcpautoexpire']; ?>");
+  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
   $("#kcpsndwnd").val("<?php echo $my_ini['kcpsndwnd']; ?>");
   $("#kcprcvwnd").val("<?php echo $my_ini['kcprcvwnd']; ?>");
   $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
   $("#kcpdatashard").val("<?php echo $my_ini['kcpdatashard']; ?>");
   $("#kcpparityshard").val("<?php echo $my_ini['kcpparityshard']; ?>");
   $("#kcpdscp").val("<?php echo $my_ini['kcpdscp']; ?>");
-  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
+  $("#kcpnocomp").val("<?php echo $my_ini['kcpnocomp']; ?>");
 if ("<?php echo $my_ini['proxychains_type']; ?>" != "") { 
   $("#proxychains_type").val("<?php echo $my_ini['proxychains_type']; ?>");
 }

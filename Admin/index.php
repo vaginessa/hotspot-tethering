@@ -684,7 +684,7 @@ $(".traffic").click(function() {
     upload_all=null;
     color=null;
     if(source.readyState==2) {
-      notification('已关闭服务器推送状态消息: '+source.readyState,3500,1);
+      notification('已关闭服务器推送状态消息',3500,1);
       $("status").remove();
       $('.app-menu').css('height', $(window).height() / 1.5+'px');
       source=null;

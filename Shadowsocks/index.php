@@ -5,10 +5,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $hosts = $_POST['hosts'];    
 }
 if (isset($acl)) {
-  file_put_contents('custom.acl', $acl, LOCK_EX);
+  file_put_contents('custom.acl', $acl);
 } 
 if (isset($hosts)) {
-  file_put_contents('hosts', $hosts, LOCK_EX);
+  file_put_contents('hosts', $hosts);
 }
 //检查ss进程是否存在
 if (binary_status(array('ss-local','ss-redir'))) {

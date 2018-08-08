@@ -72,7 +72,7 @@ function update() {
         if ($key and $value) {
             if ($value == 1) $value = 'true';
             if ($key == 'bt-tracker') $value = $newstr;
-            file_put_contents($conf_file, "$key=$value" . PHP_EOL, FILE_APPEND | LOCK_EX);
+            file_put_contents($conf_file, "$key=$value" . PHP_EOL, FILE_APPEND);
         }
     }
     fclose($tmp_file);

@@ -69,3 +69,5 @@ www.quanben.io##amp-ad
 |https://adservice.google.com
 |http://m.tool.chinaz.com
 |https://m.tool.chinaz.com
+|i.w.inmobi.com/showad.asm
+|https://www.google.com$s@/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png@https://pbs.twimg.com/media/DjiiKcHX0AEW1H2?format=jpg@

@@ -7,7 +7,7 @@ if (isset($config)) {
     $file_config=explode(PHP_EOL, $config);
     for($i = 0; $i < count($file_config); $i++) { 
         if (stripos($file_config[$i], '#') === false) { 
-            file_put_contents('frpc.ini', $file_config[$i].PHP_EOL, FILE_APPEND | LOCK_EX);
+            file_put_contents('frpc.ini', $file_config[$i].PHP_EOL, FILE_APPEND);
         }
     }
 }

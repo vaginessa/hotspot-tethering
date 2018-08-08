@@ -1,7 +1,7 @@
 ﻿!x  -----------------------------------------------------------------------------------------------------------------
-!x  -----[KoolProxy 3.9.0-beta]
-!x  -----update[rules]: 2018-7-21 16:37
-!x  -----update[video]: 2018-7-22 20:32
+!x  -----[KoolProxy 3.8.0]
+!x  -----update[rules]: 2018-08-08 01:00
+!x  -----update[video]: 2018-08-08 01:08
 !x  -----QQ group: 595300867<1-group> 203726739<2-group> 369773525<3-group>
 !x  -----Thanks: From KP Rule Group -- <houzi-> <Carseason>
 !x  -----Thanks for help: <yiclear> <adbyby>
@@ -111,7 +111,6 @@
 @@|http://fcdt.800j.com.cn/index.php?m=comment&c=index
 @@|http://g.163.com/crossdomain.xml
 @@|http://g.163.com/r?site=netease&affiliate=video
-@@|http://g.alicdn.com/$domain=~youku.com
 @@|http://g.chuixue.com:8080/m/pinglun.js
 @@|http://g.click.taobao.com/display?cb=jsonp_callback_*&rf=http%3A%2F%2F
 @@|http://g.downg.com/ggao/tj.js$script
@@ -172,6 +171,7 @@
 @@|http://player.polyv.net/common_player/player/
 @@|http://player.as.pptv.com/
 @@|http://prod.game
+@@|http://qgcdn0.gtimg.com/
 @@|http://resource.redirect.kukuplay.com/upload/zhangyu
 @@|http://rm.sina.com.cn/minisite/20140421emarketing/js/
 @@|http://rr.knet.cn/static/images/logo/cnnic.png$image
@@ -346,6 +346,66 @@
 @@||xlmc.sandai.net
 @@||zbj.com
 @@||zllyun.com/images/banner/
+!x  --------------------------------------------- white rules <https> -------------------------------------------------------
+@@|https://apisgame.iqiyi.com
+@@|https://account.zhihu.com
+@@|https://api.k.sohu.com
+@@|https://act.vip.iqiyi.com
+@@|https://api-t.iqiyi.com
+@@|https://api.zhihu.com
+@@|https://appcloud.zhihu.com
+@@||https://baidustatic.com$domain=xoyo.com
+@@|https://cache.video.iqiyi.com
+@@||https://cpro.baidu.com/cpro/ui/baiduLoader_as3.swf
+@@||https://cpro.baidu.com/cpro/ui/uijs.php?$domain=www.400gb.com|www.pipipan.com
+@@||https://cpro.baidustatic.com/cpro/ui/f.js$script,domain=www.400gb.com|www.pipipan.com|colayun.com|coladrive.com
+@@|https://cpro.baidustatic.com/cpro/ui/baiduPatch.swf
+@@|https://cpro.baidustatic.com/cpro/ui/c.js$domain=400gb.com|www.l7po.com|ctfile.com|bego.cc|pipipan.com|colayun.com|coladrive.com|epinv.com
+@@|https://cpro.baidustatic.com/cpro/ui/noexpire/css/2.0.1/template.min.css
+@@|https://cmonitor.iqiyi.com
+@@|https://c-uaa.if.iqiyi.com
+@@|https://cards.iqiyi.com
+@@|https://cook.iqiyi.com
+@@|https://cmts.iqiyi.com
+@@|https://cdndata.video.iqiyi.com
+@@|https://community.iqiyi.com
+@@|https://cs-feige.iqiyi.com
+@@|https://emoticon-sns.iqiyi.com
+@@||https://googlesyndication.com$domain=babytoyhome.com
+@@||https://google-analytics.com$domain=battle.net
+@@||https://hudong.pl.youku.com/n/setplugins/id_
+@@|https://iface2.iqiyi.com
+!@@|https://iface.iqiyi.com
+@@|https://lens.zhihu.com
+@@|https://l-rcd.iqiyi.com
+@@|https://nl-rcd.iqiyi.com
+@@|https://messaging.zhihu.com
+@@|https://mail.sohu.com/fe/
+@@|https://m.ads.sohu.com
+@@|https://msg.iqiyi.com
+@@|https://passport.iqiyi.com
+@@|https://puma-api.iqiyi.com
+@@|https://paopao.iqiyi.com
+@@|https://pv.sohu.com
+@@|https://qosp.iqiyi.com
+@@|https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=receive-a-sms.com
+@@|https://serv.vip.iqiyi.com
+@@|https://search.video.iqiyi.com
+@@|https://sns-paopao.iqiyi.com
+@@|https://subscription.iqiyi.com
+@@|https://static.iqiyi.com
+@@|https://sugar.zhihu.com
+@@|https://static.zhihu.com
+@@|https://www.qidian.com/Javascript/ChapterPageHeader.js?t
+@@|https://www.qidian.com/Javascript/qidian.bookchannel.js?
+@@|https://www.qidian.com/Javascript/qidian.common.js?
+@@|https://z.m.tv.sohu.com
+@@|https://zhihu-web-analytics.zhihu.com
+@@|https://$domain=banggo.com|pili.com.tw|yunhou.com|voicecloud.cn|xunfei.cn|95599.cn|ccb.com
+@@|https://$domain=code.google.com|yeepay.com|taoke.alimama.com|club.alimama.com|tenpay.com|tmall.com|tbcdn.cn|jd.com
+@@|https://$domain=meidebi.com|alibaba.com|lifevc.com|ad.alimama.com|www.alimama.com|gome.com.cn|3songshu.com
+@@|https://$domain=meishichina.com|vip.xunlei.com|lixian.xunlei.com|www.vmall.com|www.1688.com|www.mm111.net|jifen.qq.com
+@@|https://$domain=taobao.com|taobao.org|alipay.com|suning.com|51buy.com|ct10000.com|etao.com|hitao.com|paipai.com|189.cn
 !x  --------------------------------------------- url rules -------------------------------------------------------
 /https:\/\/m\.[^/]*\/\d{3,}\.html\?/
 /http:\/\/m\.[^/]*\/\d{3,}\.html\?/
@@ -381,9 +441,7 @@
 /http:\/\/www\.yaerwen\.com\/5200js\/[^./]*\.js/
 /http:\/\/y3600\.com\/17\d{4}\/\d{1,2}\.js/
 /http:\/\/(?!www[0-9]?)[0-9a-z-]+\.[0-9a-z-]+\.(?:com|com\.cn|cn|cc|net|org)\/(?:[asw]|ns|search)\?(?:[a-z]{6}=.*?&){2}/
-/http:\/\/[^/]*/[a-z]{6,}\.js/$s@try{!function(t){window._SF_&&window._SF_._global_&&window._SF_._global_._ssp&&(t=window._SF_._global_._ssp);try{t.loadTimer='-1';var e=window.require;e&&e@{@
 /http:\/\/www\.haoju\d{1,2}\.com\/js\/bbb/
-|balmoralmkt.com
 |http:/*/7mad.$image
 |http:/*/adfile$domain=~abchina.com
 |http:/*/adflashe
@@ -1740,6 +1798,7 @@
 |http://delivery.playallvideos.com
 |http://dh.yyhao.com/qq/1377sishen
 |http://diggbt.pw/diggbt-static?v=
+|http://discuz.gtimg.cn/cloud/scripts/discuz_tips.js?v=1
 |http://dioguitar23.co/images/$domain=sexinsex.net
 |http://dispatcher.video.qiyi.com/dispn/iamo.swf
 |http://djs.baomihua.com/video/
@@ -3796,9 +3855,12 @@
 |https://dp3.qq.com/qqcom/
 |https://delivery.dmkt-sp.jp
 |https://ehg-youtube.hitbox.com
+|https://e.stat.ykimg.com/
 |https://fp.fraudmetrix.cn/fp/clear.png?
 |https://file.ithome.com/js/money/pc/$script
 |https://file.ithome.com/js/recommend.js$script
+|https://g.alicdn.com/ad-product/h5sdk/1.3.17/sdk/yksdk.js
+|https://p-log.ykimg.com^
 |https://googleads.g.doubleclick.net/
 |https://googleads.g.doubleclick.net/pagead/ads?ad_block^
 |https://googleads.g.doubleclick.net^
@@ -3815,6 +3877,7 @@
 |https://m.autohome.com.cn/news/img_resource/source/commonimgs^
 |https://message.csdn.net/msg.popup.js$script
 |https://pingjs.qq.com^
+|https://r1.ykimg.com/material/*/ad/
 |https://s.youtube.com^
 !|https://ss0.bdstatic.com/*/tam-ogel/$script
 |https://su.bdimg.com/static/dspui/js/
@@ -3842,26 +3905,6 @@
 |https://youtube.112.2o7.net
 |https://youtube.2cnt.net
 |https://zdfans.ctfile.com/mydisplay.php?
-@@||https://baidustatic.com$domain=xoyo.com
-@@||https://cpro.baidu.com/cpro/ui/baiduLoader_as3.swf
-@@||https://cpro.baidu.com/cpro/ui/uijs.php?$domain=www.400gb.com|www.pipipan.com
-@@||https://cpro.baidustatic.com/cpro/ui/f.js$script,domain=www.400gb.com|www.pipipan.com|colayun.com|coladrive.com
-@@||https://hudong.pl.youku.com/n/setplugins/id_
-@@||https://googlesyndication.com$domain=babytoyhome.com
-@@||https://google-analytics.com$domain=battle.net
-@@|https://cpro.baidustatic.com/cpro/ui/baiduPatch.swf
-@@|https://cpro.baidustatic.com/cpro/ui/c.js$domain=400gb.com|www.l7po.com|ctfile.com|bego.cc|pipipan.com|colayun.com|coladrive.com|epinv.com
-@@|https://cpro.baidustatic.com/cpro/ui/noexpire/css/2.0.1/template.min.css
-@@|https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=receive-a-sms.com
-@@|https://$domain=banggo.com|pili.com.tw|yunhou.com|voicecloud.cn|xunfei.cn|95599.cn|ccb.com
-@@|https://$domain=code.google.com|yeepay.com|taoke.alimama.com|club.alimama.com|tenpay.com|tmall.com|tbcdn.cn|jd.com
-@@|https://$domain=meidebi.com|alibaba.com|lifevc.com|ad.alimama.com|www.alimama.com|gome.com.cn|3songshu.com
-@@|https://$domain=meishichina.com|vip.xunlei.com|lixian.xunlei.com|www.vmall.com|www.1688.com|www.mm111.net|jifen.qq.com
-@@|https://$domain=taobao.com|taobao.org|alipay.com|suning.com|51buy.com|ct10000.com|etao.com|hitao.com|paipai.com|189.cn
-@@|https://mail.sohu.com/fe/
-@@|https://www.qidian.com/Javascript/ChapterPageHeader.js?t
-@@|https://www.qidian.com/Javascript/qidian.bookchannel.js?
-@@|https://www.qidian.com/Javascript/qidian.common.js?
 |https://www.77kp.com/bd/
 |https://ads.exoclick.com/
 |https://adservice.google.com/adsid/integrator.js?domain=download.mokeedev.com
@@ -3885,6 +3928,7 @@
 |https://pos.baidu.com^
 |https://pub.mop.com/show_script.jsp
 |https://pubads.
+!|https://passport.baidu.com/channel/unicast?channel_id
 |https://s0.2mdn.net/ads
 |https://stats.tubemogul.com/stats
 |https://ue.17173cdn.com/a/www/index/2015/js/vda.js$script
@@ -7721,7 +7765,6 @@ bidcenter.com.cn##.tggg
 big-cup.tv##[id^="ad-float-"],.col-md-10.col-md-offset-1,[src^="http://cdn.onedala.tv/uploads/banner"]
 bigear.cn##A[href^="/?module=business&"],div.rbborder,div#sitefocus.focus,.adpicright,.adsbygoogle,#topadlist,#toppicadarea
 biketo.com##[class^="ggb"]
-bilibili.com##.mCS_img_loaded,[class^="gg-"],.adpos,div#b_app_link,div.goto-mobile,[data-id="68"],.live-ad-full,.index-promote,.ad-f,[data-id^="490"],[data-ad-type],.data-id-ad,.ad-e1
 bing.com##DIV.sb_adsNv2,li.b_ad,div.OpInNwWndw
 bio1000.com##.ad1
 biqubao.com##.con_ad
@@ -10464,9 +10507,23 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 |https://m.blog.csdn.net##[width="400"]
 |https://tt.mop.com##DIV.tt-read:nth-child(4) > DIV.w1000.mlra:first-child > DIV.clearfix.mt10:last-child > DIV.tt-rLeft.fl:first-child > DIV.mt20.clearfix:nth-child(4)
 |https://www.17173.com##[class^="tg-bevel-bg tg-bevel-bg"][class$="classNameForSetLinkSearch"]
-!|https://www.bilibili.com##[class^="gg-"],.adpos,div#b_app_link,div.goto-mobile,[data-id="68"],.live-ad-full,.index-promote,.ad-f,[data-id^="490"],[data-ad-type],.data-id-ad,.ad-e1
+|https://www.bilibili.com##.ad-e1
+|https://www.bilibili.com##.ad-f
+|https://www.bilibili.com##.gg-floor-module
+|https://www.bilibili.com##.index-promote
+|https://www.bilibili.com##.online + .adpos
+|https://www.bilibili.com##.title > span > a[href^="http"]:not([href*=".bilibili."])
+|https://www.bilibili.com##.topic-preview > li > a[href^="http"]:not([href*=".bilibili."])
+|https://www.bilibili.com##a[data-target-url*=".taobao.com"]
+|https://www.bilibili.com##a[href$="_suning.html"]
+|https://www.bilibili.com##a[href*=".admaster."]
+|https://www.bilibili.com##a[href*=".doubleclick."]
+|https://www.bilibili.com##a[href="/video/av8587236/?tg"]
+|https://www.bilibili.com##div[style*="height:"][data-loc-id]
+|https://www.bilibili.com##span[style*="height:"][data-loc-id]
 |https://wenku.baidu.com###ggbtm
 |https://wenku.baidu.com##[class="vip-discount-dialog"],DIV[id^="html-reader-AD-"],div#wkad5,div#fengchaoad,div.banner-ad,div#ppt-bottom-ads,div#ggbtm-ads,div#Zuniqueid__4,a.page-banner,#lastcell-dialog,.search-aside-newadWrap,.search-aside-adWrap,#wkgg,.ad-icon,[id^="html-reader-banner"],.ec-ad,#add-new [class="item frist-item"],.fc-inner
+|https://www.zhihu.com##.Card.Banner,DIV.app-promotion-bar,A.shameimaru-link
 ||https://17ce.com###tab_banner,.adsbygoogle,[id$="a_wrap"],[class^="add_"]
 ||56.com##.xiu_mm,#appBanner
 ||cntorrentkitty.##[src^="http://go.gotourl"],[href^="//go.gotourls"]
@@ -10750,6 +10807,7 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 |https://www.jb51.net/$s@<script>rjLoader();</script>*rjLoader(true);</script>@@
 |https://www.80s.tw/$s@<script src="http://80s.qucaigg.com*/script>@@
 |https://www.80s.tw/$s@<script type="text/javascript" src="http://80s.jiangmg.com*/script>@@
+|https://www.bilibili.com/video/$s@src="http://static.hdslb.com/sohu.swf"@src="http://static.hdslb.com/sohu.swf?plid=7038006&"@
 |https://video.eastday.com/*/js/gethot.js$s@000)@)@
 |https://video.eastday.com/assets/vdetail_v*/js/detail.js$s@000)@)@
 |https://video.eastday.com/*/js/*_gethot.js$s@000)@)@

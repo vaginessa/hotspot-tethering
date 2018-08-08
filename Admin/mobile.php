@@ -64,9 +64,7 @@ if ($url) {
                     <li>
                     <?php 
                     $tmp_file = sys_get_temp_dir()."/iptables_status.sh";
-                    if (file_exists($tmp_file)) { 
-                        unlink($tmp_file);
-                    } 
+                    @unlink($tmp_file);
                     $status_iptables = array(
     "iptables -vxn -t nat -L pre_forward --line-number",
     "iptables -vxn -t nat -L user_portal --line-number",
@@ -79,7 +77,7 @@ if ($url) {
     "iptables -vxn -t mangle -L redsocks_out --line-number"
                     );
                     foreach ($status_iptables as $key) { 
-                        file_put_contents($tmp_file, $key.PHP_EOL, FILE_APPEND | LOCK_EX);
+                        file_put_contents($tmp_file, $key.PHP_EOL, FILE_APPEND);
                     } 
                     chmod($tmp_file, 0700); 
                     $vi=str_replace(PHP_EOL,"<br>",shell_exec("su -c $tmp_file")); 

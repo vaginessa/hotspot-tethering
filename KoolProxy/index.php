@@ -36,13 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 if (isset($usergz)) {
-    file_put_contents('rules/user.txt', $usergz, LOCK_EX);
+    file_put_contents('rules/user.txt', $usergz);
 }
 function zx_input($yxfile, $yx) {
     if (file_exists($yxfile) or is_executable($yxfile)) {
         unlink($yxfile);
     }
-    file_put_contents($yxfile, $yx, LOCK_EX);
+    file_put_contents($yxfile, $yx);
     chmod($yxfile, 0700);
     shell_exec("su -c $yxfile");
 }

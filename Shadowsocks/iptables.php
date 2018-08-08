@@ -166,16 +166,16 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
     }
     //写入nat表
     foreach ($natr as $val) { 
-      file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND);
     }
     
     if ($udp=='drop') { 
-      file_put_contents($tmp_file, 'iptables -t nat -A pre_forward -p udp -j DNAT --to-destination 127.0.0.1'.PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($tmp_file, 'iptables -t nat -A pre_forward -p udp -j DNAT --to-destination 127.0.0.1'.PHP_EOL, FILE_APPEND);
     }
     
     //限制icmp
     if ($icmp!='on') {
-      file_put_contents($tmp_file, 'iptables -t filter -A OUTPUT -p icmp -j DROP'.PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($tmp_file, 'iptables -t filter -A OUTPUT -p icmp -j DROP'.PHP_EOL, FILE_APPEND);
     }
     
     //支持tproxy与开启了udp转发
@@ -185,13 +185,13 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
       }
       $mangle[]="iptables -t mangle -I redsocks_lan 4 -d $server -j ACCEPT";
       foreach ($mangle as $val) {
-        file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
+        file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND);
       }
    }
     
     //写入filter表
     foreach ($filter as $val) {
-      file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND | LOCK_EX);
+      file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND);
     }
     file_chmod($tmp_file);
     return $tproxy;
@@ -203,7 +203,7 @@ function iptables_stop($stop_iptables) {
     $tmp_file = sys_get_temp_dir()."/iptables_del.sh";
     @unlink($tmp_file);
     foreach ($stop_iptables as $val) {
-        file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND | LOCK_EX);
+        file_put_contents($tmp_file, $val.PHP_EOL, FILE_APPEND);
     }
     file_chmod($tmp_file);
 }

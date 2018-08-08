@@ -17,7 +17,7 @@ foreach ($file as $value) {
     $oldfile = sha1_file("$file_dir$value");
     $data = GET(urldecode("$download_url$value"));
     if ($data) {
-        file_put_contents($value, $data, LOCK_EX);
+        file_put_contents($value, $data);
         $newfile = sha1_file($value);
         if ($oldfile != $newfile) {
             rename($value, "$file_dir$value");
@@ -33,5 +33,5 @@ foreach ($file as $value) {
         die('下载 ' . $value . " 时失败，请检查网络！\n");
     }
 } //
-file_put_contents($file_dir . 'update.log', $date, LOCK_EX);
+file_put_contents($file_dir . 'update.log', $date);
 ?>

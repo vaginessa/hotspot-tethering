@@ -74,9 +74,9 @@ if ($url) {
     "iptables -vxn -t nat -L koolproxy_forward --line-number",
     "iptables -vxn -t nat -L out_forward --line-number",
     "iptables -vxn -t filter -L user_block --line-number",
-    "iptables -vxn -t mangle -L redsocks2_pre --line-number",
-    "iptables -vxn -t mangle -L redsocks2_lan --line-number",
-    "iptables -vxn -t mangle -L redsocks2_out --line-number"
+    "iptables -vxn -t mangle -L redsocks_pre --line-number",
+    "iptables -vxn -t mangle -L redsocks_lan --line-number",
+    "iptables -vxn -t mangle -L redsocks_out --line-number"
                     );
                     foreach ($status_iptables as $key) { 
                         file_put_contents($tmp_file, $key.PHP_EOL, FILE_APPEND | LOCK_EX);

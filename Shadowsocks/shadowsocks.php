@@ -203,9 +203,6 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
            if($val[0]=='TCPGroup') {
                $val[1]=$val[1].' * no';
            }
-           if($val[0]=='GroupFile') {
-               $val[1]=__DIR__.'/chnroutes.txt';
-           }
            if(isset($val[0])) {
            file_put_contents($config, $val[0].' '.$val[1].PHP_EOL, FILE_APPEND);
            }

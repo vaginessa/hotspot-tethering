@@ -1,0 +1,24 @@
+base {
+	log_debug = off;
+	log_info = off;
+	log = stderr;
+	daemon = on;
+	redirector = iptables;
+}
+
+redsocks {
+	local_ip = 0.0.0.0;
+	local_port = 1024;
+	ip = 127.0.0.1;
+	port = 1025;
+	type = socks5;
+}
+
+redudp {
+	local_ip = 0.0.0.0;
+	local_port = 1024;
+	ip = 127.0.0.1;
+	port = 1027;
+	udp_timeout = 30;
+	udp_timeout_stream = 180;
+}

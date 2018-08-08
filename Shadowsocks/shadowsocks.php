@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
     $tcp_fast_open = test_input($_GET['tcp_fast_open']);
-    $tcp_nodelay = test_input($_GET['tcp_nodelay']);
+    //$tcp_nodelay = test_input($_GET['tcp_nodelay']);
     $wifi = test_input($_GET['wifi']);
     $icmp = test_input($_GET['icmp']);
     $udp = test_input($_GET['udp']);
@@ -81,17 +81,18 @@ if (strpos($server, 'ss://') !== false) {
     }
 }
 //shadowsocks配置写出
-function config_json($server, $server_port, $password, $method, $acl_file, $plugin, $plugin_opts) {
+function config_json($server, $server_port, $local_port, $password, $method, $acl_file, $plugin, $plugin_opts) {
     $config = array(
             'server' => $server,
             'server_port' => (int)$server_port, //使用(int)将字符串转换成数字类型
-            'local_port' => 1025,
+            'local_port' => (int)$local_port,
             'password' => $password,
             'method' => $method,
             'user' => 3004,
-            'pid_file' => __DIR__ . '/ss-local.pid',
+            'mode' => 'tcp_and_udp',
+            'pid_file' => __DIR__ . '/ss-redir.pid',
             'time_out' => 60,
-            'local_address' => '127.0.0.1'
+            'local_address' => '0.0.0.0'
         );
     if ($acl_file != '' && $acl_file !='all') { 
         $config['acl_file'] = __DIR__ . "/$acl_file";   
@@ -100,8 +101,8 @@ function config_json($server, $server_port, $password, $method, $acl_file, $plug
         $config['plugin'] = sys_get_temp_dir() . "/$plugin";
         $config['plugin_opts'] = $plugin_opts;
     }
-        $arr = json_encode($config);
-        file_put_contents('shadowsocks.conf', $arr, LOCK_EX);
+    $arr = json_encode($config);
+    file_put_contents('shadowsocks.conf', $arr, LOCK_EX);
 }
 
 $fs=@file_get_contents('/proc/sys/net/ipv4/tcp_fastopen');
@@ -112,6 +113,7 @@ if ($tcp_fast_open=='on'&&$fs<=0) {
   shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
   echo "[TCP Fast Open]：× <br />";
 }
+/*
 $tnd=@file_get_contents('/proc/sys/net/ipv4/tcp_low_latency');
 if ($tcp_nodelay=='on'&&$tnd<=0) {
   shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=1');
@@ -120,14 +122,13 @@ if ($tcp_nodelay=='on'&&$tnd<=0) {
   shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=0');
   echo "[TCP NODELAY]：× <br />";
 }
+*/
 
 //关闭shadowsocks
 if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $method) {
     //创建停止运行脚本
     $stop_file = sys_get_temp_dir() . '/stop.sh';
-    if (file_exists($stop_file)) {
-        unlink($stop_file);
-    }
+    @unlink($stop_file);
     foreach ($status_binary as $val) {
         file_put_contents($stop_file, "$pkill $val" . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
@@ -141,9 +142,7 @@ if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $
 if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
     //创建开始运行脚本
     $start_file = sys_get_temp_dir() . '/start.sh';
-    if (file_exists($start_file)) {
-        unlink($start_file);
-    }
+    @unlink($start_file);
     //服务器是否为域名网址地址？
     function jx_server($server) {
         if (preg_match('/[a-z]+/i', $server) > 0) {
@@ -158,17 +157,30 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     }
     $server=jx_server($server);
     $gost_server=jx_server($gost_server);
-    //如果gost服务器空替换为ss服务器
-    if (empty($gost_server)) {
-        $gost_server = $server;
-    }
     //写出记录配置
     $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcpremoteaddr=$kcpremoteaddr" . PHP_EOL . "kcpkey=$kcpkey" . PHP_EOL . "kcpcrypt=$kcpcrypt" . PHP_EOL . "kcpmode=$kcpmode" . PHP_EOL . "kcpconn=$kcpconn" . PHP_EOL . "kcpautoexpire=$kcpautoexpire" . PHP_EOL . "kcpscavengettl=$kcpscavengettl" . PHP_EOL . "kcpmtu=$kcpmtu" . PHP_EOL . "kcpsndwnd=$kcpsndwnd" . PHP_EOL . "kcprcvwnd=$kcprcvwnd" . PHP_EOL . "kcpdatashard=$kcpdatashard" . PHP_EOL . "kcpparityshard=$kcpparityshard" . PHP_EOL . "kcpdscp=$kcpdscp" . PHP_EOL . "kcpnocomp=$kcpnocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
-    file_put_contents('config.ini', $data, LOCK_EX);
+  file_put_contents('config.ini', $data, LOCK_EX);
+  if ($udp == 'udp_over_tcp') { 
+    /*
     //tproxy配置
     $binary = sys_get_temp_dir() . '/tproxy';
     $config = __DIR__ . '/tproxy.ini';
     file_put_contents($start_file, "$binary $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+    */
+    //redsocks配置运行
+    $binary = sys_get_temp_dir() . '/redsocks';
+    $config = __DIR__ . '/redsocks.json';
+    file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+    //gost配置运行
+    $binary = sys_get_temp_dir() . '/gost';
+    if ($gost_username and $gost_password) {
+      $config = "$gost_username:$gost_password@$gost_server:$gost_server_port";
+    } else {
+      $config = "$gost_server:$gost_server_port";
+    }
+    file_put_contents($start_file, "$binary -L socks5://127.0.0.1:1027 -F socks5://127.0.0.1:1025 -F socks5://$config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+  }
+    /*
     //overture配置
     $binary = sys_get_temp_dir() . '/overture';
     $config = __DIR__ . '/overture.json';
@@ -177,16 +189,29 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $obj = json_encode($obj);
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    //gost配置运行
-    if ($udp == 'udp_over_tcp') {
-    $binary = sys_get_temp_dir() . '/gost';
-      if ($gost_username and $gost_password) {
-        $config = "$gost_username:$gost_password@$gost_server:$gost_server_port";
-      } else {
-        $config = "$gost_server:$gost_server_port";
-      }
-      file_put_contents($start_file, "$binary -L socks5://127.0.0.1:1028 -F socks5://127.0.0.1:1025 -F socks5://$config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+    */
+    //dnsforwarder配置
+    $binary = sys_get_temp_dir() . '/dnsforwarder';
+    $config = __DIR__ . '/dnsforwarder.ini';
+    $r_c=file_get_contents($config);
+    if (@unlink($config)===true) {  
+      foreach (explode(PHP_EOL,$r_c) as $key) {
+          $val = explode(' ', $key);
+           if($val[0]=='Hosts') {
+               $val[1]='file://'.__DIR__.'/hosts';
+           }
+           if($val[0]=='TCPGroup') {
+               $val[1]=$val[1].' * no';
+           }
+           if($val[0]=='GroupFile') {
+               $val[1]=__DIR__.'/chnroutes.txt';
+           }
+           if(isset($val[0])) {
+           file_put_contents($config, $val[0].' '.$val[1].PHP_EOL, FILE_APPEND | LOCK_EX);
+           }
+       }
     }
+    file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);    
     //kcptun插件
     if ($plugin == 'kcptun' and $kcpremoteaddr) {
         if (empty($kcpremoteaddr)) $kcpremoteaddr = "$server:29900";
@@ -207,7 +232,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
         file_put_contents($start_file, "$binary $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
     }
     //GoQuiet插件
-    if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
+  if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
     $binary = sys_get_temp_dir() . '/GoQuiet';
     $config = __DIR__ . '/GoQuiet.json';
     if (empty($remotePort)) $remotePort = 443;
@@ -219,10 +244,16 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $obj->Browser = $Browser;
     $obj = json_encode($obj, JSON_NUMERIC_CHECK); //检查数字类型防止变成字符型
     file_put_contents($config, $obj, LOCK_EX);
-    file_put_contents($start_file, "$binary -s $remoteHost -p $remotePort -l 1026 -c $config> /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    }
+    file_put_contents($start_file, "$binary -s $remoteHost -p $remotePort -l 1026 -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+  }
     //shadowsocks+插件配置
-    $binary = sys_get_temp_dir() . '/ss-local';
+    if ($udp == 'udp_over_tcp') {
+      $binary = sys_get_temp_dir() . '/ss-local';
+      $local_port = 1025;
+    } else {
+      $binary = sys_get_temp_dir() . '/ss-redir';
+      $local_port = 1024;
+    }
     $config = __DIR__ . '/shadowsocks.conf';
     $iserver=$server; //iptables使用的
     if ($plugin != 'off' && $plugin != 'proxychains') { //不关闭插件也不是代理链
@@ -232,20 +263,14 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
          $server='127.0.0.1';
          $server_port=1026;
       }
-    }
-    config_json($server, $server_port, $password, $method, $route, $plugin, $plugin_opts);
-    if ($plugin == 'proxychains') { //配置代理链
+    }    
+    config_json($server, $server_port, $local_port, $password, $method, $route, $plugin, $plugin_opts);
+   if ($plugin == 'proxychains') { //配置代理链
       file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
       file_put_contents('proxychains.conf', 'strict_chain'.PHP_EOL.'[ProxyList]'.PHP_EOL.$proxychains_type.' '.$proxychains_address.' '.$proxychains_port.' '.$proxychains_username.' '.$proxychains_password.PHP_EOL, LOCK_EX);
-    } else {
-      file_put_contents($start_file, "$binary -c $config > ".__DIR__."/proxychains.log 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    }
-    //redsocks2配置运行
-    if ($udp == 'udp_over_tcp' && $gost_server and $gost_server_port) {
-        $binary = sys_get_temp_dir() . '/redsocks2';
-        $config = __DIR__ . '/redsocks2.json';
-        file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    }
+   } else {
+     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
+   }
     //执行开启模块
     file_chmod($start_file);
     //执行开启iptables

@@ -11,7 +11,7 @@ if (isset($hosts)) {
   file_put_contents('hosts', $hosts, LOCK_EX);
 }
 //检查ss进程是否存在
-if (binary_status('ss-local')) {
+if (binary_status(array('ss-local','ss-redir'))) {
   $status = true;
 }
 
@@ -162,6 +162,7 @@ if (file_exists('config.ini')) {
            </div>
            <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
           </div> 
+          <!--
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>TCP NODELAY</p>
            <div style="padding-left: 25%;font-size: smaller;">
@@ -169,6 +170,7 @@ if (file_exists('config.ini')) {
            </div>
            <label class="ui-switch"><input type="checkbox" id="tcp_nodelay" name="tcp_nodelay" /></label> 
           </div> 
+          -->
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>WIFI放行</p>
            <div style="padding-left: 25%;font-size: smaller;">
@@ -190,6 +192,7 @@ if (file_exists('config.ini')) {
             <div class="ui-select"> 
              <select name="udp" id="udp" class="ui-txt-feeds" > 
              <option value="accept" selected="">放行</option> 
+             <option value="forward">服务器转发</option>
              <option value="udp_over_tcp">UDP over TCP</option> 
              <option value="drop">禁用</option> 
              </select> 
@@ -483,7 +486,7 @@ if (file_exists('config.ini')) {
 
 <!-- 自定义hosts编辑 -->         
             <li>
-            <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="overture的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
+            <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="dnsforwarder的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
 <!-- 自定义hosts结束 -->                     
 
@@ -611,9 +614,11 @@ if ("<?php echo $my_ini['route']; ?>" != "") {
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
 }
+/*
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_low_latency'); ?> > 0) { 
   $('#tcp_nodelay').prop('checked', true); 
 }
+*/
 if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
   $('#wifi').prop('checked', true); 
 }

@@ -1,13 +1,13 @@
 <?php 
 require 'main.class.php';
 $tor=sys_get_temp_dir().'/tor';
-$out=binary_status(array('aria2c','ss-local','koolproxy',$tor,'frpc','verysync'));
+$out=binary_status(array('aria2c','ss-local','ss-redir','koolproxy',$tor,'frpc','verysync'));
 if ($out) {
   foreach ($out as $val) { 
     if ($val=='aria2c') {
       $aria2_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
     }
-    if ($val=='ss-local') {
+    if ($val=='ss-local'||$val=='ss-redir') {
       $ss_status='<i class="ui-subscript ui-subscript-green">运行中</i>';
     }
     if ($val=='koolproxy') {

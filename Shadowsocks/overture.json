@@ -1,1 +1,0 @@
-{"BindAddress":"0.0.0.0:1053","RedirectIPv6Record":false,"DomainBase64Decode":false,"HostsFile":"\/storage\/emulated\/0\/htdocs\/Shadowsocks\/hosts","MinimumTTL":120,"CacheSize":4096,"PrimaryDNS":[{"Name":"Google DNS","Address":"8.8.8.8:53","Timeout":9,"EDNSClientSubnet":{"Policy":"disable"},"Protocol":"tcp","Socks5Address":"127.0.0.1:1025"}],"OnlyPrimaryDNS":true}

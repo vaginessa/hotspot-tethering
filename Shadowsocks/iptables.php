@@ -111,7 +111,6 @@ $status_binary = array(
     'dnsforwarder',
     'gost',
     'redsocks',
-    'tproxy',
     'GoQuiet',
     'kcptun',
     'obfs-local',
@@ -152,7 +151,7 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
     for ($i = 0; $i < count($nat); $i++) { 
         $natr[]=$nat[$i];
         if ($i==5) { //从第五个开始吧
-           $natr[]="iptables -t nat -A out_lan -d $server -j ACCEPT";
+           $natr[]="iptables -t nat -A out_lan -m owner --uid-owner 0 -d $server -j ACCEPT";
            if ($udp=='drop') { 
              $natr[]='iptables -t nat -A out_lan -p udp ! --dport 53 -j DNAT --to-destination 127.0.0.1';
            }
@@ -183,7 +182,7 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
       if ($wifi=='on') {
         $mangle[]='iptables -t mangle -I redsocks_lan 6 -s 192.168.0.0/16 -j ACCEPT';
       }
-      $mangle[]="iptables -t mangle -I redsocks_lan 4 -d $server -j ACCEPT";
+      $mangle[]="iptables -t mangle -I redsocks_out -m owner --uid-owner 0 -d $server -j ACCEPT";
       foreach ($mangle as $val) {
         file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND);
       }

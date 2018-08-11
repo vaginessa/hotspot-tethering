@@ -203,7 +203,10 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
            if($val[0]=='TCPGroup') {
                $val[1]=$val[1].' * no';
            }
-           if(isset($val[0])) {
+           if($val[0]=='DomainStatisticTempletFile') {
+               $val[1]=__DIR__.'/StatisticTemplate.html';
+           }
+           if($val[0]&&$val[1]!=PHP_EOL) {
            file_put_contents($config, $val[0].' '.$val[1].PHP_EOL, FILE_APPEND);
            }
        }
@@ -255,7 +258,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $iserver=$server; //iptables使用的
     if ($plugin != 'off' && $plugin != 'proxychains') { //不关闭插件也不是代理链
       if ($plugin == 'obfs-local' && $obfs && $obfs_host) {
-         $plugin_opts = "obfs-host=$obfs_host;obfs=$obfs";
+         $plugin_opts = "obfs=$obfs;obfs-host=$obfs_host";
       } else {
          $server='127.0.0.1';
          $server_port=1026;

@@ -67,7 +67,7 @@ if (isset($receive) and $receive == 'stop') {
     if ($return_val != 0) {
         die("{\"a\": \"tor停止失败！返回值:  $return_val\",\"b\": 1}");
     } else {
-        $yx = 'iptables -t nat -F out_forward' . PHP_EOL . 'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024' . PHP_EOL . 'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053' . PHP_EOL;
+        $yx = 'iptables -t nat -F out_forward' . PHP_EOL . 'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024' . PHP_EOL . 'iptables -t nat -A out_forward -p udp --dport 53 -j DNAT --to-destination 1.1.1.1' . PHP_EOL;
         zx_input($yxfile, $yx, 'tor停止');
     }
 }

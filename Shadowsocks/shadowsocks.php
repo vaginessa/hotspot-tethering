@@ -190,6 +190,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
     */
+    /*
     //dnsforwarder配置
     $binary = sys_get_temp_dir() . '/dnsforwarder';
     $config = __DIR__ . '/dnsforwarder.ini';
@@ -212,6 +213,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
        }
     }
     file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
+    */
     //kcptun插件
     if ($plugin == 'kcptun' and $kcpremoteaddr) {
         if (empty($kcpremoteaddr)) $kcpremoteaddr = "$server:29900";

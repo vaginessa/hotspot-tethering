@@ -153,7 +153,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
   if ($udp == 'udp_over_tcp') { 
     //redsocks配置运行
     $binary = sys_get_temp_dir() . '/redsocks';
-    $config = __DIR__ . '/redsocks.json';
+    $config = __DIR__ . '/redsocks.conf';
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
     //gost配置运行
     $binary = sys_get_temp_dir() . '/gost';

@@ -10,7 +10,7 @@ $mangle = array(
     'iptables -t mangle -A redsocks_lan -d 127/8 -j ACCEPT',
     'iptables -t mangle -A redsocks_lan -d 169.254/16 -j ACCEPT',
     'iptables -t mangle -A redsocks_lan -d 172.168/12 -j ACCEPT',
-    'iptables -t mangle -A redsocks_lan -d 192.168/16 -j ACCEPT',
+    'iptables -t mangle -A redsocks_lan -p udp -d 192.168/16 ! --dport 53 -j ACCEPT',
     'iptables -t mangle -A redsocks_lan -d 224/4 -j ACCEPT',
     'iptables -t mangle -A redsocks_lan -d 240/4 -j ACCEPT',
     'iptables -t mangle -A redsocks_pre -j redsocks_lan',
@@ -41,7 +41,7 @@ $nat = array(
     //流量重定向
     'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024',
     //'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053',
-    'iptables -t nat -A out_forward -p udp --dport 53 -j DNAT --to-destination 1.1.1.1',
+    'iptables -t nat -A out_forward -p udp --dport 53 -j DNAT --to-destination 1.1.1.1:53',
     'iptables -t nat -A OUTPUT -j out_lan',
     //路由前的流量
     'iptables -t nat -A pre_forward -j user_portal',
@@ -122,10 +122,10 @@ $status_binary = array(
 
 function file_chmod($tmp_file) { 
   if (chmod($tmp_file, 0700)) { 
-      exec("su -c $tmp_file", $output, $return_val);
-      foreach ($output as $val) {
-          echo "$val<br>";
-      }
+    exec("su -c $tmp_file", $output, $return_val);
+    foreach ($output as $val) {
+      echo "$val<br>";
+    }
   } else {
     die('设置文件权限失败！');
   }
@@ -183,7 +183,7 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
       if ($wifi=='on') {
         $mangle[]='iptables -t mangle -I redsocks_lan 6 -s 192.168.0.0/16 -j ACCEPT';
       }
-      $mangle[]="iptables -t mangle -I redsocks_out -m owner --uid-owner 0 -d $server -j ACCEPT";
+      $mangle[]="iptables -t mangle -I redsocks_out 2 -m owner --uid-owner 0 -d $server -j ACCEPT";
       foreach ($mangle as $val) {
         file_put_contents($tmp_file, $val . PHP_EOL, FILE_APPEND);
       }

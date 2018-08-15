@@ -113,16 +113,6 @@ if ($tcp_fast_open=='on'&&$fs<=0) {
   shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
   echo "[TCP Fast Open]：× <br />";
 }
-/*
-$tnd=@file_get_contents('/proc/sys/net/ipv4/tcp_low_latency');
-if ($tcp_nodelay=='on'&&$tnd<=0) {
-  shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=1');
-  echo "[TCP NODELAY]：√ <br />";
-} elseif ($tcp_nodelay!='on'&&$tnd>0) {
-  shell_exec('su -c sysctl -w net.ipv4.tcp_low_latency=0');
-  echo "[TCP NODELAY]：× <br />";
-}
-*/
 
 //关闭shadowsocks
 if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $method) {
@@ -161,12 +151,6 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcpremoteaddr=$kcpremoteaddr" . PHP_EOL . "kcpkey=$kcpkey" . PHP_EOL . "kcpcrypt=$kcpcrypt" . PHP_EOL . "kcpmode=$kcpmode" . PHP_EOL . "kcpconn=$kcpconn" . PHP_EOL . "kcpautoexpire=$kcpautoexpire" . PHP_EOL . "kcpscavengettl=$kcpscavengettl" . PHP_EOL . "kcpmtu=$kcpmtu" . PHP_EOL . "kcpsndwnd=$kcpsndwnd" . PHP_EOL . "kcprcvwnd=$kcprcvwnd" . PHP_EOL . "kcpdatashard=$kcpdatashard" . PHP_EOL . "kcpparityshard=$kcpparityshard" . PHP_EOL . "kcpdscp=$kcpdscp" . PHP_EOL . "kcpnocomp=$kcpnocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
   file_put_contents('config.ini', $data);
   if ($udp == 'udp_over_tcp') { 
-    /*
-    //tproxy配置
-    $binary = sys_get_temp_dir() . '/tproxy';
-    $config = __DIR__ . '/tproxy.ini';
-    file_put_contents($start_file, "$binary $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    */
     //redsocks配置运行
     $binary = sys_get_temp_dir() . '/redsocks';
     $config = __DIR__ . '/redsocks.json';
@@ -189,8 +173,6 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $obj = json_encode($obj);
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    */
-    /*
     //dnsforwarder配置
     $binary = sys_get_temp_dir() . '/dnsforwarder';
     $config = __DIR__ . '/dnsforwarder.ini';
@@ -270,6 +252,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
    if ($plugin == 'proxychains') { //配置代理链
       file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
       file_put_contents('proxychains.conf', 'strict_chain'.PHP_EOL.'[ProxyList]'.PHP_EOL.$proxychains_type.' '.$proxychains_address.' '.$proxychains_port.' '.$proxychains_username.' '.$proxychains_password.PHP_EOL);
+   $iserver=$proxychains_address;
    } else {
      file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
    }

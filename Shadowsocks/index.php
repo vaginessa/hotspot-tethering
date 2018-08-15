@@ -2,14 +2,10 @@
 require '../Admin/main.class.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $acl = $_POST['acl'];
-  $hosts = $_POST['hosts'];    
 }
 if (isset($acl)) {
   file_put_contents('custom.acl', $acl);
 } 
-if (isset($hosts)) {
-  file_put_contents('hosts', $hosts);
-}
 //检查ss进程是否存在
 if (binary_status(array('ss-local','ss-redir'))) {
   $status = true;
@@ -59,10 +55,9 @@ if (file_exists('config.ini')) {
                 <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
                   <li class="current"><span>Shadowsocks</span></li>
                   <li><span>自定义规则</span></li>
-                  <li><span>hosts编辑</span></li>
                   <li><span id="shared">二维码分享</span></li>
                 </ul>
-                <ul class="ui-tab-content" style="width:400%">
+                <ul class="ui-tab-content" style="width:300%">
 <!-- Shadowsocks配置开始 -->                
                     <li>
      <div class="ui-form ui-border-t"> 
@@ -154,7 +149,12 @@ if (file_exists('config.ini')) {
             </div> 
            </div> 
           </div> 
-          
+          <!--
+        <div class="ui-form-item ui-border-b"> 
+        <label>远程DNS:</label> 
+        <input type="text" placeholder="8.8.8.8" id="remote_dns" name="remote_dns" autocomplete="on" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}" required/> 
+       </div> 
+          -->
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>TCP Fast Open</p>
            <div style="padding-left: 25%;font-size: smaller;">
@@ -162,15 +162,6 @@ if (file_exists('config.ini')) {
            </div>
            <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
           </div> 
-          <!--
-          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
-           <p>TCP NODELAY</p>
-           <div style="padding-left: 25%;font-size: smaller;">
-           <p class="ui-txt-muted" onclick='alert("TCP无延迟(Nagle算法)\n这种模式下用户进程能快速的得到数据，但是软中断的时间长，造成TCP吞吐量下降。")'>点击我显示介绍</p> 
-           </div>
-           <label class="ui-switch"><input type="checkbox" id="tcp_nodelay" name="tcp_nodelay" /></label> 
-          </div> 
-          -->
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>WIFI放行</p>
            <div style="padding-left: 25%;font-size: smaller;">
@@ -213,7 +204,7 @@ if (file_exists('config.ini')) {
             </h4>            
              <div class="ui-form-item ui-border-b"> 
               <label>服务器:</label> 
-              <input type="text" placeholder="" id="gost_server" name="gost_server" /> 
+              <input type="text" placeholder="" id="gost_server" name="gost_server" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}" /> 
              </div> 
              
              <div class="ui-form-item ui-border-b"> 
@@ -296,7 +287,7 @@ if (file_exists('config.ini')) {
             </h4>
              <div class="ui-form-item ui-border-b"> 
              <label>remoteHost:</label> 
-              <input type="text" placeholder="远程服务IP，默认即可" id="remoteHost" name="remoteHost" /> 
+              <input type="text" placeholder="远程服务IP" id="remoteHost" name="remoteHost" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>remotePort:</label> 
@@ -336,7 +327,7 @@ if (file_exists('config.ini')) {
             </h4>
             <div class="ui-form-item ui-border-b"> 
              <label>remoteaddr:</label> 
-              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" /> 
+              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}\:[0-9]{1,5}"/> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>key:</label> 
@@ -446,7 +437,7 @@ if (file_exists('config.ini')) {
              </div> 
              <div class="ui-form-item ui-border-b"> 
              <label>地址:</label> 
-              <input type="text" placeholder="" id="proxychains_address" name="proxychains_address" /> 
+              <input type="text" placeholder="" id="proxychains_address" name="proxychains_address" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>端口:</label> 
@@ -482,13 +473,7 @@ if (file_exists('config.ini')) {
             <li>
             <textarea rows="35" style="width:99%" cols="40" name="acl" form="acl" placeholder="自定义acl规则"><?php echo file_get_contents('custom.acl'); ?></textarea><form action="" method="POST" id="acl"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
             </li>
-<!-- 自定义规则结束 -->                        
-
-<!-- 自定义hosts编辑 -->         
-            <li>
-            <textarea rows="35" style="width:99%" cols="40" name="hosts" form="hosts" placeholder="dnsforwarder的hosts文件"><?php echo file_get_contents('hosts'); ?></textarea><form action="" method="POST" id="hosts"><button class="ui-btn-lg ui-btn-primary">保存</button><button type="reset" class="ui-btn-lg">重置输入</button></form>
-            </li>
-<!-- 自定义hosts结束 -->                     
+<!-- 自定义规则结束 -->                                        
 
 <!-- 二维码分享 -->         
             <li>
@@ -614,11 +599,6 @@ if ("<?php echo $my_ini['route']; ?>" != "") {
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
 }
-/*
-if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_low_latency'); ?> > 0) { 
-  $('#tcp_nodelay').prop('checked', true); 
-}
-*/
 if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
   $('#wifi').prop('checked', true); 
 }

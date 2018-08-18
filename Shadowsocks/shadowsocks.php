@@ -22,7 +22,7 @@ if (is_array($status_binary) || is_object($status_binary)) {
         $binary_file = sys_get_temp_dir() . "/$val";
         if (!is_executable($binary_file) && file_exists($val)) {
             copy($val, $binary_file);
-            chmod($binary_file, 0700);
+            chmod($binary_file, 0755);
         }
     }
 }
@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
     $tcp_fast_open = test_input($_GET['tcp_fast_open']);
-    //$tcp_nodelay = test_input($_GET['tcp_nodelay']);
     $wifi = test_input($_GET['wifi']);
     $icmp = test_input($_GET['icmp']);
     $udp = test_input($_GET['udp']);
@@ -52,20 +51,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $Key = test_input($_GET['Key']);
     $TicketTimeHint = test_input($_GET['TicketTimeHint']);
     $Browser = test_input($_GET['Browser']);
-    $kcpremoteaddr = test_input($_GET['kcpremoteaddr']);
-    $kcpkey = test_input($_GET['kcpkey']);
-    $kcpcrypt = test_input($_GET['kcpcrypt']);
-    $kcpmode = test_input($_GET['kcpmode']);
-    $kcpconn = test_input($_GET['kcpconn']);
-    $kcpautoexpire = test_input($_GET['kcpautoexpire']);
-    $kcpscavengettl = test_input($_GET['kcpscavengettl']);
-    $kcpmtu = test_input($_GET['kcpmtu']);
-    $kcpsndwnd = test_input($_GET['kcpsndwnd']);
-    $kcprcvwnd = test_input($_GET['kcprcvwnd']);
-    $kcpdatashard = test_input($_GET['kcpdatashard']);
-    $kcpparityshard = test_input($_GET['kcpparityshard']);
-    $kcpdscp = test_input($_GET['kcpdscp']);   
-    $kcpnocomp = test_input($_GET['kcpnocomp']);   
+    $kcptun_remoteaddr = test_input($_GET['kcptun_remoteaddr']);
+    $kcptun_key = test_input($_GET['kcptun_key']);
+    $kcptun_crypt = test_input($_GET['kcptun_crypt']);
+    $kcptun_mode = test_input($_GET['kcptun_mode']);
+    $kcptun_conn = test_input($_GET['kcptun_conn']);
+    $kcptun_autoexpire = test_input($_GET['kcptun_autoexpire']);
+    $kcptun_scavengettl = test_input($_GET['kcptun_scavengettl']);
+    $kcptun_mtu = test_input($_GET['kcptun_mtu']);
+    $kcptun_sndwnd = test_input($_GET['kcptun_sndwnd']);
+    $kcptun_rcvwnd = test_input($_GET['kcptun_rcvwnd']);
+    $kcptun_datashard = test_input($_GET['kcptun_datashard']);
+    $kcptun_parityshard = test_input($_GET['kcptun_parityshard']);
+    $kcptun_dscp = test_input($_GET['kcptun_dscp']);   
+    $kcptun_nocomp = test_input($_GET['kcptun_nocomp']);   
     $proxychains_type = test_input($_GET['proxychains_type']);
     $proxychains_address = test_input($_GET['proxychains_address']);
     $proxychains_port = test_input($_GET['proxychains_port']);
@@ -148,7 +147,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $server=jx_server($server);
     $gost_server=jx_server($gost_server);
     //写出记录配置
-    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcpremoteaddr=$kcpremoteaddr" . PHP_EOL . "kcpkey=$kcpkey" . PHP_EOL . "kcpcrypt=$kcpcrypt" . PHP_EOL . "kcpmode=$kcpmode" . PHP_EOL . "kcpconn=$kcpconn" . PHP_EOL . "kcpautoexpire=$kcpautoexpire" . PHP_EOL . "kcpscavengettl=$kcpscavengettl" . PHP_EOL . "kcpmtu=$kcpmtu" . PHP_EOL . "kcpsndwnd=$kcpsndwnd" . PHP_EOL . "kcprcvwnd=$kcprcvwnd" . PHP_EOL . "kcpdatashard=$kcpdatashard" . PHP_EOL . "kcpparityshard=$kcpparityshard" . PHP_EOL . "kcpdscp=$kcpdscp" . PHP_EOL . "kcpnocomp=$kcpnocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
+    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
   file_put_contents('config.ini', $data);
   if ($udp == 'udp_over_tcp') { 
     //redsocks配置运行
@@ -173,46 +172,46 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $obj = json_encode($obj);
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    //dnsforwarder配置
-    $binary = sys_get_temp_dir() . '/dnsforwarder';
-    $config = __DIR__ . '/dnsforwarder.ini';
+    */
+    //pdnsd配置
+    $binary = sys_get_temp_dir() . '/pdnsd';
+    $config = __DIR__ . '/pdnsd.conf';
     $r_c=file_get_contents($config);
     if (@unlink($config)===true) {  
       foreach (explode(PHP_EOL,$r_c) as $key) {
-          $val = explode(' ', $key);
-           if($val[0]=='Hosts') {
-               $val[1]='file://'.__DIR__.'/hosts';
+          $val = explode('=', $key);
+           if($val[0]==' cache_dir') {
+             $val[1]='"'.sys_get_temp_dir().'";';
            }
-           if($val[0]=='TCPGroup') {
-               $val[1]=$val[1].' * no';
+           if($val[0]=='	file') {
+             $val[1]='"'.__DIR__.'/hosts";';
            }
-           if($val[0]=='DomainStatisticTempletFile') {
-               $val[1]=__DIR__.'/StatisticTemplate.html';
+           if($val[0]&&$val[1]) {
+             $x="$val[0]=$val[1]";
+           } else { 
+             $x=$val[0];
            }
-           if($val[0]&&$val[1]!=PHP_EOL) {
-           file_put_contents($config, $val[0].' '.$val[1].PHP_EOL, FILE_APPEND);
-           }
+           file_put_contents($config, $x.PHP_EOL, FILE_APPEND);
        }
     }
-    file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
-    */
-    //kcptun插件
-    if ($plugin == 'kcptun' and $kcpremoteaddr) {
-        if (empty($kcpremoteaddr)) $kcpremoteaddr = "$server:29900";
-        if (empty($kcpkey)) $kcpkey = "it's a secrect";
-        if (empty($kcpcrypt)) $kcpcrypt = 'aes';
-        if (empty($kcpmode)) $kcpmode = 'fast';
-        if (empty($kcpconn)) $kcpconn = 1;
-        if (empty($kcpautoexpire)) $kcpautoexpire = 0;
-        if (empty($kcpscavengettl)) $kcpscavengettl = 600;
-        if (empty($kcpmtu)) $kcpmtu = 1350;
-        if (empty($kcpsndwnd)) $kcpsndwnd = 128;
-        if (empty($kcprcvwnd)) $kcprcvwnd = 512;
-        if (empty($kcpdatashard)) $kcpdatashard = 10;
-        if (empty($kcpparityshard)) $autoexpire = 3;
-        if (empty($kcpdscp)) $kcpdscp = 0;
+    file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
+    //kcptun_tun插件
+    if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
+        if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";
+        if (empty($kcptun_key)) $kcptun_key = "it's a secrect";
+        if (empty($kcptun_crypt)) $kcptun_crypt = 'aes';
+        if (empty($kcptun_mode)) $kcptun_mode = 'fast';
+        if (empty($kcptun_conn)) $kcptun_conn = 1;
+        if (empty($kcptun_autoexpire)) $kcptun_autoexpire = 0;
+        if (empty($kcptun_scavengettl)) $kcptun_scavengettl = 600;
+        if (empty($kcptun_mtu)) $kcptun_mtu = 1350;
+        if (empty($kcptun_sndwnd)) $kcptun_sndwnd = 128;
+        if (empty($kcptun_rcvwnd)) $kcptun_rcvwnd = 512;
+        if (empty($kcptun_datashard)) $kcptun_datashard = 10;
+        if (empty($kcptun_parityshard)) $autoexpire = 3;
+        if (empty($kcptun_dscp)) $kcptun_dscp = 0;
         $binary = sys_get_temp_dir() . '/kcptun';
-        $config = "-l 127.0.0.1:1026 -r $kcpremoteaddr --key $kcpkey --crypt $kcpcrypt -mode $kcpmode -conn $kcpconn -autoexpire $kcpautoexpire -scavengettl $kcpscavengettl -mtu $kcpmtu -sndwnd $kcpsndwnd -rcvwnd $kcprcvwnd -datashard $kcpdatashard -parityshard $kcpparityshard -dscp $kcpdscp $kcpnocomp --quiet";
+        $config = "-l 127.0.0.1:1026 -r $kcptun_remoteaddr --key $kcptun_key --crypt $kcptun_crypt -mode $kcptun_mode -conn $kcptun_conn -autoexpire $kcptun_autoexpire -scavengettl $kcptun_scavengettl -mtu $kcptun_mtu -sndwnd $kcptun_sndwnd -rcvwnd $kcptun_rcvwnd -datashard $kcptun_datashard -parityshard $kcptun_parityshard -dscp $kcptun_dscp $kcptun_nocomp --quiet";
         file_put_contents($start_file, "$binary $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
     }
     //GoQuiet插件

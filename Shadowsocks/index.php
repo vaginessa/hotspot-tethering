@@ -327,17 +327,17 @@ if (file_exists('config.ini')) {
             </h4>
             <div class="ui-form-item ui-border-b"> 
              <label>remoteaddr:</label> 
-              <input type="text" placeholder="default: vps:29900" id="kcpremoteaddr" name="kcpremoteaddr" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}\:[0-9]{1,5}"/> 
+              <input type="text" placeholder="default: vps:29900" id="kcptun_remoteaddr" name="kcptun_remoteaddr" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}\:[0-9]{1,5}"/> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>key:</label> 
-              <input type="password" placeholder="default: it's a secrec" id="kcpkey" name="kcpkey" autocomplete="off" /> 
+              <input type="password" placeholder="default: it's a secrec" id="kcptun_key" name="kcptun_key" autocomplete="off" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>crypt</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
-                <select name="kcpcrypt" id="kcpcrypt" class="ui-txt-feeds" > 
+                <select name="kcptun_crypt" id="kcptun_crypt" class="ui-txt-feeds" > 
                 <option value="aes">aes</option> 
                 <option value="aes-128">aes-128</option>
                 <option value="aes-192">aes-192</option>
@@ -359,7 +359,7 @@ if (file_exists('config.ini')) {
               <label>mode</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
-                <select name="kcpmode" id="kcpmode" class="ui-txt-feeds" > 
+                <select name="kcptun_mode" id="kcptun_mode" class="ui-txt-feeds" > 
                 <option value="fast3">fast3</option> 
                 <option value="fast2">fast2</option>
                 <option value="fast" selected="">fast</option>
@@ -371,45 +371,45 @@ if (file_exists('config.ini')) {
              </div> 
              <div class="ui-form-item ui-border-b"> 
              <label>conn:</label> 
-              <input type="number" placeholder="default: 1" id="kcpconn" name="kcpconn" /> 
+              <input type="number" placeholder="default: 1" id="kcptun_conn" name="kcptun_conn" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>autoexpire:</label> 
-              <input type="number" placeholder="default: 0" id="kcpautoexpire" name="kcpautoexpire" /> 
+              <input type="number" placeholder="default: 0" id="kcptun_autoexpire" name="kcptun_autoexpire" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>scavengettl:</label> 
-              <input type="number" placeholder="default: 600" id="kcpscavengettl" name="kcpscavengettl" /> 
+              <input type="number" placeholder="default: 600" id="kcptun_scavengettl" name="kcptun_scavengettl" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>mtu:</label> 
-              <input type="number" placeholder="default: 1350" id="kcpmtu" name="kcpmtu" /> 
+              <input type="number" placeholder="default: 1350" id="kcptun_mtu" name="kcptun_mtu" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>sndwnd:</label> 
-              <input type="number" placeholder="default: 128" id="kcpsndwnd" name="kcpsndwnd" /> 
+              <input type="number" placeholder="default: 128" id="kcptun_sndwnd" name="kcptun_sndwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>rcvwnd:</label> 
-              <input type="number" placeholder="default: 512" id="kcprcvwnd" name="kcprcvwnd" /> 
+              <input type="number" placeholder="default: 512" id="kcptun_rcvwnd" name="kcptun_rcvwnd" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>datashard:</label> 
-              <input type="number" placeholder="default: 10" id="kcpdatashard" name="kcpdatashard" /> 
+              <input type="number" placeholder="default: 10" id="kcptun_datashard" name="kcptun_datashard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>parityshard:</label> 
-              <input type="number" placeholder="default: 3" id="kcpparityshard" name="kcpparityshard" /> 
+              <input type="number" placeholder="default: 3" id="kcptun_parityshard" name="kcptun_parityshard" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
              <label>dscp:</label> 
-              <input type="number" placeholder="default: 0" id="kcpdscp" name="kcpdscp" /> 
+              <input type="number" placeholder="default: 0" id="kcptun_dscp" name="kcptun_dscp" /> 
              </div>
              <div class="ui-form-item ui-border-b"> 
               <label>数据压缩</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
-                <select name="nocomp" id="kcpnocomp" class="ui-txt-feeds" > 
+                <select name="nocomp" id="kcptun_nocomp" class="ui-txt-feeds" > 
                 <option value="" selected="">开</option>
                 <option value="--nocomp">关</option>                 
                 </select> 
@@ -541,10 +541,10 @@ function setplugin(){
   $("#Key").blur(function(){
     $(this).attr('type','password');
   });
-  $("#kcpkey").focus(function(){
+  $("#kcptun_key").focus(function(){
     $(this).attr('type','text');
   });
-  $("#kcpkey").blur(function(){
+  $("#kcptun_key").blur(function(){
     $(this).attr('type','password');
   });
   $("#proxychains_password").focus(function(){
@@ -632,25 +632,25 @@ if ("<?php echo $my_ini['obfs']; ?>" != "") {
 if ("<?php echo $my_ini['Browser']; ?>" != "") { 
   $("#Browser").val("<?php echo $my_ini['Browser']; ?>");
 }
-  $("#kcpremoteaddr").val("<?php echo $my_ini['kcpremoteaddr']; ?>");
-  $("#kcpkey").val("<?php echo $my_ini['kcpkey']; ?>");
-if ("<?php echo $my_ini['kcpcrypt']; ?>" != "") { 
-  $("#kcpcrypt").val("<?php echo $my_ini['kcpcrypt']; ?>");
+  $("#kcptun_remoteaddr").val("<?php echo $my_ini['kcptun_remoteaddr']; ?>");
+  $("#kcptun_key").val("<?php echo $my_ini['kcptun_key']; ?>");
+if ("<?php echo $my_ini['kcptun_crypt']; ?>" != "") { 
+  $("#kcptun_crypt").val("<?php echo $my_ini['kcptun_crypt']; ?>");
 }
-if ("<?php echo $my_ini['kcpmode']; ?>" != "") { 
-  $("#kcpmode").val("<?php echo $my_ini['kcpmode']; ?>");
+if ("<?php echo $my_ini['kcptun_mode']; ?>" != "") { 
+  $("#kcptun_mode").val("<?php echo $my_ini['kcptun_mode']; ?>");
 }
-  $("#kcpconn").val("<?php echo $my_ini['kcpconn']; ?>");
-  $("#kcpscavengettl").val("<?php echo $my_ini['kcpscavengettl']; ?>");
-  $("#kcpautoexpire").val("<?php echo $my_ini['kcpautoexpire']; ?>");
-  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
-  $("#kcpsndwnd").val("<?php echo $my_ini['kcpsndwnd']; ?>");
-  $("#kcprcvwnd").val("<?php echo $my_ini['kcprcvwnd']; ?>");
-  $("#kcpmtu").val("<?php echo $my_ini['kcpmtu']; ?>");
-  $("#kcpdatashard").val("<?php echo $my_ini['kcpdatashard']; ?>");
-  $("#kcpparityshard").val("<?php echo $my_ini['kcpparityshard']; ?>");
-  $("#kcpdscp").val("<?php echo $my_ini['kcpdscp']; ?>");
-  $("#kcpnocomp").val("<?php echo $my_ini['kcpnocomp']; ?>");
+  $("#kcptun_conn").val("<?php echo $my_ini['kcptun_conn']; ?>");
+  $("#kcptun_scavengettl").val("<?php echo $my_ini['kcptun_scavengettl']; ?>");
+  $("#kcptun_autoexpire").val("<?php echo $my_ini['kcptun_autoexpire']; ?>");
+  $("#kcptun_mtu").val("<?php echo $my_ini['kcptun_mtu']; ?>");
+  $("#kcptun_sndwnd").val("<?php echo $my_ini['kcptun_sndwnd']; ?>");
+  $("#kcptun_rcvwnd").val("<?php echo $my_ini['kcptun_rcvwnd']; ?>");
+  $("#kcptun_mtu").val("<?php echo $my_ini['kcptun_mtu']; ?>");
+  $("#kcptun_datashard").val("<?php echo $my_ini['kcptun_datashard']; ?>");
+  $("#kcptun_parityshard").val("<?php echo $my_ini['kcptun_parityshard']; ?>");
+  $("#kcptun_dscp").val("<?php echo $my_ini['kcptun_dscp']; ?>");
+  $("#kcptun_nocomp").val("<?php echo $my_ini['kcptun_nocomp']; ?>");
 if ("<?php echo $my_ini['proxychains_type']; ?>" != "") { 
   $("#proxychains_type").val("<?php echo $my_ini['proxychains_type']; ?>");
 }

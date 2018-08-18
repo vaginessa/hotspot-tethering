@@ -41,7 +41,7 @@ $nat = array(
     //流量重定向
     'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024',
     //'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053',
-    'iptables -t nat -A out_forward -p udp --dport 53 -j DNAT --to-destination 1.1.1.1:53',
+    'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053',
     'iptables -t nat -A OUTPUT -j out_lan',
     //路由前的流量
     'iptables -t nat -A pre_forward -j user_portal',
@@ -109,7 +109,7 @@ $status_iptables = array(
 );
 
 $status_binary = array(
-    //'dnsforwarder',
+    'pdnsd',
     'gost',
     'redsocks',
     'GoQuiet',

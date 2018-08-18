@@ -191,7 +191,9 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
            } else { 
              $x=$val[0];
            }
-           file_put_contents($config, $x.PHP_EOL, FILE_APPEND);
+           if($x!="") {
+             file_put_contents($config, $x.PHP_EOL, FILE_APPEND);
+           }
        }
     }
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    

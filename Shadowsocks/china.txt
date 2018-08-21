@@ -1,0 +1,13 @@
+# 井号后面写注释
+protocol tcp    # 指定协议为 TCP
+server 114.114.114.114,1.2.4.8    # 这里写服务器地址
+proxy no    # Socks5 代理服务器，不同服务器之间用半角逗号分隔，或者写“no”代表不使用代理
+
+# 以下是域名，一行一个
+*.cn
+*.baidu.com
+*.qq.com
+*.163.com
+*.taobao.com
+*.sina.com
+*.bilibili.com

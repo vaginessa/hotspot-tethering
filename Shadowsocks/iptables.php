@@ -117,6 +117,7 @@ $status_binary = array(
     'obfs-local',
     'ss-redir',
     'ss-local',
+    'dnsforwarder',
     'libproxychains4.so'
 );
 

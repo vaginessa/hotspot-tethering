@@ -47,7 +47,7 @@ if ($url) {
                     <li>
                   <?php
                   $tor=sys_get_temp_dir().'/tor';
-                  $binary=array('ss-local','ss-redir','obfs-local','pdnsd','redsocks','gost','GoQuiet','kcptun','aria2c','koolproxy',$tor,'frpc','verysync');
+                  $binary=array('ss-local','ss-redir','obfs-local','pdnsd','dnsforwarder','redsocks','gost','GoQuiet','kcptun','aria2c','koolproxy',$tor,'frpc','verysync');
                   $status=binary_status($binary);
                   echo "<ul class=\"ui-list ui-list-single ui-list-link ui-border-tb\">";
                   if ($status) { 

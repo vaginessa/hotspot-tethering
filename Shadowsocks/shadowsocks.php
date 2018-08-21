@@ -89,8 +89,6 @@ function config_json($server, $server_port, $local_port, $password, $method, $ac
             'method' => $method,
             'user' => 3004,
             'mode' => 'tcp_and_udp',
-            'pid_file' => __DIR__ . '/ss-redir.pid',
-            'time_out' => 60,
             'local_address' => '0.0.0.0'
         );
     if ($acl_file != '' && $acl_file !='all') { 
@@ -172,7 +170,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $obj = json_encode($obj);
     file_put_contents('overture.json', $obj, LOCK_EX);
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND | LOCK_EX);
-    */
+    
     //pdnsd配置
     $binary = sys_get_temp_dir() . '/pdnsd';
     $config = __DIR__ . '/pdnsd.conf';
@@ -197,6 +195,38 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
        }
     }
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
+    */
+    //dnsforwarder配置
+    $binary = sys_get_temp_dir() . '/dnsforwarder';
+    $config = __DIR__ . '/dnsforwarder.config';
+    $r_c=file_get_contents($config);
+    if (@unlink($config)===true) {  
+      foreach (explode(PHP_EOL,$r_c) as $key) {
+          $val = explode(' ', $key);
+           if($val[0]=='TCPGroup') {
+             $val[1]=$val[1].' * no';
+           }
+           if($val[0]=='GroupFile') {
+             $val[1]=__DIR__.'/china.txt';
+           }
+           if($val[0]=='Hosts') {
+             $val[1]='file://'.__DIR__.'/hosts';
+           }
+           if($val[0]=='DomainStatisticTempletFile') {
+             $val[1]=__DIR__.'/StatisticTemplate.html';
+           }
+           if($val[0]&&$val[1]) {
+             $x="$val[0] $val[1]";
+           } else { 
+             $x=$val[0];
+           }
+           if($x!='') {
+             file_put_contents($config, $x.PHP_EOL, FILE_APPEND);
+           }
+       }
+    }
+    file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND);    
+    
     //kcptun_tun插件
     if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";
@@ -233,10 +263,10 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
   }
     //shadowsocks+插件配置
     if ($udp == 'udp_over_tcp') {
-      $binary = sys_get_temp_dir() . '/ss-local';
+      $binary = sys_get_temp_dir() . '/ss-local -v -f '.__DIR__ . '/ss-deamon.pid';
       $local_port = 1025;
     } else {
-      $binary = sys_get_temp_dir() . '/ss-redir';
+      $binary = sys_get_temp_dir() . '/ss-redir -v -f '.__DIR__ . '/ss-deamon.pid';
       $local_port = 1024;
     }
     $config = __DIR__ . '/shadowsocks.conf';

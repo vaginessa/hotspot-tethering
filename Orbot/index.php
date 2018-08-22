@@ -19,9 +19,7 @@ if (!is_executable($binary_file) and file_exists('tor')) {
     chmod($binary_file, 0777);
 }
 function zx_input($yxfile, $yx, $lx) {
-    if (file_exists($yxfile) or is_executable($yxfile)) {
-        unlink($yxfile);
-    }
+    @unlink($yxfile);
     file_put_contents($yxfile, $yx);
     chmod($yxfile, 0700);
     exec("su -c $yxfile", $output, $return_val);
@@ -59,7 +57,7 @@ if (isset($receive) and $receive == 'start') {
 if (isset($receive) and $receive == 'stop') {
     if (file_exists('tor.pid')) {
         $pid = file_get_contents('tor.pid');
-        unlink('tor.pid');
+        @unlink('tor.pid');
     } else {
         die("{\"a\": \"缺少pid文件！\",\"b\": 1}");
     }

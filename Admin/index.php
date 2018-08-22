@@ -8,7 +8,7 @@ if ($receive=='change') {
 }
 $test=htmlspecialchars($_POST['test']);
 if (isset($test)) { 
-switch (true){
+  switch (true){
    case stristr($test,'ping'):
       $file='../Shadowsocks/config.ini';
       if (file_exists($file)) { 
@@ -39,7 +39,7 @@ switch (true){
         die("{\"a\": \"连接到百毒服务器失败！返回状态码: ".$info['http_code']."\",\"b\": 1}");
       }
       break;
-}
+  }
 }
 $tor=sys_get_temp_dir().'/tor';
 $out=binary_status(array('aria2c','ss-local','ss-redir','koolproxy',$tor,'frpc','verysync'));

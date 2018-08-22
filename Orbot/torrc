@@ -15,7 +15,7 @@ VirtualAddrNetwork 10.192.0.0/10
 AutomapHostsOnResolve 1
 SafeLogging 0
 UseBridges 0
-Socks5Proxy 127.0.0.1:1025
+#Socks5Proxy 127.0.0.1:1025
 GeoIPFile /storage/emulated/0/htdocs/Orbot/geoip
 PidFile /storage/emulated/0/htdocs/Orbot/tor.pid
 ExcludeNodes {cn},{hk},{mo},{kp},{ir},{sy},{pk},{cu},{vn}

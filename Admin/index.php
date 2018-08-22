@@ -1,5 +1,46 @@
 <?php 
 require 'main.class.php';
+$receive=htmlspecialchars($_POST['receive']);
+if ($receive=='change') {
+  download_image();
+} else { 
+  Console($receive);
+}
+$test=htmlspecialchars($_POST['test']);
+if (isset($test)) { 
+switch (true){
+   case stristr($test,'ping'):
+      $file='../Shadowsocks/config.ini';
+      if (file_exists($file)) { 
+        $server=parse_ini_file($file)['server'];
+        $ms=ping('1','5',$server);
+        if ($ms>0) {
+          die("{\"a\": \"$ms\",\"b\": 0}");
+        } else {
+          die("{\"a\": \"ping $server 失败！\",\"b\": 1}");
+        }
+      } else { 
+        die("{\"a\": \"配置文件 $file 不存在！\",\"b\": 1}");
+      }
+      break;
+   case stristr($test,'foreign'):
+      $info=test_results('http://www.google.com.tw',10);
+      if ($info['http_code']==200) { 
+        die("{\"a\": \"最后一次传输所消耗的时间: ".$info['total_time']." 秒\",\"b\": 0}");
+      } else { 
+        die("{\"a\": \"连接到Google服务器失败！返回状态码: ".$info['http_code']."\",\"b\": 1}");
+      }      
+      break;
+   case stristr($test,'domestic'):
+      $info=test_results('http://www.baidu.com',10);
+      if ($info['http_code']==200) { 
+        die("{\"a\": \"最后一次传输所消耗的时间: ".$info['total_time']." 秒\",\"b\": 0}");
+      } else { 
+        die("{\"a\": \"连接到百毒服务器失败！返回状态码: ".$info['http_code']."\",\"b\": 1}");
+      }
+      break;
+}
+}
 $tor=sys_get_temp_dir().'/tor';
 $out=binary_status(array('aria2c','ss-local','ss-redir','koolproxy',$tor,'frpc','verysync'));
 if ($out) {
@@ -74,52 +115,11 @@ function get_image() {
    $rand_keys = array_rand($data, 1);
    return $data[$rand_keys];
 }
-$receive=htmlspecialchars($_POST['receive']);
-if ($receive=='change') {
-  download_image();
-} else { 
-  Console($receive);
-}
 function ping($a,$b,$c) {
     $data=exec("ping -c $a -w $b -n $c", $output, $return_val);
     if ($return_val == 0) {
         return explode('/', end($output))[4];
     }
-}
-$test=htmlspecialchars($_POST['test']);
-if (isset($test)) { 
-switch (true){
-   case stristr($test,'ping'):
-      $file='../Shadowsocks/config.ini';
-      if (file_exists($file)) { 
-        $server=parse_ini_file($file)['server'];
-        $ms=ping('1','5',$server);
-        if ($ms>0) {
-          die("{\"a\": \"$ms\",\"b\": 0}");
-        } else {
-          die("{\"a\": \"ping $server 失败！\",\"b\": 1}");
-        }
-      } else { 
-        die("{\"a\": \"配置文件 $file 不存在！\",\"b\": 1}");
-      }
-      break;
-   case stristr($test,'foreign'):
-      $code=http_code('http://www.google.com.tw',8);
-      if ($code==200) { 
-        die("{\"a\": \"$code\",\"b\": 0}");
-      } else { 
-        die("{\"a\": \"连接到Google服务器失败！返回状态码: $code\",\"b\": 1}");
-      }      
-      break;
-   case stristr($test,'domestic'):
-      $code=http_code('http://www.baidu.com',8);
-      if ($code==200) { 
-        die("{\"a\": \"$code\",\"b\": 0}");
-      } else { 
-        die("{\"a\": \"连接到百毒服务器失败！返回状态码: $code\",\"b\": 1}");
-      }
-      break;
-}
 }
 ?>
 <!DOCTYPE html>
@@ -437,12 +437,14 @@ function loading(a) {
     if ($("#loading").css("display")=="none"){
         $("#loading").show();
     }
+    /*
   setTimeout(function(){
       if ($("#loading").css("display")!="none"){
          $("#loading").hide();
          notification("时间超时!",3000);
       }
   },10000);
+  */
 }
 
 // https://zeit.co/blog/async-and-await

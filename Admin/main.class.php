@@ -121,7 +121,7 @@ function GET($url) {
     curl_close($ch);
     return $data;
 }
-function http_code($url,$timeout) {
+function test_results($url,$timeout) {
   if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
     return false;
   } else {
@@ -130,10 +130,10 @@ function http_code($url,$timeout) {
     curl_setopt($ch, CURLOPT_NOBODY, true);    // we don't need body
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     curl_setopt($ch, CURLOPT_TIMEOUT,$timeout);
-    $output = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_exec($ch);
+    $info = curl_getinfo($ch);
     curl_close($ch);
-    return $httpcode;
+    return $info;
   }
 }
 function get_exec($shell,$toast) {

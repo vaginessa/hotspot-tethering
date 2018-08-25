@@ -1,3 +1,4 @@
+echo "$(date +'%Y-%m-%d %H:%M:%S') 守护脚本开始运行. .."
 echo $$ > ${0%/*}/daemon.pid
 while true
 do
@@ -6,8 +7,6 @@ if [ ! -f $0 ]; then
   kill $$
   break
   exit
-else 
-  echo "$(date +'%Y-%m-%d %H:%M:%S') 守护脚本运行中..."
 fi
 if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep && -f /system/bin/sed || -f /system/xbin/sed ]]; then
   dnsforwarder_status=$(pgrep dnsforwarder)
@@ -15,16 +14,12 @@ if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep && -f /system/bin/sed || -f 
     pid=$(echo "$dnsforwarder_status" | sed -e 's/[^0-9]*//g')
   fi
   if [ -z "$pid" ]; then
-    echo "$(date +'%Y-%m-%d %H:%M:%S') dnsforwarder没有运行,开始拉起进程中..."
+    echo "$(date +'%Y-%m-%d %H:%M:%S') dnsforwarder没有运行,开始拉起进程"
     zxzl
-    if [ $? -eq 0 ]; then
-      echo "$(date +'%Y-%m-%d %H:%M:%S') 拉起成功"
-    else
+    if [ $? -ne 0 ]; then
       echo "$(date +'%Y-%m-%d %H:%M:%S') 拉起失败"
       break
     fi
-  else
-    echo "$(date +'%Y-%m-%d %H:%M:%S') dnsforwarder正在运行 $pid"
   fi
 else
   echo"$(date +'%Y-%m-%d %H:%M:%S') 查询指令失败"

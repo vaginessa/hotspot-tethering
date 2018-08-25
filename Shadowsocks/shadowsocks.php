@@ -119,6 +119,8 @@ if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $
     foreach ($status_binary as $val) {
         file_put_contents($stop_file, "$pkill $val" . PHP_EOL, FILE_APPEND);
     }
+    file_put_contents($stop_file, 'kill $(cat '.sys_get_temp_dir().'/daemon.pid)'. PHP_EOL, FILE_APPEND);
+    @unlink(sys_get_temp_dir().'/daemon.sh');
     //执行关闭模块
     file_chmod($stop_file);
     //执行关闭iptables规则
@@ -225,8 +227,15 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
            }
        }
     }
-    file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND);    
-    
+    file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
+    //写出守护脚本
+    $daemon_file = sys_get_temp_dir() . '/daemon.sh';
+    $data=str_replace('zxzl',"$binary -f $config -q -d > /dev/null 2>&1 &",file_get_contents('daemon.sh'));
+    file_put_contents($daemon_file, $data);
+    if (!is_executable($daemon_file)) {
+      chmod($daemon_file, 0755);
+    }
+    file_put_contents($start_file, "$daemon_file > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
     //kcptun_tun插件
     if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";

@@ -11,13 +11,18 @@ fi
 daemon_list=(
 "dnsforwarder"
 )
-echo "$(now_time) 守护脚本开始运行. .."
-echo "$(now_time) 运行目录路径: $now_path"
-echo "$(now_time) 运行PID: $$"
-echo "$(now_time) PID写出文件: $pid_file"
-echo "$(now_time) 失败上限: $max 次"
-echo "$(now_time) 循环间隔: $intervals 秒"
-echo $$ > $pid_file
+if [[ $UID -eq 0 ]]; then
+  echo "$(now_time) 守护脚本开始运行. .."
+  echo "$(now_time) 运行目录路径: $now_path"
+  echo "$(now_time) 运行PID: $$"
+  echo "$(now_time) PID写出文件: $pid_file"
+  echo "$(now_time) 失败上限: $max 次"
+  echo "$(now_time) 检查间隔: $intervals 秒"
+  echo $$ > $pid_file
+else
+  echo "$(now_time) 请使用ROOT权限执行脚本！"
+  exit
+fi
 while true; do
 new_pid=$(cat $pid_file)
 if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
@@ -30,7 +35,7 @@ if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep ]]; then
     if [ $((pid)) -lt 100 ]; then
       echo "$(now_time) $i 没有运行,开始重启运行脚本..."
       if [[ "$i" == "$last_status" && ${#daemon_list[@]} -gt 1 ]]; then
-        echo "$(now_time) $i 再次重启脚本也没有运行成功，强制退出！"
+        echo "$(now_time) 再次重启脚本 $i 也没有运行成功，强制退出！"
         exit
       else        
         last_status=$i

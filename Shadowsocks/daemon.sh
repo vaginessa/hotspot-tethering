@@ -27,7 +27,7 @@ fi
 if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep ]]; then
   for i in ${daemon_list[@]}; do
     pid=$(pgrep $i)
-    if [ -z $pid ]; then
+    if [ $((pid)) -lt 100 ]; then
       echo "$(now_time) $i 没有运行,开始重启运行脚本..."
       ${now_path}/stop.sh
       ${now_path}/start.sh

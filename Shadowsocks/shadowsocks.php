@@ -230,7 +230,8 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
     //写出守护脚本
     $daemon_file = sys_get_temp_dir() . '/daemon.sh';
-    $data=str_replace('dir',__DIR__,file_get_contents('daemon.sh'));
+    $data=str_replace('dirn',sys_get_temp_dir(),file_get_contents('daemon.sh'));
+    $data=str_replace('dirp',__DIR__.'/daemon.pid',$data);
     file_put_contents($daemon_file, $data);
     if (!is_executable($daemon_file)) {
       chmod($daemon_file, 0755);

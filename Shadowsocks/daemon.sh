@@ -1,22 +1,23 @@
 #!/system/bin/sh
 
 alias now_time="date +'%Y-%m-%d %H:%M:%S'"
-pid_path="dir"
-pid_file="${pid_path}/daemon.pid"
-now_path="${0%/*}"
+now_path="dirn"
+pid_file="dirp"
 max=10
 intervals=30
-if [ ! -d $pid_path ]; then
-  pid_path="${0%/*}"
+if [ ! -d $now_path ]; then
+  now_path="${0%/*}"
 fi
 daemon_list=(
 "dnsforwarder"
 )
 echo "$(now_time) 守护脚本开始运行. .."
+echo "$(now_time) 运行目录路径: $now_path"
 echo "$(now_time) 运行PID: $$"
+echo "$(now_time) PID写出文件: $pid_file"
 echo "$(now_time) 失败上限: $max 次"
 echo "$(now_time) 循环间隔: $intervals 秒"
-echo $$ > ${pid_file}
+echo $$ > $pid_file
 while true; do
 new_pid=$(cat $pid_file)
 if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
@@ -28,8 +29,14 @@ if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep ]]; then
     pid=$(pgrep $i)
     if [ $((pid)) -lt 100 ]; then
       echo "$(now_time) $i 没有运行,开始重启运行脚本..."
-      ${now_path}/stop.sh
-      ${now_path}/start.sh
+      if [[ "$i" == "$last_status" && ${#daemon_list[@]} -gt 1 ]]; then
+        echo "$(now_time) $i 再次重启脚本也没有运行成功，强制退出！"
+        exit
+      else        
+        last_status=$i
+        ${now_path}/stop.sh 2>/dev/null
+        ${now_path}/start.sh 2>/dev/null        
+      fi
       if [ $? -ne 0 ]; then
         echo "$(now_time) 重启脚本失败！"
         ((max--))

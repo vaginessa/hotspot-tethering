@@ -9,7 +9,7 @@ if [ ! -d $now_path ]; then
   now_path="${0%/*}"
 fi
 daemon_list=(
-"dnsforwarder"
+  "dnsforwarder"
 )
 if [[ $UID -eq 0 ]]; then
   echo "$(now_time) 守护脚本开始运行. .."
@@ -26,7 +26,7 @@ fi
 while true; do
 new_pid=$(cat $pid_file)
 if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
-  echo "$(now_time) 守护脚本文件被删除或pid文件值改变自动退出..."
+  echo "$(now_time) 守护脚本 $0 文件被删除或 $pid_file 文件值改变自动退出..."
   break
 fi
 if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep ]]; then

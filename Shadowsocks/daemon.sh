@@ -17,8 +17,7 @@ echo "$(now_time) 运行PID: $$"
 echo "$(now_time) 失败上限: $max 次"
 echo "$(now_time) 循环间隔: $intervals 秒"
 echo $$ > ${pid_file}
-while true
-do
+while true; do
 new_pid=$(cat $pid_file)
 if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
   echo "$(now_time) 守护脚本文件被删除或pid文件值改变自动退出..."

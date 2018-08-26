@@ -27,7 +27,7 @@ while true; do
 new_pid=$(cat $pid_file)
 if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
   echo "$(now_time) 守护脚本 $0 文件被删除或 $pid_file 文件值改变"
-  echo "$(now_time) $$ 自动退出..."
+  echo "$(now_time) 运行PID: $$ 自动退出..."
   break
 fi
 if [[ -f /system/bin/pgrep || -f /system/xbin/pgrep ]]; then

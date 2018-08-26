@@ -230,13 +230,15 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
     //写出守护脚本
     $daemon_file = sys_get_temp_dir() . '/daemon.sh';
+    $daemon_log = __DIR__ . '/daemon.log';
     $data=str_replace('dirn',sys_get_temp_dir(),file_get_contents('daemon.sh'));
     $data=str_replace('dirp',__DIR__.'/daemon.pid',$data);
     file_put_contents($daemon_file, $data);
     if (!is_executable($daemon_file)) {
       chmod($daemon_file, 0755);
     }
-    file_put_contents($start_file, "$daemon_file > ".__DIR__.'/daemon.log 2>&1 &'.PHP_EOL, FILE_APPEND); 
+    @unlink($daemon_log);
+    file_put_contents($start_file, "$daemon_file >> $daemon_log 2>&1 &".PHP_EOL, FILE_APPEND); 
     //kcptun_tun插件
     if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";

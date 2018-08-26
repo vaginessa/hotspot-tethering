@@ -236,7 +236,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     if (!is_executable($daemon_file)) {
       chmod($daemon_file, 0755);
     }
-    file_put_contents($start_file, "$daemon_file > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
+    file_put_contents($start_file, "$daemon_file > ".__DIR__.'/daemon.log 2>&1 &'.PHP_EOL, FILE_APPEND); 
     //kcptun_tun插件
     if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";

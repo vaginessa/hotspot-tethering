@@ -5,12 +5,12 @@ now_path="dirn"
 pid_file="dirp"
 max=10
 intervals=30
-if [ ! -d $now_path ]; then
-  now_path="${0%/*}"
-fi
 daemon_list=(
   "dnsforwarder"
 )
+if [ ! -d $now_path ]; then
+  now_path="${0%/*}"
+fi
 if [[ $UID -eq 0 ]]; then
   echo "$(now_time) 守护脚本开始运行. .."
   echo "$(now_time) 运行目录路径: $now_path"

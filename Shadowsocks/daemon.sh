@@ -4,7 +4,7 @@ alias now_time="date +'%Y-%m-%d %H:%M:%S'"
 now_path="dirn"
 pid_file="dirp"
 max=10
-intervals=30
+intervals=30s #s/m/h/d
 if [ ! -d $now_path ]; then
   now_path="${0%/*}"
 fi
@@ -17,7 +17,7 @@ if [[ $UID -eq 0 ]]; then
   echo "$(now_time) 运行PID: $$"
   echo "$(now_time) PID写出文件: $pid_file"
   echo "$(now_time) 失败上限: $max 次"
-  echo "$(now_time) 检查间隔: $intervals 秒"
+  echo "$(now_time) 检查间隔: $intervals"
   echo $$ > $pid_file
 else
   echo "$(now_time) 请使用ROOT权限执行脚本！"

@@ -40,8 +40,7 @@ while true; do
           exit
         else        
           last_status=$i
-          ${now_path}/stop.sh 2>/dev/null
-          ${now_path}/start.sh 2>/dev/null        
+          ${now_path}/stop.sh&&${now_path}/start.sh 2>/dev/null        
         fi
         if [ $? -ne 0 ]; then
           echo "$(now_time) 重启脚本失败！"

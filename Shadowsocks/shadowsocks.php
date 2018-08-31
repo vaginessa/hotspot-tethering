@@ -285,7 +285,11 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $iserver=$server; //iptables使用的
     if ($plugin != 'off' && $plugin != 'proxychains') { //不关闭插件也不是代理链
       if ($plugin == 'obfs-local' && $obfs && $obfs_host) {
-         $plugin_opts = "obfs=$obfs;obfs-host=$obfs_host";
+         if ($obfs == 'http') {
+           $plugin_opts = "obfs=$obfs;http-method=GET;obfs-uri=http://$obfs_host/;obfs-host=$obfs_host";
+         } else { 
+           $plugin_opts = "obfs=$obfs;obfs-host=$obfs_host";
+         }
       } else {
          $server='127.0.0.1';
          $server_port=1026;

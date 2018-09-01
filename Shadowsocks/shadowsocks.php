@@ -80,7 +80,7 @@ if (strpos($server, 'ss://') !== false) {
     }
 }
 //shadowsocks配置写出
-function config_json($server, $server_port, $local_port, $password, $method, $acl_file, $plugin, $plugin_opts) {
+function config_json($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts) {
     $config = array(
             'server' => $server,
             'server_port' => (int)$server_port, //使用(int)将字符串转换成数字类型
@@ -91,9 +91,6 @@ function config_json($server, $server_port, $local_port, $password, $method, $ac
             'mode' => 'tcp_and_udp',
             'local_address' => '0.0.0.0'
         );
-    if ($acl_file != '' && $acl_file !='all') { 
-        $config['acl_file'] = __DIR__ . "/$acl_file";   
-    }
     if ($plugin != '' && $plugin_opts != '') {
         $config['plugin'] = sys_get_temp_dir() . "/$plugin";
         $config['plugin_opts'] = $plugin_opts;
@@ -275,10 +272,10 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
   }
     //shadowsocks+插件配置
     if ($udp == 'udp_over_tcp') {
-      $binary = sys_get_temp_dir() . '/ss-local -v -f '.__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-local -v --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
       $local_port = 1025;
     } else {
-      $binary = sys_get_temp_dir() . '/ss-redir -v -f '.__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-redir -v --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
       $local_port = 1024;
     }
     $config = __DIR__ . '/shadowsocks.conf';
@@ -295,7 +292,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
          $server_port=1026;
       }
     }    
-    config_json($server, $server_port, $local_port, $password, $method, $route, $plugin, $plugin_opts);
+    config_json($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts);
    if ($plugin == 'proxychains') { //配置代理链
       file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
       file_put_contents('proxychains.conf', 'strict_chain'.PHP_EOL.'[ProxyList]'.PHP_EOL.$proxychains_type.' '.$proxychains_address.' '.$proxychains_port.' '.$proxychains_username.' '.$proxychains_password.PHP_EOL);

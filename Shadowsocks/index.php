@@ -77,7 +77,7 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
        
        <div class="ui-form-item ui-border-b"> 
         <label>配置名称:</label> 
-        <input type="text" placeholder="" id="name" name="name" autofocus required/> 
+        <input type="text" placeholder="" id="name" name="name" pattern="^[a-zA-Z0-9_\u4e00-\u9fa5]+$" autofocus required/> 
        </div> 
        
        <div class="ui-form-item ui-border-b"> 
@@ -153,12 +153,17 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
             </div> 
            </div> 
           </div> 
-          <!--
         <div class="ui-form-item ui-border-b"> 
         <label>远程DNS:</label> 
         <input type="text" placeholder="8.8.8.8" id="remote_dns" name="remote_dns" autocomplete="on" pattern="[0-9]{1,3}(\.[0-9]{1,3}){3}" required/> 
        </div> 
-          -->
+       <div class="ui-form-item ui-form-item-switch ui-border-b"> 
+           <p>DNS 转发</p>
+           <div style="padding-left: 5%;font-size: smaller;">
+           <p class="ui-txt-muted">转发所有 DNS 请求到远程服务器(无缓存UDP转发)</p> 
+           </div>
+           <label class="ui-switch"><input type="checkbox" id="remote_dns_forward" name="remote_dns_forward" /></label> 
+          </div> 
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>TCP Fast Open</p>
            <div style="padding-left: 25%;font-size: smaller;">
@@ -600,11 +605,19 @@ if ("<?php echo $my_ini['method']; ?>" != "") {
 if ("<?php echo $my_ini['route']; ?>" != "") { 
   $("#route").val("<?php echo $my_ini['route']; ?>");
 }  
+if ("<?php echo $my_ini['remote_dns']; ?>" != "") { 
+  $("#remote_dns").val("<?php echo $my_ini['remote_dns']; ?>");
+}  else {
+  $("#remote_dns").val("1.1.1.1");
+}
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
 }
 if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
   $('#wifi').prop('checked', true); 
+}
+if ("<?php echo $my_ini['remote_dns_forward']; ?>" == 1) { 
+  $('#remote_dns_forward').prop('checked', true); 
 }
 if ("<?php echo $my_ini['icmp']; ?>" == 1) { 
   $('#icmp').prop('checked', true); 

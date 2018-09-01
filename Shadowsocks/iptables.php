@@ -41,8 +41,6 @@ $nat = array(
     'iptables -t nat -A out_lan -j out_forward',
     //流量重定向
     'iptables -t nat -A out_forward -p tcp -j REDIRECT --to-ports 1024',
-    //'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053',
-    'iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053',
     'iptables -t nat -A OUTPUT -j out_lan',
     //路由前的流量
     'iptables -t nat -A pre_forward -j user_portal',
@@ -138,7 +136,7 @@ function file_chmod($tmp_file) {
   }
 }
 
-function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
+function iptables_start($mangle, $nat, $filter, $server, $remote_dns, $wifi, $icmp, $udp) {
     //写出执行脚本
     $tmp_file=sys_get_temp_dir().'/iptables_add.sh';
     @unlink($tmp_file);
@@ -170,6 +168,11 @@ function iptables_start($mangle, $nat, $filter, $server, $wifi, $icmp, $udp) {
            }
            $natr[]="iptables -t nat -A out_lan -m owner --uid-owner 0 -d $server -j ACCEPT";           
         }
+    }    
+    if (isset($remote_dns)) {
+      $natr[]="iptables -t nat -A out_forward -p udp --dport 53 -j DNAT --to-destination $remote_dns";
+    } else {
+      $natr[]='iptables -t nat -A out_forward -p udp --dport 53 -j REDIRECT --to-ports 1053';
     }
     //写入nat表
     foreach ($natr as $val) { 

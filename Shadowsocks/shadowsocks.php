@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $password = test_input($_GET['password']);
     $method = test_input($_GET['method']);
     $route = test_input($_GET['route']);
+    $remote_dns = test_input($_GET['remote_dns']);
+    $remote_dns_forward = test_input($_GET['remote_dns_forward']);
     $tcp_fast_open = test_input($_GET['tcp_fast_open']);
     $wifi = test_input($_GET['wifi']);
     $icmp = test_input($_GET['icmp']);
@@ -144,7 +146,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $server=jx_server($server);
     $gost_server=jx_server($gost_server);
     //写出记录配置
-    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
+    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "remote_dns=$remote_dns" . PHP_EOL . "remote_dns_forward=$remote_dns_forward" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
   file_put_contents('config.ini', $data);
   if ($udp == 'udp_over_tcp') { 
     //redsocks配置运行
@@ -196,6 +198,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
     */
     //dnsforwarder配置
+   if ($remote_dns_forward != 'on') {      
     $binary = sys_get_temp_dir() . '/dnsforwarder';
     $config = __DIR__ . '/dnsforwarder.config';
     $r_c=file_get_contents($config);
@@ -203,7 +206,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
       foreach (explode(PHP_EOL,$r_c) as $key) {
           $val = explode(' ', $key);
            if($val[0]=='TCPGroup') {
-             $val[1]=$val[1].' * no';
+             $val[1]=$remote_dns.' * no';
            }
            if($val[0]=='GroupFile') {
              $val[1]=__DIR__.'/china.txt';
@@ -225,7 +228,10 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
        }
     }
     file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
+    unset($remote_dns);
+  }
     //写出守护脚本
+  if ($remote_dns_forward != 'on') {      
     $daemon_file = sys_get_temp_dir() . '/daemon.sh';
     $daemon_log = __DIR__ . '/daemon.log';
     $data=str_replace('dirn',sys_get_temp_dir(),file_get_contents('daemon.sh'));
@@ -236,6 +242,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     }
     @unlink($daemon_log);
     file_put_contents($start_file, "$daemon_file >> $daemon_log 2>&1 &".PHP_EOL, FILE_APPEND); 
+  }
     //kcptun_tun插件
     if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";
@@ -303,7 +310,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     //执行开启模块
     file_chmod($start_file);
     //执行开启iptables
-    $tp=iptables_start($mangle, $nat, $filter, $iserver, $wifi, $icmp, $udp);
+    $tp=iptables_start($mangle, $nat, $filter, $iserver, $remote_dns, $wifi, $icmp, $udp);
     if ($tp===true) {
       echo "[TPROXY]：√ <br />";
     }
@@ -313,7 +320,7 @@ $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值
 echo "[页面执行时间]：{$total} 秒<br />";
 echo <<< EOF
-<a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>
+<a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>&nbsp&nbsp&nbsp<a href="logcat.php">查看Shadowsocks日志</a>&nbsp&nbsp&nbsp<a href="statistic.html">查看dnsforwarder日志</a>
 </body>
 </html>
 EOF;

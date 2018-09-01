@@ -15,6 +15,10 @@ if (binary_status(array('ss-local','ss-redir'))) {
 if (file_exists('config.ini')) { 
   $my_ini = parse_ini_file('config.ini');
 }
+
+//shadowsocks版本号
+preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir -h'), $ver);
+
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +57,7 @@ if (file_exists('config.ini')) {
 
 <div class="ui-tab">
                 <ul style="box-shadow: 7px 7px 3px #888888;" class="ui-tab-nav ui-border-b">
-                  <li class="current"><span>Shadowsocks</span></li>
+                  <li class="current"><span>Shadowsocks <?php echo $ver[0][0]; ?> </span></li>
                   <li><span>自定义规则</span></li>
                   <li><span id="shared">二维码分享</span></li>
                 </ul>

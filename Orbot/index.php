@@ -50,7 +50,7 @@ if (isset($receive) and $receive == 'start') {
     if ($return_val != 0) {
         die("{\"a\": \"tor启动失败！返回值: $return_val\",\"b\": 1}");
     } else {
-        $yx = 'iptables -t nat -F proxy_forward' . PHP_EOL . 'iptables -t nat -A proxy_forward -p tcp -j REDIRECT --to-ports 9040' . PHP_EOL . 'iptables -t nat -R out_forward 2 -p udp --dport 53 -j REDIRECT --to-ports 5400' . PHP_EOL;
+        $yx = 'iptables -t nat -F proxy_forward' . PHP_EOL . 'iptables -t nat -A proxy_forward -p tcp -j REDIRECT --to-ports 9040' . PHP_EOL . 'iptables -t nat -A proxy_forward -p udp --dport 53 -j REDIRECT --to-ports 5400' . PHP_EOL;
         zx_input($yxfile, $yx, 'tor启动');
     }
 }
@@ -65,7 +65,7 @@ if (isset($receive) and $receive == 'stop') {
     if ($return_val != 0) {
         die("{\"a\": \"tor停止失败！返回值:  $return_val\",\"b\": 1}");
     } else {
-        $yx = 'iptables -t nat -F proxy_forward' . PHP_EOL . 'iptables -t nat -R out_forward 2 -p udp --dport 53 -j REDIRECT --to-ports 1053' . PHP_EOL;
+        $yx = 'iptables -t nat -F proxy_forward' . PHP_EOL;
         zx_input($yxfile, $yx, 'tor停止');
     }
 }

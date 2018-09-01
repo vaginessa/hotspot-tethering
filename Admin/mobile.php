@@ -70,7 +70,7 @@ if ($url) {
     "iptables -vxn -t nat -L user_portal --line-number",
     "iptables -vxn -t nat -L out_lan --line-number",
     "iptables -vxn -t nat -L proxy_forward --line-number",
-    "iptables -vxn -t nat -L koolproxy_forward --line-number",
+    "iptables -vxn -t nat -L adblock_forward --line-number",
     "iptables -vxn -t nat -L out_forward --line-number",
     "iptables -vxn -t filter -L user_block --line-number",
     "iptables -vxn -t mangle -L redsocks_pre --line-number",

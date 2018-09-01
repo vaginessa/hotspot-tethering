@@ -31,12 +31,12 @@ $nat = array(
     'iptables -t nat -N user_portal',
     'iptables -t nat -N out_lan',
     'iptables -t nat -N out_forward',
-    'iptables -t nat -N koolproxy_forward',
+    'iptables -t nat -N adblock_forward',
     'iptables -t nat -N proxy_forward',
     //本机发出同意
     'iptables -t nat -A out_lan -d 127/8 -j ACCEPT',
     'iptables -t nat -A out_lan -m owner --uid-owner 3004 -j ACCEPT',
-    'iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner 0 -j koolproxy_forward',
+    'iptables -t nat -A out_lan -p tcp -m owner ! --uid-owner 0 -j adblock_forward',
     'iptables -t nat -A out_lan -m owner ! --uid-owner '.(int)posix_getuid().' -j proxy_forward',
     'iptables -t nat -A out_lan -j out_forward',
     //流量重定向
@@ -46,7 +46,7 @@ $nat = array(
     'iptables -t nat -A OUTPUT -j out_lan',
     //路由前的流量
     'iptables -t nat -A pre_forward -j user_portal',
-    'iptables -t nat -A pre_forward -j koolproxy_forward',
+    'iptables -t nat -A pre_forward -j adblock_forward',
     'iptables -t nat -A pre_forward -j proxy_forward',
     'iptables -t nat -A pre_forward -j out_forward',
     'iptables -t nat -A PREROUTING -s 192.168/16 -j pre_forward'
@@ -78,13 +78,13 @@ $stop_iptables = array(
     'iptables -t nat -F pre_forward',
     'iptables -t nat -F user_portal',
     'iptables -t nat -F out_lan',
-    'iptables -t nat -F koolproxy_forward',
+    'iptables -t nat -F adblock_forward',
     'iptables -t nat -F proxy_forward',
     'iptables -t nat -F out_forward',
     'iptables -t nat -X pre_forward',
     'iptables -t nat -X user_portal',
     'iptables -t nat -X out_lan',
-    'iptables -t nat -X koolproxy_forward',
+    'iptables -t nat -X adblock_forward',
     'iptables -t nat -X proxy_forward',
     'iptables -t nat -X out_forward',
     'iptables -t filter -F user_block',
@@ -98,8 +98,8 @@ $status_iptables = array(
     'iptables -vxn -t nat -L user_portal --line-number',
     //echo -e 'nat表out_lan链:'
     'iptables -vxn -t nat -L out_lan --line-number',
-    //echo -e 'nat表koolproxy_forward链:'
-    'iptables -vxn -t nat -L koolproxy_forward --line-number',
+    //echo -e 'nat表adblock_forward链:'
+    'iptables -vxn -t nat -L adblock_forward --line-number',
     //echo -e 'nat表proxy_forward链:'
     'iptables -vxn -t nat -L proxy_forward --line-number',
     //echo -e 'nat表out_forward链:'

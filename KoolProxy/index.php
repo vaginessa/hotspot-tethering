@@ -47,7 +47,7 @@ function zx_input($yxfile, $yx) {
     shell_exec("su -c $yxfile");
 }
 $yxfile = sys_get_temp_dir() . '/koolproxy.sh';
-$jsyx = "$pkill koolproxy" . PHP_EOL . 'iptables -t nat -F koolproxy_forward';
+$jsyx = "$pkill koolproxy" . PHP_EOL . 'iptables -t nat -F adblock_forward';
 if (binary_status("koolproxy")) {
     $status = true;
 } else {
@@ -58,7 +58,7 @@ if (isset($guolv)) {
         if ($guolv == 'video') {
             $e = '-e';
         }
-        $yx = $jsyx . PHP_EOL . $binary_file . ' -p 1029 -b ' . __DIR__ . " $e -d" . PHP_EOL . "iptables -t nat -A koolproxy_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
+        $yx = $jsyx . PHP_EOL . $binary_file . ' -p 1029 -b ' . __DIR__ . " $e -d" . PHP_EOL . "iptables -t nat -A adblock_forward -p tcp -m multiport --dports $run_ipt -j REDIRECT --to-ports 1029";
         zx_input($yxfile, $yx);
     }
     if (empty($koolproxy) and $guolv) {

@@ -1,4 +1,7 @@
-<?php
+<?php 
+session_start();
+$_SESSION['token'] = md5(microtime(true));
+session_write_close();
 require '../Admin/main.class.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $acl = $_POST['acl'];
@@ -160,7 +163,7 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
        <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>DNS 转发</p>
            <div style="padding-left: 5%;font-size: smaller;">
-           <p class="ui-txt-muted">转发所有 DNS 请求到远程服务器(无缓存UDP转发)</p> 
+           <p class="ui-txt-muted">转发所有 dns 请求到远程服务器(无缓存udp转发)</p> 
            </div>
            <label class="ui-switch"><input type="checkbox" id="remote_dns_forward" name="remote_dns_forward" /></label> 
           </div> 
@@ -470,6 +473,7 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
           
   <!-- 插件类结尾 -->
 
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">
         <div class="ui-btn-wrap"> 
          <button class="ui-btn-lg ui-btn-primary"> 提交 </button> 
         </div>         

@@ -1,6 +1,9 @@
 <?php 
 session_start();
 $stime = microtime(true);
+$return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
+unset($_SESSION['token']);
+session_write_close();
 echo <<< EOF
 <!DOCTYPE html>
 <html>
@@ -11,6 +14,7 @@ echo <<< EOF
 </head>
 <body>
 EOF;
+if(!$return)die('请勿重复提交表单');
 require 'iptables.php';
 require '../Admin/main.class.php';
 

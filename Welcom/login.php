@@ -3,12 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<?php
+<?php 
+session_start();
+$_SESSION['token'] = md5(microtime(true));
 require 'user.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
   $user_mac = get_mac($user_ip);
   $login = $_GET['login'];
+}
+if (isset($login)) {
+  $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
+  unset($_SESSION['token']);
+  if(!$return) { 
+    die('请勿重复提交表单！');
+  }
 }
 if (empty($user_ip) or empty($user_mac)) {
   die('获取用户信息失败！');
@@ -106,7 +115,7 @@ img{display:block;border:none;width: 100%;}
         <p>电话：<a href="tel:+86123456789">+86 123456789</a></p>
     </div>
     <div class="btn-bar">
-		<a href="?login=success" class="btn" >
+		<a href="?login=success&token=<?php echo $_SESSION['token']?>" class="btn" >
 			点击上网
 		</a>
     </div>

@@ -285,10 +285,10 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
   }
     //shadowsocks+插件配置
     if ($udp == 'udp_over_tcp') {
-      $binary = sys_get_temp_dir() . '/ss-local -v --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-local --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
       $local_port = 1025;
     } else {
-      $binary = sys_get_temp_dir() . '/ss-redir -v --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-redir --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
       $local_port = 1024;
     }
     $config = __DIR__ . '/shadowsocks.conf';
@@ -326,7 +326,7 @@ $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值
 echo "[页面执行时间]：{$total} 秒<br />";
 echo <<< EOF
-<a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>&nbsp&nbsp&nbsp<a href="logcat.php">查看Shadowsocks日志</a>&nbsp&nbsp&nbsp<a href="statistic.html">查看dnsforwarder日志</a>
+<a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>
 </body>
 </html>
 EOF;

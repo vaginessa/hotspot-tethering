@@ -60,5 +60,5 @@ while true; do
     echo "$(now_time)  查询指令失败！"
     break
   fi
-sleep $intervals
+  sleep $intervals
 done

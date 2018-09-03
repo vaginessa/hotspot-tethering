@@ -285,6 +285,27 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
+              <label>Obfuscation method:</label> 
+              <div class="ui-select-group"> 
+               <div class="ui-select"> 
+                <select name="obfs_http_method" id="obfs_http_method" class="ui-txt-feeds" /> 
+                <option value="GET" selected="">GET</option> 
+                <option value="POST">POST</option>
+                <option value="CONNECT">CONNECT</option>
+                <option value="HEAD">HEAD</option>
+                <option value="OPTIONS">OPTIONS</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="TRACE">TRACE</option>
+                </select> 
+               </div> 
+              </div> 
+             </div> 
+             <div class="ui-form-item ui-border-b"> 
+              <label>Obfuscation url:</label> 
+              <input type="text" placeholder="http://wap.10010.com/" id="obfs_url" name="obfs_url" /> 
+             </div> 
+             <div class="ui-form-item ui-border-b"> 
               <label>Obfuscation hostname:</label> 
               <input type="text" placeholder="wap.10010.com" id="obfs_host" name="obfs_host" /> 
              </div> 
@@ -611,8 +632,6 @@ if ("<?php echo $my_ini['route']; ?>" != "") {
 }  
 if ("<?php echo $my_ini['remote_dns']; ?>" != "") { 
   $("#remote_dns").val("<?php echo $my_ini['remote_dns']; ?>");
-}  else {
-  $("#remote_dns").val("1.1.1.1");
 }
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
@@ -644,6 +663,10 @@ if ("<?php echo $my_ini['plugin']; ?>" != "") {
 if ("<?php echo $my_ini['obfs']; ?>" != "") { 
   $("#obfs").val("<?php echo $my_ini['obfs']; ?>");
 }
+if ("<?php echo $my_ini['obfs_http_method']; ?>" != "") { 
+  $("#obfs_http_method").val("<?php echo $my_ini['obfs_http_method']; ?>");
+}
+  $("#obfs_url").val("<?php echo $my_ini['obfs_url']; ?>");
   $("#obfs_host").val("<?php echo $my_ini['obfs_host']; ?>");
   $("#remotePort").val("<?php echo $my_ini['remotePort']; ?>");
   $("#remoteHost").val("<?php echo $my_ini['remoteHost']; ?>");

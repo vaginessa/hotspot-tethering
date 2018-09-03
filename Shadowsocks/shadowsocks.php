@@ -50,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $gost_password = test_input($_GET['gost_password']);
     $plugin = test_input($_GET['plugin']);
     $obfs = test_input($_GET['obfs']);
+    $obfs_http_method = test_input($_GET['obfs_http_method']);
+    $obfs_url = test_input($_GET['obfs_url']);
     $obfs_host = test_input($_GET['obfs_host']);
     $remotePort = test_input($_GET['remotePort']);
     $remoteHost = test_input($_GET['remoteHost']);
@@ -150,7 +152,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     $server=jx_server($server);
     $gost_server=jx_server($gost_server);
     //写出记录配置
-    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "remote_dns=$remote_dns" . PHP_EOL . "remote_dns_forward=$remote_dns_forward" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
+    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "remote_dns=$remote_dns" . PHP_EOL . "remote_dns_forward=$remote_dns_forward" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_http_method=$obfs_http_method" . PHP_EOL . "obfs_url=$obfs_url" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
   file_put_contents('config.ini', $data);
   if ($udp == 'udp_over_tcp') { 
     //redsocks配置运行
@@ -294,7 +296,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     if ($plugin != 'off' && $plugin != 'proxychains') { //不关闭插件也不是代理链
       if ($plugin == 'obfs-local' && $obfs && $obfs_host) {
          if ($obfs == 'http') {
-           $plugin_opts = "obfs=$obfs;http-method=GET;obfs-uri=http://$obfs_host/;obfs-host=$obfs_host";
+           $plugin_opts = "obfs=$obfs;http-method=$obfs_http_method;obfs-uri=$obfs_url;obfs-host=$obfs_host";
          } else { 
            $plugin_opts = "obfs=$obfs;obfs-host=$obfs_host";
          }

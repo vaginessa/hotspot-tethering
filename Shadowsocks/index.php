@@ -285,7 +285,7 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
               </div> 
              </div> 
              <div class="ui-form-item ui-border-b"> 
-              <label>Obfuscation method:</label> 
+              <label>Obfuscation method</label> 
               <div class="ui-select-group"> 
                <div class="ui-select"> 
                 <select name="obfs_http_method" id="obfs_http_method" class="ui-txt-feeds" /> 

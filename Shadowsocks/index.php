@@ -295,6 +295,11 @@ preg_match_all('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir
                 <option value="HEAD">HEAD</option>
                 <option value="OPTIONS">OPTIONS</option>
                 <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="COPY">COPY</option>
+                <option value="LINK">LINK</option>
+                <option value="UNLINK">UNLINK</option>
+                <option value="PURGE">PURGE</option>
                 <option value="DELETE">DELETE</option>
                 <option value="TRACE">TRACE</option>
                 </select> 

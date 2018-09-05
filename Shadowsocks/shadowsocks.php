@@ -283,12 +283,17 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents($config, $obj);
     file_put_contents($start_file, "$binary -s $remoteHost -p $remotePort -l 1026 -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
   }
+  if ($route != 'all') {
+    $route='--acl '.__DIR__."/$route";
+  } else {
+    unset($route);
+  }
     //shadowsocks+插件配置
     if ($udp == 'udp_over_tcp') {
-      $binary = sys_get_temp_dir() . '/ss-local --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-local '.$route.' -f '.__DIR__ . '/ss-deamon.pid';
       $local_port = 1025;
     } else {
-      $binary = sys_get_temp_dir() . '/ss-redir --acl '.__DIR__."/$route -f ".__DIR__ . '/ss-deamon.pid';
+      $binary = sys_get_temp_dir() . '/ss-redir '.$route.' -f '.__DIR__ . '/ss-deamon.pid';
       $local_port = 1024;
     }
     $config = __DIR__ . '/shadowsocks.conf';

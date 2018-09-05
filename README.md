@@ -14,10 +14,8 @@
 - 配置好https
 
 ### 未来开发目标计划  
-- [x] ~~实时显示流量情况~~  
-- [x] ~~手机系统、温度、电量、信号等显示~~  
-
-开发进入尾声了，未来主要修复bug和优化维护
+- [ ] 分应用代理破解台湾版权认证 (动画疯 bilibili台湾番)
+- [ ] 增加一个杂项设置，tcp优化、shadowsocks dnsforwarder日志显示。 
 
 以lighttpd为例:  
 为了节省时间我已经用Termux制作好了一个https证书(`lighttpd.pem`)

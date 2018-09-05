@@ -14,6 +14,7 @@
 - 配置好https
 
 ### 未来开发目标计划  
+- [ ] 优化 main.class.php 删除一些函数，添加对比执行文件以及时同步。
 - [ ] 分应用代理破解台湾版权认证 (动画疯 bilibili台湾番)
 - [ ] 增加一个杂项设置，tcp优化、shadowsocks dnsforwarder日志显示。 
 

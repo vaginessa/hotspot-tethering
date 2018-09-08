@@ -21,7 +21,7 @@ if [[ $(id -u) -eq 0 ]]; then
   echo $$ > $pid_file
 else
   echo "$(now_time)  请使用ROOT权限执行脚本！"
-  exit
+  exit 1
 fi
 while true; do
   new_pid=$(cat $pid_file)
@@ -37,7 +37,7 @@ while true; do
         echo "$(now_time)  $i 没有运行,开始重启运行脚本..."
         if [[ "$i" == "$last_status" && ${#daemon_list[@]} -gt 1 ]]; then
           echo "$(now_time)  再次重启脚本 $i 也没有运行成功，强制退出！"
-          exit
+          kill $$
         else        
           last_status=$i
           ${now_path}/stop.sh 2>/dev/null
@@ -46,9 +46,9 @@ while true; do
         if [ $? -ne 0 ]; then
           echo "$(now_time)  重启脚本失败！"
           ((max--))
-          if [ $max -lt 0 ]; then
+          if [ $max -le 0 ]; then
             echo "$(now_time)  达到失败上限，强制退出！"
-            exit
+            kill $$
           fi
         else
           echo "$(now_time)  重启脚本完成。"

@@ -37,7 +37,7 @@ while true; do
         echo "$(now_time)  $i 没有运行,开始重启运行脚本..."
         if [[ "$i" == "$last_status" && ${#daemon_list[@]} -gt 1 ]]; then
           echo "$(now_time)  再次重启脚本 $i 也没有运行成功，强制退出！"
-          kill $$
+          exit 1
         else        
           last_status=$i
           ${now_path}/stop.sh 2>/dev/null
@@ -48,7 +48,7 @@ while true; do
           ((max--))
           if [ $max -le 0 ]; then
             echo "$(now_time)  达到失败上限，强制退出！"
-            kill $$
+            exit 1
           fi
         else
           echo "$(now_time)  重启脚本完成。"

@@ -18,6 +18,8 @@
 - [ ] 分应用代理破解版权认证 (动画疯)
 - [ ] 增加日志显示 shadowsocks dnsforwarder日志显示。 
 
+已经有测试机不再闭门造车了，即将修复热点联网问题。可能会删除掉 wifi放行选项、欢迎页功能
+
 以lighttpd为例:  
 为了节省时间我已经用Termux制作好了一个https证书(`lighttpd.pem`)
 只需要在lighttpd.conf写入如下配置，即可

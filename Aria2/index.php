@@ -26,7 +26,6 @@ foreach ($mk as $val) {
 $receive = htmlspecialchars($_POST['receive']);
 $binary = sys_get_temp_dir() . '/aria2c';
 $dir = dirname(__FILE__);
-$pkill = toolbox_check() [1] . ' pkill aria2c';
 $run = $binary . ' --conf-path=' . $dir . '/aria2.conf --dir=' . $dir . '/Download --log=' . $dir . '/aria2.log --input-file=' . $dir . '/aria2.session --save-session=' . $dir . '/aria2.session --save-cookies=' . $dir . '/Cookie --load-cookies=' . $dir . '/Cookie --dht-file-path=' . $dir . '/dht.dat';
 if (!is_executable($binary) and file_exists('aria2c')) {
     copy('aria2c', $binary);
@@ -41,7 +40,7 @@ if ($receive == 'start') {
     }
 }
 if ($receive == 'stop') {
-    exec($pkill, $output, $return_val);
+    exec('pkill aria2c', $output, $return_val);
     if ($return_val == 0) {
         die("{\"a\": \"aria2停止运行成功\",\"b\": 0}");
     } else {

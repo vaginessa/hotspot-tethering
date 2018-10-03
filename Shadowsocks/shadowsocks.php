@@ -15,69 +15,75 @@ echo <<< EOF
 <body>
 EOF;
 if(!$return)die('请勿重复提交表单');
-require 'iptables.php';
 require '../Admin/main.class.php';
-
-//命令查找
-$pkill = toolbox_check() [1] . ' pkill';
+$binary = array(
+    'gost',
+    'redsocks',
+    'GoQuiet',
+    'kcptun',
+    'obfs-local',
+    'ss-redir',
+    'ss-local',
+    'dnsforwarder',
+    'libproxychains4.so',
+    'iptables.sh'
+);
 //移动模块文件
-if (is_array($status_binary) || is_object($status_binary)) {
-    foreach ($status_binary as $val) {
-        $binary_file = sys_get_temp_dir() . "/$val";
-        if (!is_executable($binary_file) && file_exists($val)) {
-            copy($val, $binary_file);
-            chmod($binary_file, 0755);
-        }
+foreach ($binary as $val) {
+  $binary_file = sys_get_temp_dir() . "/$val";
+    if (!is_executable($binary_file) && file_exists($val)) {
+      copy($val, $binary_file);
+      chmod($binary_file, 0755);
     }
 }
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $shadowsocks = test_input($_GET['shadowsocks']);
-    $name = test_input($_GET['name']);
-    $server = test_input($_GET['server']);
-    $server_port = test_input($_GET['server_port']);
-    $password = test_input($_GET['password']);
-    $method = test_input($_GET['method']);
-    $route = test_input($_GET['route']);
-    $remote_dns = test_input($_GET['remote_dns']);
-    $remote_dns_forward = test_input($_GET['remote_dns_forward']);
-    $tcp_fast_open = test_input($_GET['tcp_fast_open']);
-    $wifi = test_input($_GET['wifi']);
-    $icmp = test_input($_GET['icmp']);
-    $udp = test_input($_GET['udp']);
-    $gost_server = test_input($_GET['gost_server']);
-    $gost_server_port = test_input($_GET['gost_server_port']);
-    $gost_username = test_input($_GET['gost_username']);
-    $gost_password = test_input($_GET['gost_password']);
-    $plugin = test_input($_GET['plugin']);
-    $obfs = test_input($_GET['obfs']);
-    $obfs_http_method = test_input($_GET['obfs_http_method']);
-    $obfs_url = test_input($_GET['obfs_url']);
-    $obfs_host = test_input($_GET['obfs_host']);
-    $remotePort = test_input($_GET['remotePort']);
-    $remoteHost = test_input($_GET['remoteHost']);
-    $ServerName = test_input($_GET['ServerName']);
-    $Key = test_input($_GET['Key']);
-    $TicketTimeHint = test_input($_GET['TicketTimeHint']);
-    $Browser = test_input($_GET['Browser']);
-    $kcptun_remoteaddr = test_input($_GET['kcptun_remoteaddr']);
-    $kcptun_key = test_input($_GET['kcptun_key']);
-    $kcptun_crypt = test_input($_GET['kcptun_crypt']);
-    $kcptun_mode = test_input($_GET['kcptun_mode']);
-    $kcptun_conn = test_input($_GET['kcptun_conn']);
-    $kcptun_autoexpire = test_input($_GET['kcptun_autoexpire']);
-    $kcptun_scavengettl = test_input($_GET['kcptun_scavengettl']);
-    $kcptun_mtu = test_input($_GET['kcptun_mtu']);
-    $kcptun_sndwnd = test_input($_GET['kcptun_sndwnd']);
-    $kcptun_rcvwnd = test_input($_GET['kcptun_rcvwnd']);
-    $kcptun_datashard = test_input($_GET['kcptun_datashard']);
-    $kcptun_parityshard = test_input($_GET['kcptun_parityshard']);
-    $kcptun_dscp = test_input($_GET['kcptun_dscp']);   
-    $kcptun_nocomp = test_input($_GET['kcptun_nocomp']);   
-    $proxychains_type = test_input($_GET['proxychains_type']);
-    $proxychains_address = test_input($_GET['proxychains_address']);
-    $proxychains_port = test_input($_GET['proxychains_port']);
-    $proxychains_username = test_input($_GET['proxychains_username']);
-    $proxychains_password = test_input($_GET['proxychains_password']);
+    $shadowsocks = $_GET['shadowsocks'];
+    $server_uid = (int)posix_getuid();
+    $name = $_GET['name'];
+    $server = $_GET['server'];
+    $server_port = $_GET['server_port'];
+    $password = $_GET['password'];
+    $method = $_GET['method'];
+    $route = $_GET['route'];
+    $remote_dns = $_GET['remote_dns'];
+    $remote_dns_forward = $_GET['remote_dns_forward'];
+    $tcp_fast_open = $_GET['tcp_fast_open'];
+    $icmp = $_GET['icmp'];
+    $udp = $_GET['udp'];
+    $gost_server = $_GET['gost_server'];
+    $gost_server_port = $_GET['gost_server_port'];
+    $gost_username = $_GET['gost_username'];
+    $gost_password = $_GET['gost_password'];
+    $plugin = $_GET['plugin'];
+    $obfs = $_GET['obfs'];
+    $obfs_http_method = $_GET['obfs_http_method'];
+    $obfs_url = $_GET['obfs_url'];
+    $obfs_host = $_GET['obfs_host'];
+    $remotePort = $_GET['remotePort'];
+    $remoteHost = $_GET['remoteHost'];
+    $ServerName = $_GET['ServerName'];
+    $Key = $_GET['Key'];
+    $TicketTimeHint = $_GET['TicketTimeHint'];
+    $Browser = $_GET['Browser'];
+    $kcptun_remoteaddr = $_GET['kcptun_remoteaddr'];
+    $kcptun_key = $_GET['kcptun_key'];
+    $kcptun_crypt = $_GET['kcptun_crypt'];
+    $kcptun_mode = $_GET['kcptun_mode'];
+    $kcptun_conn = $_GET['kcptun_conn'];
+    $kcptun_autoexpire = $_GET['kcptun_autoexpire'];
+    $kcptun_scavengettl = $_GET['kcptun_scavengettl'];
+    $kcptun_mtu = $_GET['kcptun_mtu'];
+    $kcptun_sndwnd = $_GET['kcptun_sndwnd'];
+    $kcptun_rcvwnd = $_GET['kcptun_rcvwnd'];
+    $kcptun_datashard = $_GET['kcptun_datashard'];
+    $kcptun_parityshard = $_GET['kcptun_parityshard'];
+    $kcptun_dscp = $_GET['kcptun_dscp'];   
+    $kcptun_nocomp = $_GET['kcptun_nocomp'];   
+    $proxychains_type = $_GET['proxychains_type'];
+    $proxychains_address = $_GET['proxychains_address'];
+    $proxychains_port = $_GET['proxychains_port'];
+    $proxychains_username = $_GET['proxychains_username'];
+    $proxychains_password = $_GET['proxychains_password'];
 }
 //服务器是否ss://链接然后解析
 if (strpos($server, 'ss://') !== false) {
@@ -88,7 +94,7 @@ if (strpos($server, 'ss://') !== false) {
     }
 }
 //shadowsocks配置写出
-function config_json($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts) {
+function ss_config($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts) {
     $config = array(
             'server' => $server,
             'server_port' => (int)$server_port, //使用(int)将字符串转换成数字类型
@@ -107,53 +113,31 @@ function config_json($server, $server_port, $local_port, $password, $method, $pl
     file_put_contents('shadowsocks.conf', $arr);
 }
 
-$fs=@file_get_contents('/proc/sys/net/ipv4/tcp_fastopen');
-if ($tcp_fast_open=='on'&&$fs<=0) {
-  shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=3');
-  echo "[TCP Fast Open]：√ <br />";
-} elseif ($tcp_fast_open!='on'&&$fs>0) {
-  shell_exec('su -c sysctl -w net.ipv4.tcp_fastopen=0');
-  echo "[TCP Fast Open]：× <br />";
-}
-
 //关闭shadowsocks
-if (empty($_REQUEST['shadowsocks']) && $server && $server_port && $password && $method) {
+if (empty($_REQUEST['shadowsocks'])) {
     //创建停止运行脚本
     $stop_file = sys_get_temp_dir() . '/stop.sh';
     @unlink($stop_file);
-    foreach ($status_binary as $val) {
-        file_put_contents($stop_file, "$pkill $val" . PHP_EOL, FILE_APPEND);
+    foreach ($binary as $val) {
+        file_put_contents($stop_file, "pkill $val" . PHP_EOL, FILE_APPEND);
     }
     file_put_contents($stop_file, 'kill '.file_get_contents('daemon.pid').PHP_EOL, FILE_APPEND);
-    @unlink(sys_get_temp_dir().'/daemon.sh');
     //执行关闭模块
-    file_chmod($stop_file);
+    chmod($stop_file, 0700);
+    system('su -c '.$stop_file);
+    @unlink(sys_get_temp_dir().'/daemon.sh');
     //执行关闭iptables规则
-    iptables_stop($stop_iptables);
-    echo "关闭Shadowsocks<br />";
+    system('su -c '.sys_get_temp_dir().'/iptables.sh stop');
 }
 //启动shadowsocks
-if ($shadowsocks == 'on' and $server and $server_port and $password and $method) {
+if ($shadowsocks == 'on') {
+    echo "开启Shadowsocks<br />";
     //创建开始运行脚本
     $start_file = sys_get_temp_dir() . '/start.sh';
     @unlink($start_file);
-    //服务器是否为域名网址地址？
-    function jx_server($server) {
-        if (preg_match('/[a-z]+/i', $server) > 0) {
-            $server2 = gethostbyname($server);
-            if ($server == $server2) {
-                die('域名解析失败!');
-            } else {
-                $server = $server2;
-            }
-        }
-        return $server;
-    }
-    $server=jx_server($server);
-    $gost_server=jx_server($gost_server);
-    //写出记录配置
-    $data = "shadowsocks=$shadowsocks" . PHP_EOL . "name=$name" . PHP_EOL . "server=$server" . PHP_EOL . "server_port=$server_port" . PHP_EOL . "password=$password" . PHP_EOL . "method=$method" . PHP_EOL . "route=$route" . PHP_EOL . "remote_dns=$remote_dns" . PHP_EOL . "remote_dns_forward=$remote_dns_forward" . PHP_EOL . "wifi=$wifi" . PHP_EOL . "icmp=$icmp" . PHP_EOL . "udp=$udp" . PHP_EOL . "gost_server=$gost_server" . PHP_EOL . "gost_server_port=$gost_server_port" . PHP_EOL . "gost_username=$gost_username" . PHP_EOL . "gost_password=$gost_password" . PHP_EOL . "plugin=$plugin" . PHP_EOL . "obfs=$obfs" . PHP_EOL . "obfs_http_method=$obfs_http_method" . PHP_EOL . "obfs_url=$obfs_url" . PHP_EOL . "obfs_host=$obfs_host" . PHP_EOL . "remotePort=$remotePort" . PHP_EOL . "remoteHost=$remoteHost" . PHP_EOL . "ServerName=$ServerName" . PHP_EOL . "Key=$Key" . PHP_EOL . "TicketTimeHint=$TicketTimeHint" . PHP_EOL . "Browser=$Browser" . PHP_EOL . "kcptun_remoteaddr=$kcptun_remoteaddr" . PHP_EOL . "kcptun_key=$kcptun_key" . PHP_EOL . "kcptun_crypt=$kcptun_crypt" . PHP_EOL . "kcptun_mode=$kcptun_mode" . PHP_EOL . "kcptun_conn=$kcptun_conn" . PHP_EOL . "kcptun_autoexpire=$kcptun_autoexpire" . PHP_EOL . "kcptun_scavengettl=$kcptun_scavengettl" . PHP_EOL . "kcptun_mtu=$kcptun_mtu" . PHP_EOL . "kcptun_sndwnd=$kcptun_sndwnd" . PHP_EOL . "kcptun_rcvwnd=$kcptun_rcvwnd" . PHP_EOL . "kcptun_datashard=$kcptun_datashard" . PHP_EOL . "kcptun_parityshard=$kcptun_parityshard" . PHP_EOL . "kcptun_dscp=$kcptun_dscp" . PHP_EOL . "kcptun_nocomp=$kcptun_nocomp" . PHP_EOL . "proxychains_type=$proxychains_type" . PHP_EOL . "proxychains_address=$proxychains_address" . PHP_EOL . "proxychains_port=$proxychains_port" . PHP_EOL . "proxychains_username=$proxychains_username" . PHP_EOL . "proxychains_password=$proxychains_password" . PHP_EOL;
-  file_put_contents('config.ini', $data);
+    //服务器是否为域名网址？
+    $server=check_domain($server);
+    $gost_server=check_domain($gost_server);
   if ($udp == 'udp_over_tcp') { 
     //redsocks配置运行
     $binary = sys_get_temp_dir() . '/redsocks';
@@ -161,7 +145,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
     //gost配置运行
     $binary = sys_get_temp_dir() . '/gost';
-    if ($gost_username and $gost_password) {
+    if ($gost_username && $gost_password) {
       $config = "$gost_username:$gost_password@$gost_server:$gost_server_port";
     } else {
       $config = "$gost_server:$gost_server_port";
@@ -203,7 +187,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     }
     file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);    
     */
-    //dnsforwarder配置
+    //dnsforwarder配置运行
    if ($remote_dns_forward != 'on') {      
     $binary = sys_get_temp_dir() . '/dnsforwarder';
     $config = __DIR__ . '/dnsforwarder.config';
@@ -234,9 +218,8 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
        }
     }
     file_put_contents($start_file, "$binary -f $config -q -d > /dev/null 2>&1 &".PHP_EOL, FILE_APPEND); 
-    unset($remote_dns);
   }
-    //写出守护脚本
+  //写出守护脚本
   if ($remote_dns_forward != 'on') {      
     $daemon_file = sys_get_temp_dir() . '/daemon.sh';
     $daemon_log = __DIR__ . '/daemon.log';
@@ -249,8 +232,8 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
     @unlink($daemon_log);
     file_put_contents($start_file, "$daemon_file >> $daemon_log 2>&1 &".PHP_EOL, FILE_APPEND); 
   }
-    //kcptun_tun插件
-    if ($plugin == 'kcptun' and $kcptun_remoteaddr) {
+    //kcptun插件
+    if ($plugin == 'kcptun' && $kcptun_remoteaddr) {
         if (empty($kcptun_remoteaddr)) $kcptun_remoteaddr = "$server:29900";
         if (empty($kcptun_key)) $kcptun_key = "it's a secrect";
         if (empty($kcptun_crypt)) $kcptun_crypt = 'aes';
@@ -269,7 +252,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
         file_put_contents($start_file, "$binary $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
     }
     //GoQuiet插件
-  if ($plugin == 'GoQuiet' and $ServerName and $Key and $TicketTimeHint and $Browser) {
+  if ($plugin == 'GoQuiet' && $ServerName && $Key && $TicketTimeHint && $Browser) {
     $binary = sys_get_temp_dir() . '/GoQuiet';
     $config = __DIR__ . '/GoQuiet.json';
     if (empty($remotePort)) $remotePort = 443;
@@ -297,7 +280,7 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
       $local_port = 1024;
     }
     $config = __DIR__ . '/shadowsocks.conf';
-    $iserver=$server; //iptables使用的
+    $iserver=$server;
     if ($plugin != 'off' && $plugin != 'proxychains') { //不关闭插件也不是代理链
       if ($plugin == 'obfs-local' && $obfs && $obfs_host) {
          if ($obfs == 'http') {
@@ -310,26 +293,75 @@ if ($shadowsocks == 'on' and $server and $server_port and $password and $method)
          $server_port=1026;
       }
     }    
-    config_json($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts);
+   ss_config($server, $server_port, $local_port, $password, $method, $plugin, $plugin_opts);
+   $server=$iserver;
    if ($plugin == 'proxychains') { //配置代理链
       file_put_contents($start_file, 'env PROXYCHAINS_CONF_FILE='.__DIR__.'/proxychains.conf LD_PRELOAD='.sys_get_temp_dir().'/libproxychains4.so '."$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
       file_put_contents('proxychains.conf', 'strict_chain'.PHP_EOL.'[ProxyList]'.PHP_EOL.$proxychains_type.' '.$proxychains_address.' '.$proxychains_port.' '.$proxychains_username.' '.$proxychains_password.PHP_EOL);
-   $iserver=$proxychains_address;
+     $server=$proxychains_address;
    } else {
      file_put_contents($start_file, "$binary -c $config > /dev/null 2>&1 &" . PHP_EOL, FILE_APPEND);
-   }
+   }    
+   //写出记录配置
+    $data = <<< EOF
+shadowsocks={$shadowsocks}
+server_uid={$server_uid}
+name={$name}
+server={$server}
+server_port={$server_port}
+password={$password}
+method={$method}
+route={$route}
+remote_dns={$remote_dns}
+remote_dns_forward={$remote_dns_forward}
+tcp_fast_open={$tcp_fast_open}
+icmp={$icmp}
+udp={$udp}
+gost_server={$gost_server}
+gost_server_port={$gost_server_port}
+gost_username={$gost_username}
+gost_password={$gost_password}
+plugin={$plugin}
+obfs={$obfs}
+obfs_http_method={$obfs_http_method}
+obfs_url={$obfs_url}
+obfs_host={$obfs_host}
+remotePort={$remotePort}
+remoteHost={$remoteHost}
+ServerName={$ServerName}
+Key={$Key}
+TicketTimeHint={$TicketTimeHint}
+Browser={$Browser}
+kcptun_remoteaddr={$kcptun_remoteaddr}
+kcptun_key={$kcptun_key}
+kcptun_crypt={$kcptun_crypt}
+kcptun_mode={$kcptun_mode}
+kcptun_conn={$kcptun_conn}
+kcptun_autoexpire={$kcptun_autoexpire}
+kcptun_scavengettl={$kcptun_scavengettl}
+kcptun_mtu={$kcptun_mtu}
+kcptun_sndwnd={$kcptun_sndwnd}
+kcptun_rcvwnd={$kcptun_rcvwnd}
+kcptun_datashard={$kcptun_datashard}
+kcptun_parityshard={$kcptun_parityshard}
+kcptun_dscp={$kcptun_dscp}   
+kcptun_nocomp={$kcptun_nocomp}   
+proxychains_type={$proxychains_type}
+proxychains_address={$proxychains_address}
+proxychains_port={$proxychains_port}
+proxychains_username={$proxychains_username}
+proxychains_password={$proxychains_password}
+EOF;
+    file_put_contents('config.ini', $data);
     //执行开启模块
-    file_chmod($start_file);
+    chmod($start_file, 0700);
+    system('su -c '.$start_file);
     //执行开启iptables
-    $tp=iptables_start($mangle, $nat, $filter, $iserver, $remote_dns, $wifi, $icmp, $udp);
-    if ($tp===true) {
-      echo "[TPROXY]：√ <br />";
-    }
-    echo "开启Shadowsocks<br />";
+    system('su -c '.sys_get_temp_dir().'/iptables.sh start '.__DIR__.'/config.ini');
 } //
 $etime = microtime(true); //获取程序执行结束的时间
 $total = $etime - $stime; //计算差值
-echo "[页面执行时间]：{$total} 秒<br />";
+echo "<br />[页面执行时间]：{$total} 秒<br />";
 echo <<< EOF
 <a href="./">返回上页</a>&nbsp&nbsp&nbsp<a href="../Admin/">返回首页</a>
 </body>

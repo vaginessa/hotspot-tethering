@@ -11,7 +11,7 @@ daemon_list=(
 if [ ! -d $now_path ]; then
   now_path="${0%/*}"
 fi
-if [[ $(id -u) -eq 0 ]]; then
+if [ $(id -u) -eq 0 ]; then
   echo "$(now_time)  守护脚本开始运行..."
   echo "$(now_time)  运行目录路径: $now_path"
   echo "$(now_time)  运行PID: $$"
@@ -23,7 +23,7 @@ else
   echo "$(now_time)  请使用ROOT权限执行脚本！"
   exit 1
 fi
-while true; do
+while :; do
   new_pid=$(cat $pid_file)
   if [[ ! -f $0 || $$ -ne $((new_pid)) ]]; then
     echo "$(now_time)  守护脚本被删除或PID文件值改变"
@@ -35,7 +35,7 @@ while true; do
       pid=$(pgrep $i)
       if [ $((pid)) -lt 100 ]; then
         echo "$(now_time)  $i 没有运行,开始重启运行脚本..."
-        if [[ "$i" == "$last_status" && ${#daemon_list[@]} -gt 1 ]]; then
+        if [ $i = $last_status && ${#daemon_list[@]} -gt 1 ]]; then
           echo "$(now_time)  再次重启脚本 $i 也没有运行成功，强制退出！"
           exit 1
         else        

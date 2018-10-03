@@ -175,13 +175,6 @@ preg_match('/([0-9]\.){1,2}[0-9]/', shell_exec(sys_get_temp_dir().'/ss-redir -h'
            <label class="ui-switch"><input type="checkbox" id="tcp_fast_open" name="tcp_fast_open" /></label> 
           </div> 
           <div class="ui-form-item ui-form-item-switch ui-border-b"> 
-           <p>WIFI放行</p>
-           <div style="padding-left: 25%;font-size: smaller;">
-           <p class="ui-txt-muted">当使用wifi网络时不走代理</p> 
-           </div>
-           <label class="ui-switch"><input type="checkbox" id="wifi" name="wifi" /></label> 
-          </div> 
-          <div class="ui-form-item ui-form-item-switch ui-border-b"> 
            <p>ICMP放行</p>
            <div style="padding-left: 25%;font-size: smaller;">
            <p class="ui-txt-muted">icmp协议是否放行</p> 
@@ -608,7 +601,8 @@ function setplugin(){
   </script>
   
   <script type="text/javascript"> 
-  $(".server_toast").tap(function(){
+  //$(".server_toast").tap(function(){
+  $(".server_toast").click(function(){
     $(this).remove();
     $("#server").show();
   });
@@ -640,9 +634,6 @@ if ("<?php echo $my_ini['remote_dns']; ?>" != "") {
 }
 if (<?php echo @file_get_contents('/proc/sys/net/ipv4/tcp_fastopen'); ?> > 0) { 
   $('#tcp_fast_open').prop('checked', true); 
-}
-if ("<?php echo $my_ini['wifi']; ?>" == 1) { 
-  $('#wifi').prop('checked', true); 
 }
 if ("<?php echo $my_ini['remote_dns_forward']; ?>" == 1) { 
   $('#remote_dns_forward').prop('checked', true); 
@@ -729,8 +720,10 @@ if ("<?php echo $my_ini['proxychains_type']; ?>" != "") {
 
   <!-- 二维码显示 -->  
 <script type="text/javascript">		
-qrw = $(window).width() - 15;
-qrh = $(window).height() / 2;
+//qrw = $(window).width() - 15;
+//qrh = $(window).height() / 2;
+qrw = 128;
+qrh = 128;
 var qrcode = new QRCode(document.getElementById("qrcode"), {
     width: qrw,
     height: qrh
@@ -753,7 +746,8 @@ clipboard.on('success', function(e) {
 clipboard.on('error', function(e) {
     alert("复制到剪辑板失败！");
 });
-$("#shared").tap(function() { //点触分享二维码时
+//$("#shared").tap(function() { //点触分享二维码时
+$("#shared").click(function() { //点触分享二维码时
     encodedData = window.btoa($("#method").val() + ':' + $("#password").val());
     sslink = 'ss://' + encodedData + '@' + $("#server").val() + ':' + $("#server_port").val() + '#' + $("#name").val();
     $("#copylink").attr('href', sslink);

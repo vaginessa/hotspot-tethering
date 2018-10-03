@@ -63,25 +63,7 @@ if ($url) {
                     </li>
                     <li>
                     <?php 
-                    $tmp_file = sys_get_temp_dir()."/iptables_status.sh";
-                    @unlink($tmp_file);
-                    $status_iptables = array(
-    "iptables -vxn -t nat -L pre_forward --line-number",
-    "iptables -vxn -t nat -L user_portal --line-number",
-    "iptables -vxn -t nat -L out_lan --line-number",
-    "iptables -vxn -t nat -L proxy_forward --line-number",
-    "iptables -vxn -t nat -L adblock_forward --line-number",
-    "iptables -vxn -t nat -L out_forward --line-number",
-    "iptables -vxn -t filter -L user_block --line-number",
-    "iptables -vxn -t mangle -L redsocks_pre --line-number",
-    "iptables -vxn -t mangle -L redsocks_lan --line-number",
-    "iptables -vxn -t mangle -L redsocks_out --line-number"
-                    );
-                    foreach ($status_iptables as $key) { 
-                        file_put_contents($tmp_file, $key.PHP_EOL, FILE_APPEND);
-                    } 
-                    chmod($tmp_file, 0700); 
-                    $vi=str_replace(PHP_EOL,"<br>",shell_exec("su -c $tmp_file")); 
+                    $vi=str_replace(PHP_EOL,"<br>",shell_exec('su -c '.sys_get_temp_dir().'/iptables.sh status')); 
                     echo "$vi";
                     ?>
                     </li>                  

@@ -164,7 +164,7 @@ $sf=size_unit(disk_free_space($storage_dir));
 $storage_free="$sf[0] $sf[1]";
 $storage_rate=round($sf[0]/$st[0] * 100, 2);
 
-echo "retry: 1000\n"; //1秒(发送频率)
+echo "retry: 1000\n"; //1秒(推送频率)
 
 echo "event: traffic\n";
 echo 'data: {"interface_name": "'.$interface_name.'", "local_address": "'.$local_address.'", "tcp_conntrack": "'.$tcp_conntrack.'", "download_speed": "'.$Download[0].'", "download_speed_unit": "'.$Download[1].'", "upload_speed": "'.$Upload[0].'", "upload_speed_unit": "'.$Upload[1].'", "download": "'.$Rb_Size[0].'", "download_unit": "'.$Rb_Size[1].'", "upload": "'.$Tb_Size[0].'","upload_unit": "'.$Tb_Size[1].'","Receive_bytes": "'.$Receive_bytes.'", "Receive_packets": "'.$Receive_packets.'", "Transmit_bytes": "'.$Transmit_bytes.'", "Transmit_packets": "'.$Transmit_packets.'"}'."\n\n";

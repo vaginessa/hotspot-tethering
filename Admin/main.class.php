@@ -27,59 +27,25 @@ function geturlkeyvalue($url) {
     }
     return $result;
     //$_SERVER['QUERY_STRING'];
-    
 }
-function test_input($data) {
+function check_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
-function toolbox_check() {
-    $binary_name = array(
-        'toybox',
-        'busybox'
-    );
-    $binary_dir = array(
-        '/system/bin/',
-        '/system/xbin/',
-        sys_get_temp_dir() . '/'
-    );
-    foreach ($binary_dir as $dir) {
-        foreach ($binary_name as $name) {
-            if (file_exists($dir . $name)) {
-                return array(
-                    $name,
-                    $dir . $name
-                );
-            }
-        }
+function check_domain($server) {
+  if (preg_match('/[a-z]+/i', $server) > 0) {
+    $old_server = $server;
+    $server = gethostbyname($server);
+    if ($server == $old_server) {
+      die('域名解析失败!');
     }
-}
-function toolbox_copy($binary_file) {
-    $tmp_file = sys_get_temp_dir() . '/busybox';
-    if (file_exists($binary_file)) {
-        if (!is_executable($tmp_file)) {
-            if (copy($binary_file, $tmp_file)) {
-                if (chmod($tmp_file, 0700)) {
-                    return $tmp_file;
-                }
-            }
-        }
-    }
-}
-function fast_ps() {
-    $ps = toolbox_check();
-    if ($ps[0] == 'toybox') {
-        $run = $ps[1] . ' ps -A';
-    } else {
-        $run = $ps[1] . ' ps';
-    }
-    return $run;
+  }
+  return $server;
 }
 function binary_status($order) {
-    $run = fast_ps();
-    exec("su -c $run", $output, $return_val);
+    exec("su -c toybox ps -A", $output, $return_val);
     if ($return_val != 0) {
         die('执行命令失败！返回值: ' . $return_val);
     }

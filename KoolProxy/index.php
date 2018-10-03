@@ -11,7 +11,6 @@
 
 <?php
 require '../Admin/main.class.php';
-$pkill = toolbox_check() [1] . ' pkill';
 if (!file_exists('koolproxy')) {
     die('程序主文件不见了');
 }
@@ -47,7 +46,7 @@ function zx_input($yxfile, $yx) {
     shell_exec("su -c $yxfile");
 }
 $yxfile = sys_get_temp_dir() . '/koolproxy.sh';
-$jsyx = "$pkill koolproxy" . PHP_EOL . 'iptables -t nat -F adblock_forward';
+$jsyx = 'pkill koolproxy' . PHP_EOL . 'iptables -t nat -F adblock_forward';
 if (binary_status("koolproxy")) {
     $status = true;
 } else {

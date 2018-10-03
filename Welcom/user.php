@@ -1,4 +1,8 @@
-<?php
+<?php 
+/*
+主要用户动态修改用户数据
+*/
+
 //错误屏蔽
 error_reporting(0);
 //修正时间
@@ -7,7 +11,9 @@ date_default_timezone_set('Asia/Shanghai');
 $date=date('Y-m-d H:i:s');
 //时间戳
 $time=time();
-
+//临时文件
+$tmp_file=sys_get_temp_dir().'/portal.sh';
+//用户文件
 $user_file='user.json';
 //获取用户文件
 $json_string=file_get_contents($user_file);
@@ -18,7 +24,7 @@ $user_count=count($data)."_$time";
 
 //创建json文件
 if (!is_array($data)) {
-    file_put_contents($user_file, '[]', LOCK_EX);
+  file_put_contents($user_file, '[]', LOCK_EX);
 }
 
 //用户状态改变函数
@@ -34,7 +40,6 @@ function user_change($data, $status, $user_mac) {
     return array_filter($data);
 }
 
-
 //用户添加函数
 function user_add($data, $user_count, $date, $user_ip, $user_mac) {
     $add_user = array(
@@ -48,7 +53,6 @@ function user_add($data, $user_count, $date, $user_ip, $user_mac) {
     array_push($data, $add_user);
     return array_filter($data);
 }
-
 
 //删除用户函数
 function user_del($data, $user_count, $user_ip, $user_mac) {
@@ -70,14 +74,23 @@ function user_del($data, $user_count, $user_ip, $user_mac) {
     return array_filter($data);
 }
 
+/*
+//修改后运行
+function run_script($tmp_file, $command) {
+  file_put_contents($tmp_file, $command, LOCK_EX);
+  chmod($tmp_file, 0700);
+  shell_exec("su -c $tmp_file");
+}
+*/
+
 //获取mac地址
 function get_mac($user_ip) {
     $arp_file = explode(PHP_EOL, file_get_contents('/proc/net/arp'));
     foreach ($arp_file as $arp) {
-        $ip = preg_match_all('/[0-9]{1,3}(\.[0-9]{1,3}){3}/', $arp, $matchs);
-        $ip = $matchs[0][0];
-        $mac = preg_match_all('/[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}/', $arp, $matchs);
-        $mac = $matchs[0][0];
+        $ip = preg_match('/[0-9]{1,3}(\.[0-9]{1,3}){3}/', $arp, $matchs);
+        $ip = $matchs[0];
+        $mac = preg_match('/[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}/', $arp, $matchs);
+        $mac = $matchs[0];
         if ($ip == $user_ip && $mac) {
             return $mac;
         }
@@ -89,15 +102,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $yhmac = $_POST['yhmac'];
     $number = $_POST['number'];
 }
+//修改的同时执行脚本立即生效
 if ($yhdz and $yhmac and $number) {
     if ($yhdz == 'activation') {
         file_put_contents($user_file, json_encode(user_change($data, 'OK', $yhmac)) , LOCK_EX);
+        /*
+        $command_run="iptables -t nat -D user_portal -s $yhdz -m mac --mac-source $yhmac -j RETURN".PHP_EOL."iptables -t nat -I user_portal -s $yhdz -m mac --mac-source $yhmac -j RETURN".PHP_EOL."iptables -t filter -D user_portal -m mac --mac-source $yhmac -j DROP";
+        run_script($tmp_file, $command_run);
+        */
     }
     if ($yhdz == 'block') {
         file_put_contents($user_file, json_encode(user_change($data, 'Block', $yhmac)) , LOCK_EX);
+        /*
+        $command_run="iptables -t nat -D user_portal -s $yhdz -m mac --mac-source $yhmac -j RETURN".PHP_EOL;
+        //run_script($tmp_file, $command_run);
+        */
     }
     if ($yhdz == 'deleted') {
         file_put_contents($user_file, json_encode(user_del($data, '', '', $yhmac)) , LOCK_EX);
+        /*
+        $command_run="iptables -t nat -D user_portal -s $yhdz -m mac --mac-source $yhmac -j RETURN".PHP_EOL."iptables -t filter -D user_portal -m mac --mac-source $yhmac -j DROP";
+        //run_script($tmp_file, $command_run);
+        */
     }
 }
 ?>

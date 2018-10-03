@@ -20,20 +20,20 @@ if (isset($_COOKIE['user_name']) && isset($_COOKIE['pass_word'])) {
 
 <section class="ui-container"><section id="actionsheet"><div class="ui-actionsheet" id="actionsheet1">				<div class="ui-actionsheet-cnt am-actionsheet-down">					<h4>热点欢迎页iptables规则链设置</h4>					<button onclick="iptables('start')">开启热点欢迎页</button>					<button onclick="iptables('write')">写入用户表规则</button>     <button class="ui-actionsheet-del" onclick="iptables('stop')">关闭热点欢迎页</button>     <div class="ui-actionsheet-split-line"></div>					<button id="cancel">取消</button>				</div>			</div>		</div>	</div></section><div class="ui-btn-wrap" id="btn1"><button class="ui-btn-lg">菜单</button></div></section>
 <?php
-    $user_file="user.json";
-    $data=json_decode(file_get_contents($user_file), true);
+$user_file="user.json";
+$data=json_decode(file_get_contents($user_file), true);
 ?>
 <section class="ui-container"><section id="table"><div class="demo-item"><p class="demo-desc">用户表: <?php echo "共 <b style=\"color:#ee82ee\">".count($data)."</b> 位用户" ?></p><div class="demo-block"><table class="ui-table ui-border"><thead><tr><th>用户名</th><th>MAC地址</th><th>状态</th></tr></thead><tbody>
 <?php
-    foreach ($data as $key => $value) {
-        foreach ($value as $user => $info) {
-            $ipaddress = $info['ip_address'];
-            $macaddress = $info['mac_address'];
-            $status = $info['status'];
-            $uptime = $info['up_time'];
-            echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $uptime')\">$user</a></td><td>$macaddress<br><span onclick=\"activation('$macaddress')\" style=\"color:green\">激活</span>&nbsp&nbsp&nbsp<a href=\"javascript:block('$macaddress')\" class=\"ui-txt-highlight\">拉黑</a>&nbsp&nbsp&nbsp<a href=\"javascript:deleted('$macaddress')\" class=\"ui-txt-warning\">删除</a></td><td><a href=\"javascript:status('$status')\" class=\"ui-txt-feeds\">$status</a></td></tr>";
-        }
+foreach ($data as $key => $value) {
+    foreach ($value as $user => $info) {
+        $ipaddress = $info['ip_address'];
+        $macaddress = $info['mac_address'];
+        $status = $info['status'];
+        $uptime = $info['up_time'];
+        echo "<tr><td><a href=\"javascript:toast('登录IP: $ipaddress 上线时间: $uptime')\">$user</a></td><td>$macaddress<br><span onclick=\"activation('$macaddress')\" style=\"color:green\">激活</span>&nbsp&nbsp&nbsp<a href=\"javascript:block('$macaddress')\" class=\"ui-txt-highlight\">拉黑</a>&nbsp&nbsp&nbsp<a href=\"javascript:deleted('$macaddress')\" class=\"ui-txt-warning\">删除</a></td><td><a href=\"javascript:status('$status')\" class=\"ui-txt-feeds\">$status</a></td></tr>";
     }
+}
 ?>
 </tbody></table></div></div></section></section>
 

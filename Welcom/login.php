@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php 
 session_start();
-$_SESSION['token'] = md5(microtime(true));
 require 'user.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $user_ip = $_SERVER['REMOTE_ADDR'];
   $user_mac = get_mac($user_ip);
   $login = $_GET['login'];
+}
+if (empty($login)) {
+  $_SESSION['token'] = md5(microtime(true));
 }
 if (isset($login)) {
   $return = $_REQUEST['token'] === $_SESSION['token'] ? true : false;
@@ -23,28 +25,28 @@ if (empty($user_ip) or empty($user_mac)) {
   die('获取用户信息失败！');
 }
 
-if ($user_ip and $user_mac and $login) {
+if ($user_ip && $user_mac && $login) {
     foreach ($data as $key => $value) {
         foreach ($value as $user => $info) {
             $macaddress = $info['mac_address'];
             $status = $info['status'];
+            if ($macaddress == $user_mac && $status == 'Block') { 
+              die('你已被网络管理员拉黑！');
+              $fhts='block';
+            }
             if ($macaddress == $user_mac) { 
               die('你已经登录过了，如果无法上网请联系网络管理员！');
               $fhts='exist';
-            }
-            if ($macaddress == $user_mac && $status == 'Block') { 
-              die('你被网络管理员禁止登录！');
-              $fhts='block';
-            }
+            }            
         }
     }
 }
 
-if (empty($fhts) and $user_ip and $user_mac and $login) {
-file_put_contents('user.json', json_encode(user_add($data, $user_count, $date, $user_ip, $user_mac)), LOCK_EX);
-$command_run="iptables -t nat -I user_portal -s $user_ip -m mac --mac-source $user_mac -j RETURN";
-shell_exec("su -c $command_run");
-header("Location: http://www.google.com");
+if (empty($fhts) && $user_ip && $user_mac && $login) {
+  file_put_contents('user.json', json_encode(user_add($data, $user_count, $date, $user_ip, $user_mac)), LOCK_EX);
+  $command_run="iptables -t nat -I user_portal -s $user_ip -m mac --mac-source $user_mac -j RETURN";
+  shell_exec("su -c $command_run");
+  header("Location: http://www.google.com");
 }
 ?>
 

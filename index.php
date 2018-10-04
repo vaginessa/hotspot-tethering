@@ -6,5 +6,5 @@ function siteURL()
     return $protocol.$domainName;
 }
 header("HTTP/1.1 302 Found");
-header("Location: ".siteURL()."/Welcom");
+header("Location: ".siteURL()."Welcom");
 ?>

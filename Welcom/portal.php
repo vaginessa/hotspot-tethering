@@ -7,7 +7,7 @@ $user_file='user.json';
 $json_string=file_get_contents($user_file);
 $data=json_decode($json_string, true); //解码json用户数据文件
 $script_file=sys_get_temp_dir().'/portal.sh';
-$command_stop='iptables -t nat -F user_portal'.PHP_EOL.'iptables -t filter -F user_portal';
+$command_stop='iptables -t nat -F user_portal'.PHP_EOL.'iptables -t filter -F user_block';
 $command_start='iptables -t nat -A user_portal -p tcp -m multiport --dports 80,8080 -j REDIRECT --to-ports 8080'.PHP_EOL.'iptables -t nat -A user_portal -p tcp --dport 443 -j REDIRECT --to-ports 4433';
 @unlink($script_file);
 
@@ -35,7 +35,7 @@ function user_write($data, $script_file) {
                $add_rule="iptables -t nat -I user_portal -s $ipaddress -m mac --mac-source $macaddress -j RETURN".PHP_EOL;
                break;
              case "Block":
-               $add_rule="iptables -t filter -I user_portal -m mac --mac-source $macaddress -j DROP".PHP_EOL;
+               $add_rule="iptables -t filter -I user_block -m mac --mac-source $macaddress -j DROP".PHP_EOL;
                break;
              }
              if ($add_rule){

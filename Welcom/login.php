@@ -46,7 +46,7 @@ if (empty($fhts) && $user_ip && $user_mac && $login) {
   file_put_contents('user.json', json_encode(user_add($data, $user_count, $date, $user_ip, $user_mac)), LOCK_EX);
   $command_run="iptables -t nat -I user_portal -s $user_ip -m mac --mac-source $user_mac -j RETURN";
   shell_exec("su -c $command_run");
-  header("Location: http://www.google.com");
+  header("Location: http://www.google.com/ncr");
 }
 ?>
 
